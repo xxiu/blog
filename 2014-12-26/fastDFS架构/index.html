@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>fastDFS架构 | 张巍的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="####FastDFS是什么
+FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成
+
+tracker server (跟踪服务器)
+storage server (存储服务器)
+client (客户端)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fastDFS架构">
+<meta property="og:url" content="http://zhangwei.net.cn/2014-12-26/fastDFS架构/index.html">
+<meta property="og:site_name" content="张巍的博客">
+<meta property="og:description" content="####FastDFS是什么
+FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成
+
+tracker server (跟踪服务器)
+storage server (存储服务器)
+client (客户端)">
+<meta property="og:updated_time" content="2016-09-27T02:34:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="fastDFS架构">
+<meta name="twitter:description" content="####FastDFS是什么
+FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成
+
+tracker server (跟踪服务器)
+storage server (存储服务器)
+client (客户端)">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="张巍的博客" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">张巍的博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">张巍</h2>
+            <h3 id="title">Python &amp; Php &amp; DotNet</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国, 北京</span>
+            <a id="follow" target="_blank" href="https://github.com/xxiu/">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                48
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                23
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/xxiu" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-fastDFS架构" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            fastDFS架构
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2014-12-26/fastDFS架构/">
+            <time datetime="2014-12-26T09:39:01.000Z" itemprop="datePublished">2014-12-26</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/fastDFS/">fastDFS</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>####FastDFS是什么</p>
+<p>FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成</p>
+<ul>
+<li>tracker server (跟踪服务器)</li>
+<li>storage server (存储服务器)</li>
+<li>client (客户端)</li>
+</ul>
+<a id="more"></a>
+<p>####storage server</p>
+<p>storage 以组为单位组织,一个group内可以包含多台storage机器,数据互为备份.</p>
+<p>group内每台storage依赖本地文件服务器.storage可配置多个数据存储目录.</p>
+<p>storgae写文件时会根据配置好的规则选择一个目录来存储.为避免单个目录文件数太多.storage第一次启动时,会创建2级子目录.每级256个共65536个目录.</p>
+<p>新添加文件会以hash的方式被路由到一个子目录,然后文件数据直接作为本地文件存储到改目录.</p>
+<p>####Tracker server</p>
+<p>Trancker是负责管理所有的storage 和group,每个storage在启动后会连接tracker,将自己所属的group等信息告知tracker.并保持心跳.</p>
+<p>tracker根据storage心跳建立group-&gt;storage list的映射表.</p>
+<p>tracker需要管理的元信息很少,全部都放在内存中.</p>
+<p>tracker元信息都是由storage汇报的信息生产,所以tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都是对等的,所有的tracker都接受stroage心跳信息.</p>
+<p>###client</p>
+<p>FastDFS提供基本的文件访问接口,以客户端库的方式提供.比如php ,java,.net等.</p>
+<h3 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h3><ol>
+<li>client 向Tracker发起上传请求</li>
+<li>Tracker 查询可用的storage,并返回storage的ip和端口</li>
+<li>client根据返回的storage上传文件.</li>
+<li>storage生成file_id,并将文件写入磁盘.</li>
+<li>storage返回file_id(路径信息和文件名)给client.</li>
+<li>client存储文件信息到数据库等</li>
+</ol>
+<p>####选择tracker<br>当集群中有多个tracker,客户端可任意选择一个.</p>
+<p>####选择group</p>
+<p>tracker接收上传请求,会分配一个group,group支持如下规则:</p>
+<ol>
+<li>Round robin，所有的group间轮询</li>
+<li>Specified group，指定某一个确定的group</li>
+<li>Load balance，剩余存储空间多多group优先</li>
+</ol>
+<p>####选择storage</p>
+<p>选择group后,tracker会在group内选择一个storage,支持如下规则</p>
+<ol>
+<li>Round robin，在group内的所有storage间轮询</li>
+<li>First server ordered by ip，按ip排序</li>
+<li>First server ordered by priority，按优先级排序（优先级在storage上配置）</li>
+</ol>
+<h4 id="生成的文件名"><a href="#生成的文件名" class="headerlink" title="生成的文件名"></a>生成的文件名</h4><p>当文件存储到某个子目录后,会为文件生成一个文件名,文件名有group,存储目录,两级子目录,fileid,文件后缀拼接而成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[组名]  [磁盘] [目录]    [文件名]</div><div class="line">group1/  M00   /00/0d/   wKgKC1SQBbeABu7vAAAAEGqzRP4043.txt</div></pre></td></tr></table></figure>
+<p>###download file</p>
+<p>客户端上传完成后,会到达file_id信息.</p>
+<ol>
+<li>client请求Tracke,tracke返回storage的ip和端口</li>
+<li>client请求根据返回的storage请求file_id.</li>
+<li>storage返回file_content</li>
+</ol>
+<p>####HTTP访问支持</p>
+<p>FastDFS的tracker和storage都内置了http协议的支持，客户端可以通过http协议来下载文件，tracker在接收到请求 时，通过http的redirect机制将请求重定向至文件所在的storage上；新版本已经移除了内置的HTTP协议，FastDFS提供了通过apache或nginx扩展模块下载文件的支持.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://zhangwei.net.cn/2014-12-26/fastDFS架构/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://zhangwei.net.cn/2014-12-26/fastDFS架构/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2014-12-26/fastDFS安装配置/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    fastDFS安装配置
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2014-12-23/solr-dataimporthandler-fields-multivalued/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">solr中数据导入中多值处理</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2014-12-26/fastDFS架构/" data-title="fastDFS架构" data-url="http://zhangwei.net.cn/2014-12-26/fastDFS架构/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" class="title">用单例和动态类在sqlalchemy中做动态表绑定</a></p>
+                            <p class="item-date"><time datetime="2016-07-28T09:30:44.000Z" itemprop="datePublished">2016-07-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-07-05/mac-net-core-尝试/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-07-05/mac-net-core-尝试/" class="title">mac .net core尝试</a></p>
+                            <p class="item-date"><time datetime="2016-07-05T03:43:47.000Z" itemprop="datePublished">2016-07-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-07-04/简单的坐标转省市区的算法/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-07-04/简单的坐标转省市区的算法/" class="title">简单的坐标转省市区的算法</a></p>
+                            <p class="item-date"><time datetime="2016-07-04T07:55:22.000Z" itemprop="datePublished">2016-07-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-06-14/kettle随记/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-06-14/kettle随记/" class="title">kettle随记</a></p>
+                            <p class="item-date"><time datetime="2016-06-14T03:00:35.000Z" itemprop="datePublished">2016-06-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-04-06/memcacheq-berkeleydb-备份恢复/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-04-06/memcacheq-berkeleydb-备份恢复/" class="title">memcacheq Berkeleydb 备份恢复</a></p>
+                            <p class="item-date"><time datetime="2016-04-06T07:29:44.000Z" itemprop="datePublished">2016-04-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ci/">ci</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fastDFS/">fastDFS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ikvm/">ikvm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magick/">magick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx-php/">nginx php</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pdf/">pdf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/saltstack/">saltstack</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smarty/">smarty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/">solr</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tesseract-ocr/">tesseract-ocr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thrift/">thrift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/">zabbix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/词库/">词库</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/ci/" style="font-size: 10px;">ci</a> <a href="/tags/fastDFS/" style="font-size: 16px;">fastDFS</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx-php/" style="font-size: 10px;">nginx php</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/php/" style="font-size: 12px;">php</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18px;">solr</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/zabbix/" style="font-size: 10px;">zabbix</a> <a href="/tags/工具/" style="font-size: 12px;">工具</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 xxiu<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zwblog'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

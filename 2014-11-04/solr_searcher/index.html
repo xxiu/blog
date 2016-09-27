@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>solrphp and solr searcher使用 | 张巍的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="前面我配置好了solr，并且数据库建立索引也完成了。
+为php添加搜索首先下载solrphp
+http://wiki.apache.org/solr/SolPHP
+在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="solrphp and solr searcher使用">
+<meta property="og:url" content="http://zhangwei.net.cn/2014-11-04/solr_searcher/index.html">
+<meta property="og:site_name" content="张巍的博客">
+<meta property="og:description" content="前面我配置好了solr，并且数据库建立索引也完成了。
+为php添加搜索首先下载solrphp
+http://wiki.apache.org/solr/SolPHP
+在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。">
+<meta property="og:updated_time" content="2016-09-27T02:39:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="solrphp and solr searcher使用">
+<meta name="twitter:description" content="前面我配置好了solr，并且数据库建立索引也完成了。
+为php添加搜索首先下载solrphp
+http://wiki.apache.org/solr/SolPHP
+在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="张巍的博客" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">张巍的博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">张巍</h2>
+            <h3 id="title">Python &amp; Php &amp; DotNet</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国, 北京</span>
+            <a id="follow" target="_blank" href="https://github.com/xxiu/">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                48
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                23
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/xxiu" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-solr_searcher" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            solrphp and solr searcher使用
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2014-11-04/solr_searcher/">
+            <time datetime="2014-11-04T02:10:10.000Z" itemprop="datePublished">2014-11-04</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/solr/">solr</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>前面我配置好了solr，并且数据库建立索引也完成了。</p>
+<h4 id="为php添加搜索"><a href="#为php添加搜索" class="headerlink" title="为php添加搜索"></a>为php添加搜索</h4><p>首先下载solrphp</p>
+<pre><code>http://wiki.apache.org/solr/SolPHP
+</code></pre><p>在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">require_once(&apos;Solr/Service.php&apos;);</div></pre></td></tr></table></figure></p>
+<p>现在可以开始使用进行搜索了,一下三段代码建立个一个简单的搜索。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">require_once(&apos;Solr/Service.php&apos;);</div><div class="line"></div><div class="line">$solr= new  Apache_Solr_Service(&apos;192.168.10.11&apos;,&apos;8080&apos;,&apos;solr/&apos;);</div><div class="line"></div><div class="line">$query= $solr-&gt;search($_GET[&apos;q&apos;], 0, 10);  //查询q</div></pre></td></tr></table></figure>
+<p>Apache_Solr_Service实例化了一个连接到solr的服务，$solr-&gt;search表示查询传入的参数q，并查询0开始的10条数据 。$query是一个Apache_Solr_Response对象，这个对象是Solr数据返回的对象。主要包括了5个函数 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public function getHttpStatus()</div><div class="line"></div><div class="line">public function getHttpStatusMessage()</div><div class="line"></div><div class="line">public function getType()</div><div class="line"></div><div class="line">public function getEncoding()</div><div class="line"></div><div class="line">public function getRawResponse()</div></pre></td></tr></table></figure>
+<p>使用上面的函数来获取需要的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">if ($query-&gt;getHttpStatus()==200)&#123;</div><div class="line"></div><div class="line">  $raw=$query-&gt;getRawResponse();</div><div class="line"></div><div class="line">  $rawobj=json_decode($raw);</div><div class="line"></div><div class="line">   $response=$rawobj-&gt;response ;</div><div class="line"></div><div class="line">   echo &quot;All:&quot;.$response-&gt;numFound.&quot;&lt;/br&gt;&quot;;</div><div class="line">   echo &quot;start:&quot;.$response-&gt;start.&quot;&lt;/br&gt;&quot;;</div><div class="line"></div><div class="line"></div><div class="line">   foreach ($response-&gt;docs  as   $value) &#123;</div><div class="line">        //$value为在solr的schema.xml文件里配置的 field</div><div class="line">        ......</div><div class="line">   &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Lucene中的IndexSearcher"><a href="#Lucene中的IndexSearcher" class="headerlink" title="Lucene中的IndexSearcher"></a>Lucene中的IndexSearcher</h4><p>在Lucene中搜索最终是调用了IndexSearcher的search方法，同时传入了一个Query的实例。其中Lucene内置的Query类型包括了一下几个：</p>
+<ol>
+<li><p>TermQuery 通过项进行搜索</p>
+<p> 比如返回域content里包含hello的文档</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Query query=new TermQuery(new Term(&quot;content&quot;,&quot;hello&quot;));</div></pre></td></tr></table></figure>
+</li>
+<li><p>TermRangeQuery 指定范围搜索</p>
+<p> 比如搜索title里面从a到d范围内，包含a不包含d的文档</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Query query=new TermRangeQuery(&quot;title&quot;,&quot;a&quot;,&quot;d&quot;,ture,false);</div></pre></td></tr></table></figure>
+</li>
+<li><p>NumericRangeQuery 指定数字范围</p>
+<p> 搜索201401到201405范围内的文档</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Query query=NumericRangeQuery.newIntRange(&quot;month&quot;,&quot;201401&quot;,&quot;201405&quot;,ture,ture);</div></pre></td></tr></table></figure>
+</li>
+<li><p>PrefixQuery  通过字符串搜索</p>
+<p> 搜索content中以hello开头的文档</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Query query=new PrefixQuery(new Term(&quot;content&quot;,&quot;hello&quot;));</div></pre></td></tr></table></figure>
+</li>
+<li><p>BooleanQuery 组合搜索</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">BooleanQuery query=new  BooleanQuery();</div><div class="line">query.add(iquery,BooleanQuery.Occur.MUST);</div><div class="line">query.add(...);</div><div class="line">......</div></pre></td></tr></table></figure>
+<p> 其中BooleanQuery的add方法传入的一个Query对象和一个Occur的枚举。Occur枚举包括了MUST(and),SHOULD(no),MUST_NOT(not).来和query之间做逻辑的组合。</p>
+</li>
+<li><p>PhraseQuery  短语搜索，用来查询</p>
+</li>
+<li><p>WildcardQuery 通配符查询</p>
+</li>
+<li><p>FuzzQuery   类似项搜索。使用Levenshtein算法，算法详情可以查看 <a href="http://www.cnblogs.com/ac1985482/p/Levenshtein.html" target="_blank" rel="external">http://www.cnblogs.com/ac1985482/p/Levenshtein.html</a></p>
+</li>
+<li><p>MatchAllDocsQuery 匹配所有文档</p>
+</li>
+</ol>
+<h4 id="解析表达式"><a href="#解析表达式" class="headerlink" title="解析表达式"></a>解析表达式</h4><p>当使用Lucene来做开发的时候我们可以使用以上的对象做，当使用solr的时候，就不能使用上面的对象来做了，这个时候解析表达式就发挥作用了</p>
+<p>检索运算符</p>
+<ul>
+<li>“:” 指定字段查指定值，如返回所有值:</li>
+<li>“?” 表示单个任意字符的通配</li>
+<li>“” 表示多个任意字符的通配（不能在检索的项开始使用或者?符号）</li>
+<li>“~” 表示模糊检索，如检索拼写类似于”roam”的项这样写：roam~将找到形如foam和roams的单词；roam~0.8，检索返回相似度在0.8以上的记录。 邻近检索，如检索相隔10个单词的”apache”和”jakarta”，”jakarta apache”~10<br>“” 控制相关度检索，如检索jakarta apache，同时希望去让”jakarta”的相关度更加好，那么在其后加上””符号和增量值，即jakarta4 apache</li>
+<li>布尔操作符AND、||</li>
+<li>布尔操作符OR、&amp;&amp;</li>
+<li>布尔操作符NOT、!、-（排除操作符不能单独与项使用构成查询）</li>
+<li>“+” 存在操作符，要求符号”+”后的项必须在文档相应的域中存在</li>
+<li>() 用于构成子查询</li>
+<li><p>[] 包含范围检索，如检索某时间段记录，包含头尾，date:[200707 TO 200710]</p>
+</li>
+<li><p>{}不包含范围检索，如检索某时间段记录，不包含头尾，date:{200707 TO 200710}</p>
+</li>
+<li>“ 转义操作符，特殊字符包括+ - &amp;&amp; || ! ( ) { } [ ] ^ “ ~ * ? : “</li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://zhangwei.net.cn/2014-11-04/solr_searcher/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://zhangwei.net.cn/2014-11-04/solr_searcher/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2014-11-26/hexo-and-github-blog/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    在github上配置hexo写blog
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2014-11-03/solr-集成mmseg4j分词/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">solr集成mmseg4j分词</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2014-11-04/solr_searcher/" data-title="solrphp and solr searcher使用" data-url="http://zhangwei.net.cn/2014-11-04/solr_searcher/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" class="title">用单例和动态类在sqlalchemy中做动态表绑定</a></p>
+                            <p class="item-date"><time datetime="2016-07-28T09:30:44.000Z" itemprop="datePublished">2016-07-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-07-05/mac-net-core-尝试/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-07-05/mac-net-core-尝试/" class="title">mac .net core尝试</a></p>
+                            <p class="item-date"><time datetime="2016-07-05T03:43:47.000Z" itemprop="datePublished">2016-07-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-07-04/简单的坐标转省市区的算法/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-07-04/简单的坐标转省市区的算法/" class="title">简单的坐标转省市区的算法</a></p>
+                            <p class="item-date"><time datetime="2016-07-04T07:55:22.000Z" itemprop="datePublished">2016-07-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-06-14/kettle随记/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-06-14/kettle随记/" class="title">kettle随记</a></p>
+                            <p class="item-date"><time datetime="2016-06-14T03:00:35.000Z" itemprop="datePublished">2016-06-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-04-06/memcacheq-berkeleydb-备份恢复/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-04-06/memcacheq-berkeleydb-备份恢复/" class="title">memcacheq Berkeleydb 备份恢复</a></p>
+                            <p class="item-date"><time datetime="2016-04-06T07:29:44.000Z" itemprop="datePublished">2016-04-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ci/">ci</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fastDFS/">fastDFS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ikvm/">ikvm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magick/">magick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx-php/">nginx php</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pdf/">pdf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/saltstack/">saltstack</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smarty/">smarty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/">solr</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tesseract-ocr/">tesseract-ocr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thrift/">thrift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/">zabbix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/词库/">词库</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/ci/" style="font-size: 10px;">ci</a> <a href="/tags/fastDFS/" style="font-size: 16px;">fastDFS</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx-php/" style="font-size: 10px;">nginx php</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/php/" style="font-size: 12px;">php</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18px;">solr</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/zabbix/" style="font-size: 10px;">zabbix</a> <a href="/tags/工具/" style="font-size: 12px;">工具</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 xxiu<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zwblog'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

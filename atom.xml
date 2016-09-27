@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>张巍的博客</title>
+  <subtitle>张巍的博客</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://zhangwei.net.cn/"/>
+  <updated>2016-09-27T02:31:53.000Z</updated>
+  <id>http://zhangwei.net.cn/</id>
+  
+  <author>
+    <name>xxiu</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>用单例和动态类在sqlalchemy中做动态表绑定</title>
+    <link href="http://zhangwei.net.cn/2016-07-28/%E7%94%A8%E5%8D%95%E4%BE%8B%E5%92%8C%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9C%A8sqlalchemy%E4%B8%AD%E5%81%9A%E5%8A%A8%E6%80%81%E8%A1%A8%E7%BB%91%E5%AE%9A/"/>
+    <id>http://zhangwei.net.cn/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/</id>
+    <published>2016-07-28T09:30:44.000Z</published>
+    <updated>2016-09-27T02:31:53.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>当我们的数据表需要分库的时候，如果使用了 sqlalchemy 来做 ORM，在做数据表和类关联的时候就很痛苦了，一个类只能和一个表关联。<br>当然还有一种方法就是修改 model.<strong>tablename</strong>.name 来解决，但是这个有个问题是只能绑定一次，实例化后修改就无效了。所以我们就需要使用 type 来动态的创建一个类，到这里问题又来了，如果在不同的时候创建了两个相同的类名的时候，程序就会抛出异常。所以类名必须是单例的。整个的实现如下：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Base = declarative_base()</div><div class="line"></div><div class="line">class m_model(object):</div><div class="line"></div><div class="line">    _mapper = &#123;&#125;</div><div class="line"></div><div class="line">    @staticmethod</div><div class="line">    def model(tablename):</div><div class="line">        class_name = tablename</div><div class="line">        modelClass = m_model._mapper.get(class_name, None)</div><div class="line"></div><div class="line">        if modelClass is None:</div><div class="line">            modelClass = type(class_name, (Base,),&#123;</div><div class="line">                &apos;__module__&apos;: __name__,</div><div class="line">                &apos;__name__&apos;: class_name,</div><div class="line">                &apos;__tablename__&apos;: class_name,</div><div class="line">                &apos;id&apos;: Column(Integer, primary_key=True),</div><div class="line">                &apos;phone&apos;: Column(String),</div><div class="line">                # ......</div><div class="line">            &#125;)</div><div class="line">            m_model._mapper[class_name] = modelClass</div><div class="line">        return modelClass()</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;当我们的数据表需要分库的时候，如果使用了 sqlalchemy 来做 ORM，在做数据表和类关联的时候就很痛苦了，一个类只能和一个表关联。&lt;br&gt;当然还有一种方法就是修改 model.&lt;strong&gt;tablename&lt;/strong&gt;.name 来解决，但是这个有个问题是只能绑定一次，实例化后修改就无效了。所以我们就需要使用 type 来动态的创建一个类，到这里问题又来了，如果在不同的时候创建了两个相同的类名的时候，程序就会抛出异常。所以类名必须是单例的。整个的实现如下：&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mac .net core尝试</title>
+    <link href="http://zhangwei.net.cn/2016-07-05/mac-net-core-%E5%B0%9D%E8%AF%95/"/>
+    <id>http://zhangwei.net.cn/2016-07-05/mac-net-core-尝试/</id>
+    <published>2016-07-05T03:43:47.000Z</published>
+    <updated>2016-09-27T02:37:07.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>以下是对.net core 发布的尝试，内容完全来自微软官方的文档粘贴，主要是用来记录尝试的过程。</p>
+<a id="more"></a>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><a href="https://www.microsoft.com/net/download" target="_blank" rel="external">https://www.microsoft.com/net/download</a></p>
+<p>.NET Core SDK = Develop apps with .NET Core and the SDK+CLI (Software Development Kit/Command Line Interface) tools<br>.NET Core = Run apps with the .NET Core runtime</p>
+<h2 id="安装-SDK"><a href="#安装-SDK" class="headerlink" title="安装 SDK"></a>安装 SDK</h2><p>macOS 10.11 (El Capitan) or higher is required. There are known issues with OpenSSL 0.9.8 and oh-my-zsh</p>
+<p><a href="https://github.com/dotnet/core/blob/master/cli/known-issues.md" target="_blank" rel="external">https://github.com/dotnet/core/blob/master/cli/known-issues.md</a></p>
+<p>安装完后提示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$dotnet --help</div><div class="line">zsh: command not found: dotnet</div></pre></td></tr></table></figure></p>
+<p>创建链接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s /usr/local/share/dotnet/dotnet /usr/local/bin</div></pre></td></tr></table></figure></p>
+<p>再次执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$dotnet --help</div><div class="line">.NET Command Line Tools (1.0.0-preview2-003121)</div><div class="line">......</div></pre></td></tr></table></figure></p>
+<p>具体的步骤参考 <a href="https://www.microsoft.com/net/core#macos" target="_blank" rel="external">https://www.microsoft.com/net/core#macos</a></p>
+<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir hwapp</div><div class="line">cd hwapp</div><div class="line">dotnet new</div></pre></td></tr></table></figure>
+<p>运行项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dotnet restore</div><div class="line">dotnet run</div></pre></td></tr></table></figure>
+<h2 id="创建-website-入门"><a href="#创建-website-入门" class="headerlink" title="创建 website 入门"></a>创建 website 入门</h2><p><a href="https://docs.asp.net/en/latest/getting-started.html" target="_blank" rel="external">https://docs.asp.net/en/latest/getting-started.html</a></p>
+<h3 id="Install-NET-Core"><a href="#Install-NET-Core" class="headerlink" title="Install .NET Core"></a>Install .NET Core</h3><p>Create a new .NET Core project:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir aspnetcoreapp</div><div class="line">cd aspnetcoreapp</div><div class="line">dotnet new</div></pre></td></tr></table></figure></p>
+<h3 id="Update-the-project-json-file-to-add-the-Kestrel-HTTP-server-package-as-a-dependency"><a href="#Update-the-project-json-file-to-add-the-Kestrel-HTTP-server-package-as-a-dependency" class="headerlink" title="Update the project.json file to add the Kestrel HTTP server package as a dependency:"></a>Update the project.json file to add the Kestrel HTTP server package as a dependency:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;version&quot;: &quot;1.0.0-*&quot;,</div><div class="line">  &quot;buildOptions&quot;: &#123;</div><div class="line">    &quot;emitEntryPoint&quot;: true</div><div class="line">  &#125;,</div><div class="line">  &quot;dependencies&quot;: &#123;</div><div class="line">    &quot;Microsoft.NETCore.App&quot;: &#123;</div><div class="line">      &quot;type&quot;: &quot;platform&quot;,</div><div class="line">      &quot;version&quot;: &quot;1.0.0&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;Microsoft.AspNetCore.Server.Kestrel&quot;: &quot;1.0.0&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;frameworks&quot;: &#123;</div><div class="line">    &quot;netcoreapp1.0&quot;: &#123; &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Restore-the-packages"><a href="#Restore-the-packages" class="headerlink" title="Restore the packages:"></a>Restore the packages:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dotnet restore</div></pre></td></tr></table></figure>
+<h3 id="Add-a-Startup-cs-file-that-defines-the-request-handling-logic"><a href="#Add-a-Startup-cs-file-that-defines-the-request-handling-logic" class="headerlink" title="Add a Startup.cs file that defines the request handling logic:"></a>Add a Startup.cs file that defines the request handling logic:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">using System;</div><div class="line">using Microsoft.AspNetCore.Builder;</div><div class="line">using Microsoft.AspNetCore.Hosting;</div><div class="line">using Microsoft.AspNetCore.Http;</div><div class="line"></div><div class="line">namespace aspnetcoreapp</div><div class="line">&#123;</div><div class="line">    public class Startup</div><div class="line">    &#123;</div><div class="line">        public void Configure(IApplicationBuilder app)</div><div class="line">        &#123;</div><div class="line">            app.Run(context =&gt;</div><div class="line">            &#123;</div><div class="line">                return context.Response.WriteAsync(&quot;Hello from ASP.NET Core!&quot;);</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Update-the-code-in-Program-cs-to-setup-and-start-the-Web-host"><a href="#Update-the-code-in-Program-cs-to-setup-and-start-the-Web-host" class="headerlink" title="Update the code in Program.cs to setup and start the Web host:"></a>Update the code in Program.cs to setup and start the Web host:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">using System;</div><div class="line">using Microsoft.AspNetCore.Hosting;</div><div class="line"></div><div class="line">namespace aspnetcoreapp</div><div class="line">&#123;</div><div class="line">    public class Program</div><div class="line">    &#123;</div><div class="line">        public static void Main(string[] args)</div><div class="line">        &#123;</div><div class="line">            var host = new WebHostBuilder()</div><div class="line">                .UseKestrel()</div><div class="line">                .UseStartup&lt;Startup&gt;()</div><div class="line">                .Build();</div><div class="line"></div><div class="line">            host.Run();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Run-the-app-the-dotnet-run-command-will-build-the-app-when-it’s-out-of-date"><a href="#Run-the-app-the-dotnet-run-command-will-build-the-app-when-it’s-out-of-date" class="headerlink" title="Run the app (the dotnet run command will build the app when it’s out of date):"></a>Run the app (the dotnet run command will build the app when it’s out of date):</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dotnet run</div></pre></td></tr></table></figure>
+<p>###Browse to <a href="http://localhost:5000" target="_blank" rel="external">http://localhost:5000</a>:</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;以下是对.net core 发布的尝试，内容完全来自微软官方的文档粘贴，主要是用来记录尝试的过程。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>简单的坐标转省市区的算法</title>
+    <link href="http://zhangwei.net.cn/2016-07-04/%E7%AE%80%E5%8D%95%E7%9A%84%E5%9D%90%E6%A0%87%E8%BD%AC%E7%9C%81%E5%B8%82%E5%8C%BA%E7%9A%84%E7%AE%97%E6%B3%95/"/>
+    <id>http://zhangwei.net.cn/2016-07-04/简单的坐标转省市区的算法/</id>
+    <published>2016-07-04T07:55:22.000Z</published>
+    <updated>2016-09-27T02:32:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在很早以前，就通过地图 api 抓取的相关的省市区信息，其中有一个字段是 polylines ，里面是一组 gps 的坐标。为了离线来根据 gps 坐标获取省市区的信息，最开始想到的是使用 geohash 来计算出每个区域所包含的hash值，把所有的hash值存下来，这样查询变成了键值查询，如果 geohash精确到第8位，值偏差大概是19米，这个精度已经在我所能够承受的范围内了。</p>
+<a id="more"></a>
+<p>于是，写了点代码跑了一下东城区围栏的 geohash，然后把区域在一起的32个值去掉一位，向前递进。最后得到了 5000 多个值，也就是用 5000 多个 geohash 的值可以表示出东城区整个区域，整个程序执行了 5 分钟左右，用笔在纸上算了一下全国的区县，按照这个规模，hash 值数量大概在亿的基本，这个也是存储能够接受的。</p>
+<p>于是拿<code>海淀区</code>的围栏试了试，计算时间成倍增长，这个计算速度，估计今年底能算完就不错了，然后想了想改进的算法，从 geohash 5位开始算起，理论上能快一个数量级，实际上呢，地图区域不是规则的，计算速度依然不能够满足需要。</p>
+<p>需要重新考虑计算方法，看着这一堆的数据表，数据表中有个 center 的字段，突然发现计算一个点是否在围栏里面的算法是线性的，也就是算法负责度为O(n).于是马上改变了思路。</p>
+<p>计算方法，首先找到给坐标（x,y)点最近的4个区域，然后计算点在哪个区域里。</p>
+<p>那么整么才能找到给定坐标的最近的点呢，这里就要请出 mongodb ，利用 mongodb 的 2d 索引，可以非常方便的找到临近的点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">collection.area.find(&#123;&apos;gps&apos;: &#123;&apos;$near&apos;: &#123;&apos;lat&apos;: lat, &apos;lng&apos;: lng&#125;&#125;, &apos;leaf_note&apos;: 1&#125;).limit(4)</div></pre></td></tr></table></figure>
+<p>找到临近点后，只需要循环算一下点在哪个区域内，这个算法是在入坑前就找到的，原理就是从目录点随便引出一条射线，如果射线与围栏区域的交点是奇数个，那么这个点就在区域内，算法代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">def boundary(p, points):</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    计算方法：射线法  从内部发出一条射线，判断与边的交点个数</div><div class="line"></div><div class="line">    计算点是否在区域内</div><div class="line"></div><div class="line">    算法来源 http://stackoverflow.com/questions/8721406/how-to-determine-if-a-point-is-inside-a-2d-convex-polygon</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    result = False</div><div class="line"></div><div class="line">    i = 0</div><div class="line">    j = len(points) - 1</div><div class="line"></div><div class="line">    while i &lt; len(points):</div><div class="line">        if (points[i].y &gt; p.y) != (points[j].y &gt; p.y) and (p.x &lt; (points[j].x - points[i].x) * (p.y - points[i].y) / (points[j].y - points[i].y) + points[i].x):</div><div class="line">            result = not result</div><div class="line">        j = i</div><div class="line">        i = i + 1</div><div class="line"></div><div class="line">    return result</div></pre></td></tr></table></figure>
+<p>然后这个没几行代码、简单、快速、不占用什么存储、方便移植到其他语言的计算方法就算完成了。当然中间还有些细节的考虑</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在很早以前，就通过地图 api 抓取的相关的省市区信息，其中有一个字段是 polylines ，里面是一组 gps 的坐标。为了离线来根据 gps 坐标获取省市区的信息，最开始想到的是使用 geohash 来计算出每个区域所包含的hash值，把所有的hash值存下来，这样查询变成了键值查询，如果 geohash精确到第8位，值偏差大概是19米，这个精度已经在我所能够承受的范围内了。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>kettle随记</title>
+    <link href="http://zhangwei.net.cn/2016-06-14/kettle%E9%9A%8F%E8%AE%B0/"/>
+    <id>http://zhangwei.net.cn/2016-06-14/kettle随记/</id>
+    <published>2016-06-14T03:00:35.000Z</published>
+    <updated>2016-09-27T02:36:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<ol>
+<li><p>注意排序，作为流处理，排序很重要，想要体会排序，可以理解一下普通排重和 hash 排重的区别。</p>
+<p> 普通排重，是需要排序后线性处理，排重的时候只需要比较相邻的就行了，不许要保存状态<br> hash排重，对需要排重的字段做 hash，比较 hash 值，所以不需要排序。</p>
+<p> kettle 作为一个流处理工具，还是排序后做处理好一点，很多时候会避免掉很多的莫名其妙，其实是自己理解补充的问题。</p>
+</li>
+</ol>
+<a id="more"></a>
+<ol>
+<li><p>kettle行转列</p>
+<p> kettle 中提供了行转列，列转行的控价，但是适用性不高，需要特定的不是特别好用，在 kettle 的例子里面有一个用来处理的 JavaScript 的脚本 <code>JavaScript - create new rows.ktr</code>，可以用来坐行转列。</p>
+<p> ‘’’</p>
+<p> if (groupsField!=null)<br> {<br>   var groups = groupsField.split(“,”);</p>
+<p>   for (i=0;i&lt;groups.length;i++)<br>   {</p>
+<pre><code>newRow = createRowCopy(getOutputRowMeta().size());
+var rowIndex = getInputRowMeta().size();
+
+newRow[rowIndex++] = trim( groups[i] );
+newRow[rowIndex++] = &quot;N&quot;;
+
+putRow(newRow);
+</code></pre><p>   }<br> }</p>
+<p> var subgroup = “”;<br> var ignore = “Y”;<br> ‘’’</p>
+<p> 这里把需要转为列的字段，创建新的列和一个标志位，然后按照标志位来过滤掉旧的数据，得到一个行转列的列表。</p>
+</li>
+<li><p>列转行<br> 列转行和行转列一样，kettle 提供的都是一个分组的功能，时候，需要将多列转换成一行。<br> 首先将需要的多个字段连接为一个字段，然后利用分组的功能将这一个字段使用连接符连接在一起，形成需要的一行数据。</p>
+</li>
+<li><p>更新和补充<br>数据更新和补充，其实是一回事，比如有两个数据源，新的和旧的。需要用新的数据安装指定的 key 替换掉旧的数据，或者对旧数据做补充。<br>首先对两列数据都按 key 排序 然后<code>合并记录</code>可以得到需要的数据。</p>
+</li>
+</ol>
+<ol>
+<li>join Row<br> 在转换中，kettle似乎不能定义全局变量（也行是我没有找到），很多输入后需要定制输出文件，没有全局变量的话，需要在流程中把输出路径一直保持在流中。<br> 这里其实可以在最初的步骤中将路径计算出来后，在需要的时候使用<code>字段选择</code>来选择出路径，然后用<code>join Row</code>将路径连接到尾部。（没有在列表中找到 join row 这个控件，可以到 Join Rows - adding fields to a stream.ktr 里面拷贝一个）</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ol&gt;
+&lt;li&gt;&lt;p&gt;注意排序，作为流处理，排序很重要，想要体会排序，可以理解一下普通排重和 hash 排重的区别。&lt;/p&gt;
+&lt;p&gt; 普通排重，是需要排序后线性处理，排重的时候只需要比较相邻的就行了，不许要保存状态&lt;br&gt; hash排重，对需要排重的字段做 hash，比较 hash 值，所以不需要排序。&lt;/p&gt;
+&lt;p&gt; kettle 作为一个流处理工具，还是排序后做处理好一点，很多时候会避免掉很多的莫名其妙，其实是自己理解补充的问题。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>memcacheq Berkeleydb 备份恢复</title>
+    <link href="http://zhangwei.net.cn/2016-04-06/memcacheq-berkeleydb-%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/"/>
+    <id>http://zhangwei.net.cn/2016-04-06/memcacheq-berkeleydb-备份恢复/</id>
+    <published>2016-04-06T07:29:44.000Z</published>
+    <updated>2016-09-27T02:37:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>这是很久以前碰到的问题，一直躺在笔记里，没有整理出来。在 memecacheq 运行一段时间后会出现以下的问题,原因是 Berkeleydb 存储出问题了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[memcacheq] [Wed Jun  3 17:02:11 2015] &quot;BDB1546 unable to join the environment&quot;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="日志清理"><a href="#日志清理" class="headerlink" title="日志清理"></a>日志清理</h2><p>有两种方法可以清理memcachedb的日志</p>
+<ol>
+<li><p>利用memcache协议清理日志 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">   echo db_archive|nc 127.0.0.1 21201</div></pre></td></tr></table></figure>
+</li>
+<li><p>利用berkeleydb的命令行清理日志 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">   /usr/local/BerkeleyDB.xxx/bin/db_archive -d -h home</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="备份及恢复"><a href="#备份及恢复" class="headerlink" title="备份及恢复"></a>备份及恢复</h2><ol>
+<li><p>备份</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/BerkeleyDB.xxx/bin/db_hotbackup [-c] -h home -b backup_dir</div></pre></td></tr></table></figure>
+</li>
+<li><p>正常恢复</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/BerkeleyDB.xxx/bin/db_recover -f -h home</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>灾难性恢复，新增一个c参数<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/BerkeleyDB.xxx/bin/db_recover -cf -h home</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h2><p>  使用memcache协议的stats, stats bdb, stats rep指令，例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">  echo stats|nc 127.0.0.1 21201</div></pre></td></tr></table></figure></p>
+<p>  标准的bdb工具db_stat</p>
+<h2 id="故障恢复"><a href="#故障恢复" class="headerlink" title="故障恢复"></a>故障恢复</h2><p>  master-slave结构的memcachedb,当master当机的时，可采用以下步骤恢复</p>
+<ol>
+<li>停止slave</li>
+<li><p>将slave作为master跑起来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">  memcachedb -p21201 -d -r -u root -H ./mdb_11211_m -N -R 127.0.0.1:31201 -M</div></pre></td></tr></table></figure>
+</li>
+<li><p>有充裕的时间恢复原master</p>
+</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这是很久以前碰到的问题，一直躺在笔记里，没有整理出来。在 memecacheq 运行一段时间后会出现以下的问题,原因是 Berkeleydb 存储出问题了&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;[memcacheq] [Wed Jun  3 17:02:11 2015] &amp;quot;BDB1546 unable to join the environment&amp;quot;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Mac上制作Ubuntu USB启动盘</title>
+    <link href="http://zhangwei.net.cn/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/"/>
+    <id>http://zhangwei.net.cn/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/</id>
+    <published>2016-03-25T02:59:14.000Z</published>
+    <updated>2016-09-27T02:37:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，</p>
+<a id="more"></a>
+<h2 id="一、下载ubuntu-iso镜像"><a href="#一、下载ubuntu-iso镜像" class="headerlink" title="一、下载ubuntu iso镜像"></a>一、下载ubuntu iso镜像</h2><p>去官网下，下载原版的，不要下xxx麒麟</p>
+<h2 id="二、将iso转换为img文件"><a href="#二、将iso转换为img文件" class="headerlink" title="二、将iso转换为img文件"></a>二、将iso转换为img文件</h2><p>生成一个ubuntu_server.img的磁盘镜像文件，mac osx会默认追加一个.dmg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hdiutil convert -format UDRW -o./ubuntu_server ./ubuntu-14.04.4-server-amd64.iso</div></pre></td></tr></table></figure>
+<h2 id="三、查看USB的盘符"><a href="#三、查看USB的盘符" class="headerlink" title="三、查看USB的盘符"></a>三、查看USB的盘符</h2><p>查看当前系统上挂载的磁盘，其中/dev/disk3是我的USB磁盘。不同的系统disk后的数字可能不一样，但一般都是diskN的模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">$ diskutil list</div><div class="line">/dev/disk0 (internal, physical):</div><div class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</div><div class="line">   0:      GUID_partition_scheme                        *121.3 GB   disk0</div><div class="line">   1:                        EFI EFI                     209.7 MB   disk0s1</div><div class="line">   2:          Apple_CoreStorage Macintosh HD            120.5 GB   disk0s2</div><div class="line">   3:                 Apple_Boot Recovery HD             650.0 MB   disk0s3</div><div class="line">/dev/disk1 (internal, virtual):</div><div class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</div><div class="line">   0:                  Apple_HFS Macintosh HD           +120.1 GB   disk1</div><div class="line">                                 Logical Volume on disk0s2</div><div class="line">                                 3F4EC944-D436-4957-A043-B0C1B211389F</div><div class="line">                                 Unencrypted</div><div class="line">/dev/disk2 (disk image):</div><div class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</div><div class="line">   0:     Apple_partition_scheme                        +17.9 MB    disk2</div><div class="line">   1:        Apple_partition_map                         32.3 KB    disk2s1</div><div class="line">   2:                  Apple_HFS Flash Player            17.9 MB    disk2s2</div><div class="line">/dev/disk3 (external, physical):</div><div class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</div><div class="line">   0:     FDisk_partition_scheme                        *7.8 GB     disk3</div><div class="line">   1:                 DOS_FAT_32 EXPO                    7.8 GB     disk3s1</div></pre></td></tr></table></figure>
+<h2 id="四、卸载USB磁盘"><a href="#四、卸载USB磁盘" class="headerlink" title="四、卸载USB磁盘"></a>四、卸载USB磁盘</h2><p>使用diskutil unmountDisk卸载USB磁盘，注意卸载（umount）与弹出(eject)的区别</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ diskutil unmountDisk /dev/disk3</div><div class="line">Unmount of all volumes on disk3 was successful</div></pre></td></tr></table></figure>
+<h2 id="五、将镜像写入USB"><a href="#五、将镜像写入USB" class="headerlink" title="五、将镜像写入USB"></a>五、将镜像写入USB</h2><p>将第二步生成的img文件写入到USB磁盘/dev/rdisk3,写入的时候稍微等待一会</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ sudo dd if=ubuntu_server.dmg of=/dev/rdisk3 bs=1m</div><div class="line">Password:</div><div class="line">Sorry, try again.</div><div class="line">Password:</div><div class="line">579+0 records in</div><div class="line">579+0 records out</div><div class="line">607125504 bytes transferred in 123.920251 secs (4899324 bytes/sec)</div></pre></td></tr></table></figure>
+<h2 id="六、弹出USB"><a href="#六、弹出USB" class="headerlink" title="六、弹出USB"></a>六、弹出USB</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ diskutil eject /dev/disk1</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>hugo试用</title>
+    <link href="http://zhangwei.net.cn/2016-03-04/hugo%E8%AF%95%E7%94%A8/"/>
+    <id>http://zhangwei.net.cn/2016-03-04/hugo试用/</id>
+    <published>2016-03-04T14:58:56.000Z</published>
+    <updated>2016-09-27T02:35:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>前段时间发现了 go 写的博客生成程序，看到官网相关的介绍，最吸引人的一条就是只需要下载一个文件就可以运行了。</p>
+<p>我一直用的是 hexo,就想着换 hugo 试试,最后感觉还是有些缺点，在所有准备工作都做完，为此还修改了一个python的转换程序出来，然后放弃了转换到 hugo 的想法<br><a id="more"></a><br>首先，hugo的优点是单个文件，然后生成快，比hexo还要快，具体没有过多的比较。<br>hugo作为新的blog生成程序，出现了几个不太和谐的问题。</p>
+<ol>
+<li>对于中文支持，有些地方还有点问题。比如在我选的某款模板在category列表分页的地方的url编码。</li>
+<li>生成的文件是用 title 字段生成的。对一些特殊字符处理的不够好，比如 . #  也许还有别的字符。</li>
+<li>摘要部分的 markdown 内容没有进行格式化，导致列表页很乱。</li>
+</ol>
+<p>我并没有去研究是 hugo 还是模板的问题。当然，总体来说 hugo 还是一款值得尝试的 github blog 程序。我还会关注，等到时机成熟时转换过去。</p>
+<hr>
+<p>今天终于平滑的把’hexo’转换到了’hugo’,最终确认是模板的问题。<br>转换的原因是由于我的blog文件是放置到<code>OneDrive</code>里面，而nodejs在初始化的时候会生存一个<code>node_modules</code>的文件夹来放必须的hexo的插件。在昨天更新的时候有个插件目录过深，导致OneDrive错误退出。<br>于是下决心转换到hugo，文件夹清爽多了</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前段时间发现了 go 写的博客生成程序，看到官网相关的介绍，最吸引人的一条就是只需要下载一个文件就可以运行了。&lt;/p&gt;
+&lt;p&gt;我一直用的是 hexo,就想着换 hugo 试试,最后感觉还是有些缺点，在所有准备工作都做完，为此还修改了一个python的转换程序出来，然后放弃了转换到 hugo 的想法&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>walle 安装体验记录</title>
+    <link href="http://zhangwei.net.cn/2016-03-01/walle-install/"/>
+    <id>http://zhangwei.net.cn/2016-03-01/walle-install/</id>
+    <published>2016-03-01T09:35:12.000Z</published>
+    <updated>2016-09-27T02:40:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="github"><a href="#github" class="headerlink" title="github"></a>github</h2><p><a href="https://github.com/meolu/walle-web" target="_blank" rel="external">https://github.com/meolu/walle-web</a></p>
+<p>walle 是一个代码部署工具，本来是最佳想用 python 写一个带 web 界面的代码部署工具。原因是前面用 shell 写的一个简单的部署有很多的问题。今天早上看到了这个，思路和我想要做的差不多，处理上线那块作者直接用 ssh。 由于我用的 saltstack在做管理,我是想用 saltstack 的接口来做部署.</p>
+<a id="more"></a>
+<h2 id="1-依赖"><a href="#1-依赖" class="headerlink" title="1. 依赖"></a>1. 依赖</h2><p>bash 系统自带,迁出需要用到git，拷贝文件需要用到ssh</p>
+<p>php环境 ，我这里是 LNMP</p>
+<p>composer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -sS http://install.phpcomposer.com/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer</div></pre></td></tr></table></figure>
+<h2 id="2-设置数据库连接"><a href="#2-设置数据库连接" class="headerlink" title="2. 设置数据库连接"></a>2. 设置数据库连接</h2><p>两个文件 <code>config/web.php</code> <code>config/local.php</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">vi config/web.php +12</div><div class="line">&apos;db&apos; =&gt; [</div><div class="line">    &apos;class&apos;     =&gt; &apos;yii\db\Connection&apos;,</div><div class="line">    &apos;dsn&apos;       =&gt; &apos;mysql:host=127.0.0.1;dbname=walle&apos;, # 新建数据库walle</div><div class="line">    &apos;username&apos;  =&gt; &apos;username&apos;,                          # 连接的用户名</div><div class="line">    &apos;password&apos;  =&gt; &apos;password&apos;,                          # 连接的密码</div><div class="line">    &apos;charset&apos;   =&gt; &apos;utf8&apos;,</div><div class="line">],</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">vi config/local.php +17</div><div class="line">&apos;db&apos; =&gt; [</div><div class="line">    &apos;dsn&apos;       =&gt; &apos;mysql:host=127.0.0.1;dbname=walle&apos;,</div><div class="line">    &apos;username&apos;  =&gt; &apos;root&apos;,</div><div class="line">    &apos;password&apos;  =&gt; &apos;123456&apos;,#此处需要设置连接mysql密码,默认为空</div><div class="line">],</div></pre></td></tr></table></figure>
+<h2 id="3-安装-vendor"><a href="#3-安装-vendor" class="headerlink" title="3. 安装 vendor"></a>3. 安装 vendor</h2><p>这里用到了 <code>composer</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd walle</div><div class="line">composer install --prefer-dist --no-dev --optimize-autoloader -vvvv</div></pre></td></tr></table></figure></p>
+<p>我这里这里生成了一个 <code>bower-asset</code> 的文件夹,修改成<code>bower</code>.</p>
+<h2 id="4-初始化"><a href="#4-初始化" class="headerlink" title="4. 初始化"></a>4. 初始化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd walle</div><div class="line">./yii walle/setup # 需要你的yes</div></pre></td></tr></table></figure>
+<h2 id="5-配置-nginx"><a href="#5-配置-nginx" class="headerlink" title="5. 配置 nginx"></a>5. 配置 <code>nginx</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       80;</div><div class="line">    server_name  deploy.net; # 改你的host</div><div class="line">    root /usr/local/www/walle/web; # 根目录为web</div><div class="line">    index index.php;</div><div class="line"></div><div class="line">    # 注意！！测试通过之后一定取消下面注释，设置访问内网</div><div class="line">    # allow 192.168.0.0/24;</div><div class="line">    # deny all;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        try_files $uri $uri/ /index.php$is_args$args;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    location ~ \.php$ &#123;</div><div class="line">        try_files $uri = 404;</div><div class="line">        fastcgi_pass   unix:/var/run/php5-fpm.sock;</div><div class="line">        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</div><div class="line">        include        fastcgi_params;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="6-访问"><a href="#6-访问" class="headerlink" title="6. 访问"></a>6. 访问</h2><p>重启 <code>php-fpm</code> <code>nginx</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo service php5-fpm restart</div><div class="line">sudo service nginx restart</div></pre></td></tr></table></figure></p>
+<p>访问配置好的路径</p>
+<h2 id="安装错误"><a href="#安装错误" class="headerlink" title="安装错误"></a>安装错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Error: The file or directory to be published does not exist: /usr/local/www/walle/vendor/bower/jquery/dist</div></pre></td></tr></table></figure>
+<p>真实路径是 <code>bower-asset</code>,修改下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mv bower-asset  bower</div></pre></td></tr></table></figure>
+<h2 id="7-配置"><a href="#7-配置" class="headerlink" title="7. 配置"></a>7. 配置</h2><p>为 php 运行账户生成一个key，在访问 <code>gitlab</code> 和上线都需要。我的 <code>php-fpm</code> 为<code>www-data</code>,如果<code>www-data</code>没有文件夹使用<code>usermod</code>或直接修改<code>/etc/sudoer</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa</div></pre></td></tr></table></figure>
+<p>在 gitlab 的 <code>admin/deploy keys</code> 里添加进去</p>
+<p>总体来说，安装还是非常简单的，文档也比较全。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;github&quot;&gt;&lt;a href=&quot;#github&quot; class=&quot;headerlink&quot; title=&quot;github&quot;&gt;&lt;/a&gt;github&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/meolu/walle-web&quot;&gt;https://github.com/meolu/walle-web&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;walle 是一个代码部署工具，本来是最佳想用 python 写一个带 web 界面的代码部署工具。原因是前面用 shell 写的一个简单的部署有很多的问题。今天早上看到了这个，思路和我想要做的差不多，处理上线那块作者直接用 ssh。 由于我用的 saltstack在做管理,我是想用 saltstack 的接口来做部署.&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>在osx el capitan 中安装 wxpython</title>
+    <link href="http://zhangwei.net.cn/2016-02-23/wxpython-on-os-x-el-capitan-install/"/>
+    <id>http://zhangwei.net.cn/2016-02-23/wxpython-on-os-x-el-capitan-install/</id>
+    <published>2016-02-23T07:18:31.000Z</published>
+    <updated>2016-09-27T02:40:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>昨天在 windows 上安装了wxpython,然后写了个 <code>hello world</code> 出来，想着在 mac 上看看效果，结果安装一直都不成功，用安装包安装提示找不到安装目标，用 brew 安装引用不成功。找到下面的解决方法</p>
+<a id="more"></a>
+<p>Since OS X 10.11 (El Capitan), the lastest version of the available wxPython dmg (3.0.2.0) have an unsupported pkg structure. You can see an open bug at <a href="http://trac.wxwidgets.org/ticket/17203" target="_blank" rel="external">http://trac.wxwidgets.org/ticket/17203</a></p>
+<p>Thanks to memoselyk@stackoverflow we can convert manually the package structure to be able to install it : <a href="http://stackoverflow.com/questions/34402303/install-wxpython-in-osx-10-11/34622956#34622956" target="_blank" rel="external">http://stackoverflow.com/questions/34402303/install-wxpython-in-osx-10-11/34622956#34622956</a> ; you can find an updated version of the method below :</p>
+<h2 id="Installing-wxPython-3-0-2-0-on-OS-X-El-Capitan"><a href="#Installing-wxPython-3-0-2-0-on-OS-X-El-Capitan" class="headerlink" title="Installing wxPython-3.0.2.0 on OS X El Capitan :"></a>Installing wxPython-3.0.2.0 on OS X El Capitan :</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"># base workdir</div><div class="line">mkdir ~/wxpython_elcapitan</div><div class="line">cd ~/wxpython_elcapitan</div><div class="line"></div><div class="line"># download the wxPython dmg</div><div class="line">curl -L &quot;http://downloads.sourceforge.net/project/wxpython/wxPython/3.0.2.0/wxPython3.0-osx-3.0.2.0-cocoa-py2.7.dmg?r=http%3A%2F%2Fwww.wxpython.org%2Fdownload.php&amp;ts=1453708927&amp;use_mirror=netix&quot; -o wxPython3.0-osx-3.0.2.0-cocoa-py2.7.dmg</div><div class="line"></div><div class="line"># mount the dmg</div><div class="line">hdiutil attach wxPython3.0-osx-3.0.2.0-cocoa-py2.7.dmg</div><div class="line"></div><div class="line"># copy the dmg package to the local disk</div><div class="line">mkdir ~/wxpython_elcapitan/repack_wxpython</div><div class="line">cd ~/wxpython_elcapitan/repack_wxpython</div><div class="line">cp -r /Volumes/wxPython3.0-osx-3.0.2.0-cocoa-py2.7/wxPython3.0-osx-cocoa-py2.7.pkg .</div><div class="line"></div><div class="line"># unmount the dmg</div><div class="line">dmgdisk=&quot;$(hdiutil info | grep &apos;/Volumes/wxPython3.0-osx-3.0.2.0-cocoa-py2.7&apos; | awk &apos;&#123; print $1; &#125;&apos;)&quot;</div><div class="line">hdiutil detach $&#123;dmgdisk&#125;</div><div class="line"></div><div class="line"># prepare the new package contents</div><div class="line">mkdir ~/wxpython_elcapitan/repack_wxpython/pkg_root</div><div class="line">cd ~/wxpython_elcapitan/repack_wxpython/pkg_root</div><div class="line">pax -f ../wxPython3.0-osx-cocoa-py2.7.pkg/Contents/Resources/wxPython3.0-osx-cocoa-py2.7.pax.gz -z -r</div><div class="line">cd ~/wxpython_elcapitan/repack_wxpython</div><div class="line"></div><div class="line"># prepare the new package scripts</div><div class="line">mkdir ~/wxpython_elcapitan/repack_wxpython/scripts</div><div class="line">cp wxPython3.0-osx-cocoa-py2.7.pkg/Contents/Resources/preflight scripts/preinstall</div><div class="line">cp wxPython3.0-osx-cocoa-py2.7.pkg/Contents/Resources/postflight scripts/postinstall</div><div class="line"></div><div class="line"># delete the old package</div><div class="line">rm -rf ~/wxpython_elcapitan/repack_wxpython/wxPython3.0-osx-cocoa-py2.7.pkg</div><div class="line"></div><div class="line"># build the new one :</div><div class="line">pkgbuild --root ./pkg_root --scripts ./scripts --identifier com.wxwidgets.wxpython wxPython3.0-osx-cocoa-py2.7.pkg</div><div class="line"></div><div class="line"># put the package on Desktop, and clean workdir</div><div class="line">mv ~/wxpython_elcapitan/repack_wxpython/wxPython3.0-osx-cocoa-py2.7.pkg ~/Desktop/</div><div class="line">cd ~</div><div class="line">rm -rf ~/wxpython_elcapitan</div><div class="line"></div><div class="line"># install it ! it will ask for your password (to become superuser/root)</div><div class="line">sudo installer -pkg ~/Desktop/wxPython3.0-osx-cocoa-py2.7.pkg -target /</div><div class="line"></div><div class="line"># EOF</div></pre></td></tr></table></figure>
+<h2 id="wxPython-is-now-available-on-your-OS-X-El-Capitan"><a href="#wxPython-is-now-available-on-your-OS-X-El-Capitan" class="headerlink" title="wxPython is now available on your OS X El Capitan :"></a>wxPython is now available on your OS X El Capitan :</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ python -c &apos;import wx;print wx.version()&apos;</div><div class="line">3.0.2.0 osx-cocoa (classic)</div></pre></td></tr></table></figure>
+<h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><p><a href="http://davixx.fr/blog/2016/01/25/wxpython-on-os-x-el-capitan/" target="_blank" rel="external">http://davixx.fr/blog/2016/01/25/wxpython-on-os-x-el-capitan/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;昨天在 windows 上安装了wxpython,然后写了个 &lt;code&gt;hello world&lt;/code&gt; 出来，想着在 mac 上看看效果，结果安装一直都不成功，用安装包安装提示找不到安装目标，用 brew 安装引用不成功。找到下面的解决方法&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://zhangwei.net.cn/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sublime3配置</title>
+    <link href="http://zhangwei.net.cn/2016-02-21/sublime3/"/>
+    <id>http://zhangwei.net.cn/2016-02-21/sublime3/</id>
+    <published>2016-02-21T03:51:24.000Z</published>
+    <updated>2016-09-27T02:39:36.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="安装插件管理器"><a href="#安装插件管理器" class="headerlink" title="安装插件管理器"></a>安装插件管理器</h2><p><a href="https://sublime.wbond.net/installation" target="_blank" rel="external">https://sublime.wbond.net/installation</a></p>
+<p>菜单view &gt; Show Console 调出命令行工具粘贴命令，之后重启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import urllib.request,os,hashlib; h = &apos;2915d1851351e5ee549c20394736b442&apos; + &apos;8bc59f460fa1548d1514676163dafc88&apos;; pf = &apos;Package Control.sublime-package&apos;; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( &apos;http://packagecontrol.io/&apos; + pf.replace(&apos; &apos;, &apos;%20&apos;)).read(); dh = hashlib.sha256(by).hexdigest(); print(&apos;Error validating download (got %s instead of %s), please try manual install&apos; % (dh, h)) if dh != h else open(os.path.join( ipp, pf), &apos;wb&apos; ).write(by)</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>执行不成功,可能需要代理 （我用的 ss +Privoxy）<br>菜单PreferencesSettings &gt;&gt; Settings –<br>User<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;http_proxy&quot;: &quot;http://127.0.0.1:8118&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>shift+ctrl+p<br>输入pci （Package Control: Install Package）</p>
+<ol>
+<li>Emmet          提高HTML &amp; CSS3编写速度。</li>
+<li>DocBlockr      快速注释</li>
+<li>ConvertToUTF8  UTF8转换</li>
+<li>Markdown Preview Markdown 文件预览</li>
+<li>SideBarEnhancements 扩展侧边栏，delete 是到回收站</li>
+<li><p>Anaconda</p>
+<p> 终极 Python 插件。它为 ST3 增添了多项 IDE 类似的功能，例如：</p>
+<p> Autocompletion 自动完成，该选项默认开启，同时提供多种配置选项。<br> Code linting 使用支持 pep8 标准的 PyLint 或者 PyFlakes<br> McCabe code complexity checker 让你可以在特定的文件中使用 McCabe complexity checker. 如果你对软件复杂度检查工具不太熟悉的话，请务必先浏览上边的链接。<br> Goto Definitions 能够在你的整个工程中查找并且显示任意一个变量，函数，或者类的定义。<br> Find Usage 能够快速的查找某个变量，函数或者类在某个特定文件中的什么地方被使用了。<br> Show Documentation： 能够显示一个函数或者类的说明性字符串(当然，是在定义了字符串的情况下)</p>
+<p> Sublime &gt; Preferences &gt; Package Settings &gt; Anaconda &gt; Settings – User：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;auto_formatting&quot;: true,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>Preferences-&gt;Settings-User  增加：</p>
+<pre><code>// 显示空格
+&quot;draw_white_space&quot;: &quot;all&quot;,
+// tab 为4个空格
+&quot;tab_size&quot;: 4,
+ // tab 转换为空格
+&quot;translate_tabs_to_spaces&quot;: true
+// 保存时自动去除行末空白
+&quot;trim_trailing_white_space_on_save&quot;: true,
+// 保存时自动增加文件末尾换行
+&quot;ensure_newline_at_eof_on_save&quot;: true,
+// 默认编码格式
+&quot;default_encoding&quot;: &quot;UTF-8&quot;
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安装插件管理器&quot;&gt;&lt;a href=&quot;#安装插件管理器&quot; class=&quot;headerlink&quot; title=&quot;安装插件管理器&quot;&gt;&lt;/a&gt;安装插件管理器&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://sublime.wbond.net/installation&quot;&gt;https://sublime.wbond.net/installation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;菜单view &amp;gt; Show Console 调出命令行工具粘贴命令，之后重启&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;import urllib.request,os,hashlib; h = &amp;apos;2915d1851351e5ee549c20394736b442&amp;apos; + &amp;apos;8bc59f460fa1548d1514676163dafc88&amp;apos;; pf = &amp;apos;Package Control.sublime-package&amp;apos;; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( &amp;apos;http://packagecontrol.io/&amp;apos; + pf.replace(&amp;apos; &amp;apos;, &amp;apos;%20&amp;apos;)).read(); dh = hashlib.sha256(by).hexdigest(); print(&amp;apos;Error validating download (got %s instead of %s), please try manual install&amp;apos; % (dh, h)) if dh != h else open(os.path.join( ipp, pf), &amp;apos;wb&amp;apos; ).write(by)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="工具" scheme="http://zhangwei.net.cn/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>keepass</title>
+    <link href="http://zhangwei.net.cn/2016-01-22/keepass/"/>
+    <id>http://zhangwei.net.cn/2016-01-22/keepass/</id>
+    <published>2016-01-22T07:34:30.000Z</published>
+    <updated>2016-09-27T02:36:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>keepass 作为一款开源的密码管理工具，在有 chrome 扩展后，个人认为已经可以完全替代 lasspass。</p>
+<p>现在市面上的密码管理工具已经很多了，有在线的lastpass，有1password高颜值等等。但是它们都是收费的。</p>
+<p>而今天要安利给大家的是全平台的，免费的，开源的密码管理工具keepass。<br><a id="more"></a></p>
+<p>KeePassPassword Safe（简称KeePass），是一款免费开源的密码管理软件，通过它，你只要记住一个主密码就可以管理你所有的网络帐号和密码了，并且KeePass会生成一个数据库文件，保存好这个数据库文件就等于保存好了你所有的密码资料。有了KeePass，你会发现我们的网络世界方便了不只一点点。</p>
+<p>KeePass支持Windows、Linux、Mac OS、BlackBerry、iPhone、Andriod……几乎所有平台，几乎所有语言，并且有丰富的插件可以与Chrome、黑莓桌面管理器等配合使用。你用了才会发现他居然是如此的强大！</p>
+<p>北嗅这里主要介绍windows、mac 、android 、ios 四个平台的客户端。</p>
+<h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><p>首先windows就不用说了，官方客户端就够用了。直接去官网<code>http://keepass.info/download.html</code>下载就好了，</p>
+<h2 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h2><p>mac 平台也有一些客户端，比如直接在AppStore上搜索可用的 <code>Keepass Desktop</code>,但是呢它缺少了一个功能，就是浏览器自动输入。所以这里给大家推荐的是一个叫做 <code>MacPass</code> 的客户端,下载地址</p>
+<p><code>https://github.com/mstarke/MacPass/releases</code></p>
+<p>这款客户端同样也是开源的，代码托管在了 <code>GitHub</code> 上。</p>
+<h2 id="android"><a href="#android" class="headerlink" title="android"></a>android</h2><p>android 平台没什么好说的，直接到各大应用市场搜索 <code>KeePass2Android</code> 下载，支持自动填充，键盘填充。</p>
+<h2 id="ios"><a href="#ios" class="headerlink" title="ios"></a>ios</h2><p>ios 平台推荐 ‘KeePass Touch’ 这个客户端，相对来说功能比较完整，也支持直接dropbox同步。<code>minikeepass</code>支持dropbox导入导出，同步似乎有点问题。</p>
+<p>使用keepass要解决两个问题</p>
+<ol>
+<li>密码库同步</li>
+<li>浏览器支持</li>
+</ol>
+<h2 id="密码库同步"><a href="#密码库同步" class="headerlink" title="密码库同步"></a>密码库同步</h2><p>由于我的平时使用的环境为 windows + mac + android 。所以对这三个平台比较熟悉。<br>由于 KeePass2Android 是支持 dropbox、onedrive、googledrive 等等常用的网盘支持，由于国内网络问题，onedrive 是目前唯一没有屏蔽的网盘，所以我在 windows 和 mac 上使用 onedrive 来同步密码库。同样，如果你是在 ios 上可以检查客户端是否支持 iCloud，来选择使用 iCloud 同步密码。</p>
+<h2 id="浏览器支持"><a href="#浏览器支持" class="headerlink" title="浏览器支持"></a>浏览器支持</h2><p>浏览器支持主要是在 windows 和 mac 两个平台上，北嗅一般使用<code>Chrome+KeePass+ChromeIPass+KeePassHttp</code>使用方法就不在这里描述了，windows 平台网络上有一大把的教材，MacPass也支持ChromeIPass+KeePassHttp，可以下载 <code>https://github.com/MacPass/MacPassHTTP/releases</code> 放到MacPass目录。</p>
+<p>其实呢KeePass 和 MacPass 本身都自带了自动输入功能，并且与浏览器无关。所以ChromeIPass就显得有点多余了。</p>
+<p>这里呢没有教大家具体的使用方法，也没有具体的教程，只是推荐的几个客户端和相关使用时要注意的东西。当然我相信大家的动手能力，不会去搜索嘛。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;keepass 作为一款开源的密码管理工具，在有 chrome 扩展后，个人认为已经可以完全替代 lasspass。&lt;/p&gt;
+&lt;p&gt;现在市面上的密码管理工具已经很多了，有在线的lastpass，有1password高颜值等等。但是它们都是收费的。&lt;/p&gt;
+&lt;p&gt;而今天要安利给大家的是全平台的，免费的，开源的密码管理工具keepass。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="工具" scheme="http://zhangwei.net.cn/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>zabbix监控pm2.5</title>
+    <link href="http://zhangwei.net.cn/2016-01-06/zabbix-pm2-5/"/>
+    <id>http://zhangwei.net.cn/2016-01-06/zabbix-pm2-5/</id>
+    <published>2016-01-06T01:55:57.000Z</published>
+    <updated>2016-09-27T02:40:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ol>
+<li>pm2.5.py 用来获取pm值</li>
+<li>zabbix-pm25.conf 配置 zabbix 的 UserParameter</li>
+</ol>
+<p>github: <a href="https://github.com/xxiu/pm2.5_zabbix" target="_blank" rel="external">https://github.com/xxiu/pm2.5_zabbix</a></p>
+<p>pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的方式来获取当前的pm2.5的值</p>
+<a id="more"></a>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>我的 zabbix 配置文件目录在 <code>/usr/local/etc</code><br>将 pm2.5.py 拷贝到/usr/local/etc/zabbix_agentd.conf.d<br>将 zabbix-pm25.conf 拷贝到 /usr/local/etc/script<br>重启 zabbix-agentd</p>
+<p>可以在zabbix-server上测试一下配置是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">zabbix_get -s IP -p 10050 -k &apos;pm25[beijing]&apos;</div></pre></td></tr></table></figure></p>
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><p>添加一个项目 pm25_beijing 键值为 pm25[beijing]<br>添加一个图像来监控这个项目的走势<br>添加3个触发器，表达式如下，用来监控pm2.5超过100，200，350的变化，过了350的感觉就生无可恋了。<br>{pm25:pm25[beijing].last()}&gt;100<br>{pm25:pm25[beijing].last()}&gt;200<br>{pm25:pm25[beijing].last()}&gt;350</p>
+<h2 id="告警"><a href="#告警" class="headerlink" title="告警"></a>告警</h2><p>action 那里已经配置了全局的告警，就不需要配置了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;文件&quot;&gt;&lt;a href=&quot;#文件&quot; class=&quot;headerlink&quot; title=&quot;文件&quot;&gt;&lt;/a&gt;文件&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;pm2.5.py 用来获取pm值&lt;/li&gt;
+&lt;li&gt;zabbix-pm25.conf 配置 zabbix 的 UserParameter&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;github: &lt;a href=&quot;https://github.com/xxiu/pm2.5_zabbix&quot;&gt;https://github.com/xxiu/pm2.5_zabbix&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的方式来获取当前的pm2.5的值&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="zabbix" scheme="http://zhangwei.net.cn/tags/zabbix/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>supervisor-python进程管理</title>
+    <link href="http://zhangwei.net.cn/2016-01-04/supervisor-python%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
+    <id>http://zhangwei.net.cn/2016-01-04/supervisor-python进程管理/</id>
+    <published>2016-01-04T08:14:40.000Z</published>
+    <updated>2016-09-27T02:39:40.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="supervisor官网"><a href="#supervisor官网" class="headerlink" title="supervisor官网"></a>supervisor官网</h2><p><a href="http://supervisord.org" target="_blank" rel="external">http://supervisord.org</a><br>文档 <a href="http://supervisord.org/installing.html" target="_blank" rel="external">http://supervisord.org/installing.html</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 使用 apt-get 会自动的在 /etc/supervisor 加入配置文件，推荐使用</div><div class="line">apt-get install supervisor #pip install supervisor</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>安装好后有两个可执行文件和一些配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/usr/bin/supervisord             --  supervisor服务守护进程</div><div class="line">/usr/bin/supervisorctl           --  supervisor服务控制程序，比如：status/start/stop/restart xx 等</div><div class="line">/etc/supervisor/supervisord.conf --  配置文件，定义服务名称以及接口等等</div></pre></td></tr></table></figure></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>示例，在/etc/supervisor/supervisord.conf 指定一个 getfile 的程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[program:getfile]</div><div class="line">command=python /home/zhangwei/ptest_service/app_getfile.py</div><div class="line">directory=/home/zhangwei/ptest_service</div><div class="line">autorstart=true</div><div class="line">stdout_logfile=/home/zhangwei/ptest_service/log/getfile.log</div><div class="line">stderr_logfile=/home/zhangwei/ptest_service/log/getfile_err.log</div></pre></td></tr></table></figure></p>
+<h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">supervisorctl status # 查看进程状态</div><div class="line">supervisorctl  status|stop|start  getfile #查看 停止 启动进程</div></pre></td></tr></table></figure>
+<p>supervisord.conf文件里会发现有一段[unix_http_server]的配置，默认是9001端口，配置后，重启supervisor服务，打开浏览器输入：<a href="http://localhost:9001" target="_blank" rel="external">http://localhost:9001</a> 可以查看相关的内容。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;supervisor官网&quot;&gt;&lt;a href=&quot;#supervisor官网&quot; class=&quot;headerlink&quot; title=&quot;supervisor官网&quot;&gt;&lt;/a&gt;supervisor官网&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://supervisord.org&quot;&gt;http://supervisord.org&lt;/a&gt;&lt;br&gt;文档 &lt;a href=&quot;http://supervisord.org/installing.html&quot;&gt;http://supervisord.org/installing.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;# 使用 apt-get 会自动的在 /etc/supervisor 加入配置文件，推荐使用&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;apt-get install supervisor #pip install supervisor&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://zhangwei.net.cn/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python安装PIL</title>
+    <link href="http://zhangwei.net.cn/2015-08-04/python-install-pil/"/>
+    <id>http://zhangwei.net.cn/2015-08-04/python-install-pil/</id>
+    <published>2015-08-04T06:43:37.000Z</published>
+    <updated>2016-09-27T02:37:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libjpeg-dev</div><div class="line">sudo apt-get install libfreetype6-dev</div><div class="line">sudo apt-get install zlib-devel</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="安装-PIL"><a href="#安装-PIL" class="headerlink" title="安装 PIL"></a>安装 PIL</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pip install -U PIL --allow-external PIL --allow-unverified PIL</div></pre></td></tr></table></figure>
+<h1 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h1><p>mac 安装 PIL 的时候出现了两个错误，主要是库的问题.</p>
+<h2 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">_imagingft.c:73:10: fatal error: &apos;freetype/fterrors.h&apos; file not found</div><div class="line">#include &lt;freetype/fterrors.h&gt;</div><div class="line">         ^</div><div class="line">1 error generated.</div><div class="line">error: command &apos;cc&apos; failed with exit status 1</div></pre></td></tr></table></figure>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s /usr/local/include/freetype2 /usr/local/include/freetype</div></pre></td></tr></table></figure>
+<h2 id="错误-1"><a href="#错误-1" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/tk.h:78:11: fatal error: &apos;X11/Xlib.h&apos; file not found</div><div class="line"></div><div class="line">#      include &lt;X11/Xlib.h&gt;</div><div class="line"></div><div class="line">               ^</div><div class="line">1 error generated.</div><div class="line">error: command &apos;cc&apos; failed with exit status 1</div></pre></td></tr></table></figure>
+<h2 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11 /usr/local/include/X11</div></pre></td></tr></table></figure>
+<h1 id="ubuntu-上安装的错误"><a href="#ubuntu-上安装的错误" class="headerlink" title="ubuntu 上安装的错误"></a>ubuntu 上安装的错误</h1><h2 id="错误-2"><a href="#错误-2" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">imaging.c:75:20: fatal error: Python.h: No such file or directory</div><div class="line"></div><div class="line"> #include &quot;Python.h&quot;</div><div class="line"></div><div class="line">                    ^</div><div class="line"></div><div class="line">compilation terminated.</div><div class="line"></div><div class="line">error: command &apos;x86_64-linux-gnu-gcc&apos; failed with exit status 1</div></pre></td></tr></table></figure>
+<p>方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">上面是 python 库的问题，可能是默认的 python 路径的问题，可以重新安装来解决</div><div class="line"></div><div class="line">sudo apt-get install python-dev</div></pre></td></tr></table></figure></p>
+<h2 id="错误-3"><a href="#错误-3" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IOError: decoder zip not available</div></pre></td></tr></table></figure>
+<h2 id="方法-2"><a href="#方法-2" class="headerlink" title="方法"></a>方法</h2><p>有可能是 zlib 的问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev</div><div class="line"></div><div class="line"># create these links, if already exists, remove it and re-link it</div><div class="line">ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib</div><div class="line">ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib</div><div class="line">ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib</div><div class="line"></div><div class="line"># reinstall PIL</div><div class="line">pip uninstall PIL</div><div class="line">pip install PIL</div></pre></td></tr></table></figure></p>
+<h2 id="错误-4"><a href="#错误-4" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python PIL bug: NoneType object has no attribute bands</div></pre></td></tr></table></figure>
+<h2 id="方法-3"><a href="#方法-3" class="headerlink" title="方法"></a>方法</h2><p>在使用 python PIL 获取分量的时候出现了错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">r,g,b,a = image.split()</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&apos;NoneType&apos; object has no attribute &apos;bands&apos;</div></pre></td></tr></table></figure>
+<p>原因是图片遇到 mode 为 RGBA 的时候会出现这个问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">vim /usr/local/lib/python2.7/dist-packages/PIL/Image.py</div><div class="line"></div><div class="line">定位到1501 行</div><div class="line">1494     def split(self):</div><div class="line">1495         &quot;Split image into bands&quot;</div><div class="line">1496</div><div class="line">1497		self.load()    #</div><div class="line">1498         if self.im.bands == 1:</div><div class="line">1499             ims = [self.copy()]</div><div class="line">1500         else:</div><div class="line">1501             #self.load()</div><div class="line">1502             ims = []</div><div class="line">1503             for i in range(self.im.bands):</div><div class="line">1504                 ims.append(self._new(self.im.getband(i)))</div><div class="line">1505         return tuple(ims)</div></pre></td></tr></table></figure>
+<p>将else中得self.load() 放到 if 外面来</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://stackoverflow.com/questions/20325473/error-installing-python-image-library-using-pip-on-mac-os-x-10-9" target="_blank" rel="external">http://stackoverflow.com/questions/20325473/error-installing-python-image-library-using-pip-on-mac-os-x-10-9</a></p>
+<p><a href="http://stackoverflow.com/questions/19532125/cant-install-pil-after-mac-os-x-10-9" target="_blank" rel="external">http://stackoverflow.com/questions/19532125/cant-install-pil-after-mac-os-x-10-9</a></p>
+<p><a href="http://stackoverflow.com/questions/3544155/about-the-pil-error-ioerror-decoder-zip-not-available" target="_blank" rel="external">http://stackoverflow.com/questions/3544155/about-the-pil-error-ioerror-decoder-zip-not-available</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;安装依赖&quot;&gt;&lt;a href=&quot;#安装依赖&quot; class=&quot;headerlink&quot; title=&quot;安装依赖&quot;&gt;&lt;/a&gt;安装依赖&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;sudo apt-get install libjpeg-dev&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;sudo apt-get install libfreetype6-dev&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;sudo apt-get install zlib-devel&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://zhangwei.net.cn/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mac重新安装java</title>
+    <link href="http://zhangwei.net.cn/2015-07-20/mac%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%85java/"/>
+    <id>http://zhangwei.net.cn/2015-07-20/mac重新安装java/</id>
+    <published>2015-07-20T01:24:33.000Z</published>
+    <updated>2016-09-27T02:33:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>这是个很悲伤的故事，需要接一个java程序。然后当然是开始调试，然后部署到 tomcat 上面。但是不管怎么样编译，放到 tomcat 都会报错。于是开始各种怀疑。</p>
+<a id="more"></a>
+<p>首先这个程序是在 windows 的 JDK1.7 的版本编译，在 linux 的 tomcat 上面运行没有什么问题。拿到我这了后，在 mac 下 JDK1.8 的版本下运行，总是有个地方运行不对。于是开始怀疑是 JDK 的问题。就用命令行删除了和 JDK 有关的文件 。然后到 oracle 官网下载了对于的版本，发现安装到最后会出错，同事说 mac 下面不在支持 JDK1.7，于是接着下载 JDK1.8 来安装。但是在最后还是出了问题。死活都安装不上。此时心里真是有一万头草泥马呼啸而过。</p>
+<p>最后搜索了很久，偶然的得到了一个地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://support.apple.com/downloads/java</div></pre></td></tr></table></figure>
+<p>啥也不说，热泪一行。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这是个很悲伤的故事，需要接一个java程序。然后当然是开始调试，然后部署到 tomcat 上面。但是不管怎么样编译，放到 tomcat 都会报错。于是开始各种怀疑。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="java" scheme="http://zhangwei.net.cn/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>gitolite-install</title>
+    <link href="http://zhangwei.net.cn/2015-07-09/gitolite-install/"/>
+    <id>http://zhangwei.net.cn/2015-07-09/gitolite-install/</id>
+    <published>2015-07-09T07:04:58.000Z</published>
+    <updated>2016-09-27T02:34:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="安装脚本"><a href="#安装脚本" class="headerlink" title="安装脚本"></a>安装脚本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">useradd -m git</div><div class="line"></div><div class="line">#安装git-core</div><div class="line">apt-get install git-core</div><div class="line"></div><div class="line">#创建gitolite安装路径</div><div class="line">shell_dir=/</div><div class="line">gitolite=/home/git/gitolite</div><div class="line">mkdir -p $gitolite</div><div class="line"></div><div class="line">&lt;!--more--&gt;</div><div class="line"></div><div class="line">#cp key</div><div class="line"># 安装时替换为管理员秘钥</div><div class="line">echo &apos;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEtBEpIoVQ6ZxFgkQR/Df23lsX+1m5IzKI9VbWDu2KSJhWsuFqc1KGvwYI7DOtcRBUKQFTkf9ExxqbfqUWlyn2cnkpMsfH24Mb28HmHmEBqjtTfurOSH9SNQSgDhxG2K3A0EqiSKFMgFuuGkcyMfIjtTWFhbg5TAWZ69WRnr71QR2pCTuc46bRwRyeZR1s2Ohtss6pF28HphCI58HVg7+VVHTpqz5XLmX6TwOrQtjrTAp0lu12d7Ul5K0IKadF62MOSJJMh0YcC3VZIq1ixqAooUfry+/yS9NBGjJZpKJFeew25tRq9iZJwTp zhangwei@zhangwei&apos; &gt;$gitolite/admin.pub</div><div class="line"></div><div class="line">#cp admin.pub $gitolite</div><div class="line"></div><div class="line">cd  $gitolite</div><div class="line"></div><div class="line">git clone git://github.com/sitaramc/gitolite  src</div><div class="line"></div><div class="line">echo &apos;开始安装gitolite ......&apos;</div><div class="line"></div><div class="line">$&#123;gitolite&#125;/src/install -to $gitolite</div><div class="line"></div><div class="line">echo &quot;安装到了$gitolite&quot;</div><div class="line"></div><div class="line">rm -rf $&#123;gitolite&#125;/src</div><div class="line"></div><div class="line">chown -R  git:git $gitolite</div><div class="line"></div><div class="line">#将管理员key放到同级目录命名为admin.pub 并启动</div><div class="line">su - git -c &quot;$&#123;gitolite&#125;/gitolite setup -pk $&#123;gitolite&#125;/admin.pub &quot;</div></pre></td></tr></table></figure>
+<h2 id="安装钩子"><a href="#安装钩子" class="headerlink" title="安装钩子"></a>安装钩子</h2><p>gitolite 钩子目录为  /home/git/.gitolite/hooks/common</p>
+<p>钩子脚本拷贝到这个目录，比如post-receive。<br>执行以下脚本刷新钩子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/home/git/gitolite/gitolite setup --hooks-only</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安装脚本&quot;&gt;&lt;a href=&quot;#安装脚本&quot; class=&quot;headerlink&quot; title=&quot;安装脚本&quot;&gt;&lt;/a&gt;安装脚本&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
+    
+    </summary>
+    
+    
+      <category term="git" scheme="http://zhangwei.net.cn/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>saltstack-states</title>
+    <link href="http://zhangwei.net.cn/2015-07-09/saltstack-states/"/>
+    <id>http://zhangwei.net.cn/2015-07-09/saltstack-states/</id>
+    <published>2015-07-09T03:15:04.000Z</published>
+    <updated>2016-09-27T02:38:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>这里用 ubuntu 中安装 redis 作为示例</p>
+<h2 id="创建-top-sls"><a href="#创建-top-sls" class="headerlink" title="创建 top.sls"></a>创建 top.sls</h2><p>/srv/salt/top.sls<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">base:</div><div class="line">  &apos;server-01&apos;:</div><div class="line">    - roles.redis</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>server-01 是需要安装redis的一台机器</p>
+<h2 id="创建redis-states-树"><a href="#创建redis-states-树" class="headerlink" title="创建redis states 树"></a>创建redis states 树</h2><p>/srv/salt/roles/redis/init.sls<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">redis-server:</div><div class="line">  pkg:</div><div class="line">    - installed     #使用 pkg install 安装  redis-server 包</div><div class="line">  service:</div><div class="line">    - name:  redis-server</div><div class="line">    - running        #运行</div><div class="line">    - require:</div><div class="line">      - pkg:  redis-server</div><div class="line">    - watch:</div><div class="line">      - pkg:  redis-server</div><div class="line">      - file:  /etc/redis/redis.conf</div><div class="line"></div><div class="line">/etc/redis/redis.conf:</div><div class="line">  file.managed:</div><div class="line">    - source: salt://roles/redis/redis.conf</div><div class="line">    - template: jinja</div><div class="line">    - user:  root</div><div class="line">    - group:  root</div><div class="line">    - mode:  644</div></pre></td></tr></table></figure></p>
+<p>参考<br><a href="http://docs.saltstack.cn/zh_CN/latest/topics/tutorials/starting_states.html" target="_blank" rel="external">http://docs.saltstack.cn/zh_CN/latest/topics/tutorials/starting_states.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这里用 ubuntu 中安装 redis 作为示例&lt;/p&gt;
+&lt;h2 id=&quot;创建-top-sls&quot;&gt;&lt;a href=&quot;#创建-top-sls&quot; class=&quot;headerlink&quot; title=&quot;创建 top.sls&quot;&gt;&lt;/a&gt;创建 top.sls&lt;/h2&gt;&lt;p&gt;/srv/salt/top.sls&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;base:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &amp;apos;server-01&amp;apos;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    - roles.redis&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="saltstack" scheme="http://zhangwei.net.cn/tags/saltstack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>saltstack-event</title>
+    <link href="http://zhangwei.net.cn/2015-07-09/saltstack-event/"/>
+    <id>http://zhangwei.net.cn/2015-07-09/saltstack-event/</id>
+    <published>2015-07-09T02:56:30.000Z</published>
+    <updated>2016-09-27T02:38:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="示例salt-event-py"><a href="#示例salt-event-py" class="headerlink" title="示例salt_event.py"></a>示例salt_event.py</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">import salt.utils.event</div><div class="line">__opts__ = salt.config.client_config(&apos;/etc/salt/master&apos;)</div><div class="line">event = salt.utils.event.MasterEvent(__opts__[&apos;sock_dir&apos;])</div><div class="line">for eachevent in event.iter_events(full=True):</div><div class="line">        print eachevent</div><div class="line">        print &apos;---------------&apos;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>event 是在 master 端执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event = salt.utils.event.MasterEvent(__opts__[&apos;sock_dir&apos;])</div></pre></td></tr></table></figure></p>
+<p>运行event<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python salt_event.py</div></pre></td></tr></table></figure></p>
+<p>利用python命令行运行这个文件后，用来捕获执行的事件，例如执行命令 <code>salt ‘*’ test.ping</code></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;示例salt-event-py&quot;&gt;&lt;a href=&quot;#示例salt-event-py&quot; class=&quot;headerlink&quot; title=&quot;示例salt_event.py&quot;&gt;&lt;/a&gt;示例salt_event.py&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;import salt.utils.event&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;__opts__ = salt.config.client_config(&amp;apos;/etc/salt/master&amp;apos;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;event = salt.utils.event.MasterEvent(__opts__[&amp;apos;sock_dir&amp;apos;])&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;for eachevent in event.iter_events(full=True):&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        print eachevent&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        print &amp;apos;---------------&amp;apos;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="saltstack" scheme="http://zhangwei.net.cn/tags/saltstack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>saltstack-cp模块</title>
+    <link href="http://zhangwei.net.cn/2015-07-09/saltstack-cp%E6%A8%A1%E5%9D%97/"/>
+    <id>http://zhangwei.net.cn/2015-07-09/saltstack-cp模块/</id>
+    <published>2015-07-09T02:49:19.000Z</published>
+    <updated>2016-09-27T02:38:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="git-file"><a href="#git-file" class="headerlink" title="git_file"></a>git_file</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo salt   &apos;*&apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5]</div></pre></td></tr></table></figure>
+<p>其中salt: 所指定的位置为 /srv/salt ,可以指定模板 和 压缩等级</p>
+<a id="more"></a>
+<h2 id="get-dir"><a href="#get-dir" class="headerlink" title="get_dir"></a>get_dir</h2><p>cp.get_dir可以从master下载整个目录，语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># salt &apos;*&apos; cp.get_dir salt://etc/apache2 /etc</div></pre></td></tr></table></figure></p>
+<p>cp.get_dir也支持模板和压缩：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># salt &apos;*&apos; cp.get_dir salt://etc/&#123;&#123;pillar.webserver&#125;&#125; /etc gzip=5 template=jinja</div></pre></td></tr></table></figure></p>
+<!--more-->
+<h2 id="get-url"><a href="#get-url" class="headerlink" title="get_url"></a>get_url</h2><p>cp.get_url可以从一个URL地址下载文件，URL可以是msater上的路径（salt://），也可以是http网址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># salt &apos;*&apos; cp.get_url salt://my/file /tmp/mine</div><div class="line"># salt &apos;*&apos; cp.get_url http://www.abc.com /tmp/index.html</div></pre></td></tr></table></figure>
+<h2 id="get-template"><a href="#get-template" class="headerlink" title="get_template"></a>get_template</h2><p>cp.get_template可以在文件下载之前用模板引擎处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># salt &apos;*&apos; cp.get_template salt://path/to/template /minion/dest</div></pre></td></tr></table></figure>
+<h2 id="push"><a href="#push" class="headerlink" title="push"></a>push</h2><p>cp.push可以从客户端传文件到master上，处于很明显的安全考虑，默认没有启用此功能</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;git-file&quot;&gt;&lt;a href=&quot;#git-file&quot; class=&quot;headerlink&quot; title=&quot;git_file&quot;&gt;&lt;/a&gt;git_file&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;sudo salt   &amp;apos;*&amp;apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5]&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;其中salt: 所指定的位置为 /srv/salt ,可以指定模板 和 压缩等级&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="saltstack" scheme="http://zhangwei.net.cn/tags/saltstack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>saltstack-runners</title>
+    <link href="http://zhangwei.net.cn/2015-07-09/saltstack-runners/"/>
+    <id>http://zhangwei.net.cn/2015-07-09/saltstack-runners/</id>
+    <published>2015-07-09T02:44:12.000Z</published>
+    <updated>2016-09-27T02:49:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><p>mkdir -p /srv/salt/_runner  ; cd /srv/salt/_runner</p>
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>runner_dirs: [‘/srv/salt/_runner’]</p>
+<a id="more"></a>
+<h2 id="编写runner"><a href="#编写runner" class="headerlink" title="编写runner"></a>编写runner</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/evn python</div><div class="line">#coding=utf-8</div><div class="line">import sys</div><div class="line">import salt.client</div><div class="line">def push():</div><div class="line">	client = salt.client.LocalClient(__opts__[&apos;conf_file&apos;])</div><div class="line">	minions = client.cmd(&apos;*&apos;, &apos;test.ping&apos;, timeout=1)</div><div class="line">	for minion in sorted(minions):</div><div class="line">		print minion</div></pre></td></tr></table></figure>
+<h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><p>sudo salt-run public.push</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;创建目录&quot;&gt;&lt;a href=&quot;#创建目录&quot; class=&quot;headerlink&quot; title=&quot;创建目录&quot;&gt;&lt;/a&gt;创建目录&lt;/h2&gt;&lt;p&gt;mkdir -p /srv/salt/_runner  ; cd /srv/salt/_runner&lt;/p&gt;
+&lt;h2 id=&quot;修改配置文件&quot;&gt;&lt;a href=&quot;#修改配置文件&quot; class=&quot;headerlink&quot; title=&quot;修改配置文件&quot;&gt;&lt;/a&gt;修改配置文件&lt;/h2&gt;&lt;p&gt;runner_dirs: [‘/srv/salt/_runner’]&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>

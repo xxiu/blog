@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>搜狗词库转换为txt文件 | 张巍的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="在solr分词的时候需要一些词库,在搜狗细胞词库可以下载到.scel的词库.但是需要转成成我所需要的.在网络找到一份python的处理代码.可以将词库提取出来.稍微修改了一下main里读取目录文件的部分和输出格式.就得到了我所需要的词库文件.代码如下:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搜狗词库转换为txt文件">
+<meta property="og:url" content="http://zhangwei.net.cn/2014-12-11/sogou-words-deal-python-code/index.html">
+<meta property="og:site_name" content="张巍的博客">
+<meta property="og:description" content="在solr分词的时候需要一些词库,在搜狗细胞词库可以下载到.scel的词库.但是需要转成成我所需要的.在网络找到一份python的处理代码.可以将词库提取出来.稍微修改了一下main里读取目录文件的部分和输出格式.就得到了我所需要的词库文件.代码如下:">
+<meta property="og:updated_time" content="2016-09-27T02:38:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搜狗词库转换为txt文件">
+<meta name="twitter:description" content="在solr分词的时候需要一些词库,在搜狗细胞词库可以下载到.scel的词库.但是需要转成成我所需要的.在网络找到一份python的处理代码.可以将词库提取出来.稍微修改了一下main里读取目录文件的部分和输出格式.就得到了我所需要的词库文件.代码如下:">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="张巍的博客" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">张巍的博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">张巍</h2>
+            <h3 id="title">Python &amp; Php &amp; DotNet</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国, 北京</span>
+            <a id="follow" target="_blank" href="https://github.com/xxiu/">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                48
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                23
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/xxiu" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-sogou-words-deal-python-code" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            搜狗词库转换为txt文件
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2014-12-11/sogou-words-deal-python-code/">
+            <time datetime="2014-12-11T07:31:59.000Z" itemprop="datePublished">2014-12-11</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/词库/">词库</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>在solr分词的时候需要一些词库,在<a href="http://pinyin.sogou.com/dict/" target="_blank" rel="external">搜狗细胞词库</a>可以下载到<code>.scel</code>的词库.但是需要转成成我所需要的.在网络找到一份<code>python</code>的处理代码.可以将词库提取出来.稍微修改了一下<code>main</code>里读取目录文件的部分和输出格式.就得到了我所需要的词库文件.代码如下:</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python</div><div class="line"># -*- coding: utf-8 -*-</div><div class="line"></div><div class="line"></div><div class="line">import struct</div><div class="line">import sys</div><div class="line">import binascii</div><div class="line">import pdb</div><div class="line">import os</div><div class="line">#搜狗的scel词库就是保存的文本的unicode编码，每两个字节一个字符（中文汉字或者英文字母）</div><div class="line">#找出其每部分的偏移位置即可</div><div class="line">#主要两部分</div><div class="line">#1.全局拼音表，貌似是所有的拼音组合，字典序</div><div class="line">#       格式为(index,len,pinyin)的列表</div><div class="line">#       index: 两个字节的整数 代表这个拼音的索引</div><div class="line">#       len: 两个字节的整数 拼音的字节长度</div><div class="line">#       pinyin: 当前的拼音，每个字符两个字节，总长len</div><div class="line">#</div><div class="line">#2.汉语词组表</div><div class="line">#       格式为(same,py_table_len,py_table,&#123;word_len,word,ext_len,ext&#125;)的一个列表</div><div class="line">#       same: 两个字节 整数 同音词数量</div><div class="line">#       py_table_len:  两个字节 整数</div><div class="line">#       py_table: 整数列表，每个整数两个字节,每个整数代表一个拼音的索引</div><div class="line">#</div><div class="line">#       word_len:两个字节 整数 代表中文词组字节数长度</div><div class="line">#       word: 中文词组,每个中文汉字两个字节，总长度word_len</div><div class="line">#       ext_len: 两个字节 整数 代表扩展信息的长度，好像都是10</div><div class="line">#       ext: 扩展信息 前两个字节是一个整数(不知道是不是词频) 后八个字节全是0</div><div class="line">#</div><div class="line">#      &#123;word_len,word,ext_len,ext&#125; 一共重复same次 同音词 相同拼音表</div><div class="line"></div><div class="line">#拼音表偏移，</div><div class="line">startPy = 0x1540;</div><div class="line"></div><div class="line"></div><div class="line">#汉语词组表偏移</div><div class="line">startChinese = 0x2628;</div><div class="line"></div><div class="line">#全局拼音表</div><div class="line"></div><div class="line">GPy_Table =&#123;&#125;</div><div class="line"></div><div class="line">#解析结果</div><div class="line">#元组(词频,拼音,中文词组)的列表</div><div class="line">GTable = []</div><div class="line"></div><div class="line">def byte2str(data):</div><div class="line">    &apos;&apos;&apos;将原始字节码转为字符串&apos;&apos;&apos;</div><div class="line">    i = 0;</div><div class="line">    length = len(data)</div><div class="line">    ret = u&apos;&apos;</div><div class="line">    while i &lt; length:</div><div class="line">        x = data[i] + data[i+1]</div><div class="line">        t = unichr(struct.unpack(&apos;H&apos;,x)[0])</div><div class="line">        if t == u&apos;\r&apos;:</div><div class="line">            ret += u&apos;\n&apos;</div><div class="line">        elif t != u&apos; &apos;:</div><div class="line">            ret += t</div><div class="line">        i += 2</div><div class="line">    return ret</div><div class="line">#获取拼音表</div><div class="line">def getPyTable(data):</div><div class="line"></div><div class="line">    if data[0:4] != &quot;\x9D\x01\x00\x00&quot;:</div><div class="line">        return None</div><div class="line">    data = data[4:]</div><div class="line">    pos = 0</div><div class="line">    length = len(data)</div><div class="line">    while pos &lt; length:</div><div class="line">        index = struct.unpack(&apos;H&apos;,data[pos]+data[pos+1])[0]</div><div class="line">        #print index,</div><div class="line">        pos += 2</div><div class="line">        l = struct.unpack(&apos;H&apos;,data[pos]+data[pos+1])[0]</div><div class="line">        #print l,</div><div class="line">        pos += 2</div><div class="line">        py = byte2str(data[pos:pos+l])</div><div class="line">        #print py</div><div class="line">        GPy_Table[index]=py</div><div class="line">        pos += l</div><div class="line"></div><div class="line">#获取一个词组的拼音</div><div class="line">def getWordPy(data):</div><div class="line">    pos = 0</div><div class="line">    length = len(data)</div><div class="line">    ret = u&apos;&apos;</div><div class="line">    while pos &lt; length:</div><div class="line"></div><div class="line">        index = struct.unpack(&apos;H&apos;,data[pos]+data[pos+1])[0]</div><div class="line">        ret += GPy_Table[index]</div><div class="line">        pos += 2</div><div class="line">    return ret</div><div class="line"></div><div class="line">#获取一个词组</div><div class="line">def getWord(data):</div><div class="line">    pos = 0</div><div class="line">    length = len(data)</div><div class="line">    ret = u&apos;&apos;</div><div class="line">    while pos &lt; length:</div><div class="line"></div><div class="line">        index = struct.unpack(&apos;H&apos;,data[pos]+data[pos+1])[0]</div><div class="line">        ret += GPy_Table[index]</div><div class="line">        pos += 2</div><div class="line">    return ret</div><div class="line"></div><div class="line">#读取中文表</div><div class="line">def getChinese(data):</div><div class="line">    #import pdb</div><div class="line">    #pdb.set_trace()</div><div class="line"></div><div class="line">    pos = 0</div><div class="line">    length = len(data)</div><div class="line">    while pos &lt; length:</div><div class="line">        #同音词数量</div><div class="line">        same = struct.unpack(&apos;H&apos;,data[pos]+data[pos+1])[0]</div><div class="line">        #print &apos;[same]:&apos;,same,</div><div class="line"></div><div class="line">        #拼音索引表长度</div><div class="line">        pos += 2</div><div class="line">        py_table_len = struct.unpack(&apos;H&apos;,data[pos]+data[pos+1])[0]</div><div class="line">        #拼音索引表</div><div class="line">        pos += 2</div><div class="line">        py = getWordPy(data[pos: pos+py_table_len])</div><div class="line"></div><div class="line">        #中文词组</div><div class="line">        pos += py_table_len</div><div class="line">        for i in xrange(same):</div><div class="line">            #中文词组长度</div><div class="line">            c_len = struct.unpack(&apos;H&apos;,data[pos]+data[pos+1])[0]</div><div class="line">            #中文词组</div><div class="line">            pos += 2</div><div class="line">            word = byte2str(data[pos: pos + c_len])</div><div class="line">            #扩展数据长度</div><div class="line">            pos += c_len</div><div class="line">            ext_len = struct.unpack(&apos;H&apos;,data[pos]+data[pos+1])[0]</div><div class="line">            #词频</div><div class="line">            pos += 2</div><div class="line">            count  = struct.unpack(&apos;H&apos;,data[pos]+data[pos+1])[0]</div><div class="line"></div><div class="line">            #保存</div><div class="line">            GTable.append((count,py,word))</div><div class="line"></div><div class="line">            #到下个词的偏移位置</div><div class="line">            pos +=  ext_len</div><div class="line"></div><div class="line"></div><div class="line">def deal(file_name):</div><div class="line">    print &apos;-&apos;*60</div><div class="line">    f = open(file_name,&apos;rb&apos;)</div><div class="line">    data = f.read()</div><div class="line">    f.close()</div><div class="line"></div><div class="line"></div><div class="line">    if data[0:12] !=&quot;\x40\x15\x00\x00\x44\x43\x53\x01\x01\x00\x00\x00&quot;:</div><div class="line">        print &quot;确认你选择的是搜狗(.scel)词库?&quot;</div><div class="line">        sys.exit(0)</div><div class="line">    #pdb.set_trace()</div><div class="line"></div><div class="line">    print &quot;词库名：&quot; ,byte2str(data[0x130:0x338])#.encode(&apos;GB18030&apos;)</div><div class="line">    print &quot;词库类型：&quot; ,byte2str(data[0x338:0x540])#.encode(&apos;GB18030&apos;)</div><div class="line">    print &quot;描述信息：&quot; ,byte2str(data[0x540:0xd40])#.encode(&apos;GB18030&apos;)</div><div class="line">    print &quot;词库示例：&quot;,byte2str(data[0xd40:startPy])#.encode(&apos;GB18030&apos;)</div><div class="line"></div><div class="line">    getPyTable(data[startPy:startChinese])</div><div class="line">    getChinese(data[startChinese:])</div><div class="line"></div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line"></div><div class="line">    #将要转换的词库添加在这里就可以了</div><div class="line">    #o = [&apos;1.scel&apos;,  &apos;2.scel&apos; ]</div><div class="line">    o=os.listdir(&apos;D:\work\pythonwork&apos;) #scel文件夹目录</div><div class="line"></div><div class="line">    for f in o:</div><div class="line">        name, ext = os.path.splitext(f)</div><div class="line">        if ext==&apos;.scel&apos;:</div><div class="line">            deal(f)</div><div class="line"></div><div class="line">   # for f in o:</div><div class="line">     #    deal(f)</div><div class="line"></div><div class="line">    #保存结果</div><div class="line">    f = open(&apos;sougou.txt&apos;,&apos;w&apos;)</div><div class="line">    for count,py,word in GTable:</div><div class="line">        #GTable保存着结果，是一个列表，每个元素是一个元组(词频,拼音,中文词组)，有需要的话可以保存成自己需要个格式</div><div class="line">        #我没排序，所以结果是按照上面输入文件的顺序</div><div class="line">        #f.write( unicode(&apos;&#123;%(count)s&#125;&apos; %&#123;&apos;count&apos;:count&#125;+py+&apos; &apos;+ word).encode(&apos;utf-8&apos;) )#最终保存文件的编码，可以自给改</div><div class="line">        f.write( unicode(word).encode(&apos;utf-8&apos;) )#最终保存文件的编码，可以自给改</div><div class="line"></div><div class="line">        f.write(&apos;\n&apos;)</div><div class="line">    f.close()</div></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://zhangwei.net.cn/2014-12-11/sogou-words-deal-python-code/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://zhangwei.net.cn/2014-12-11/sogou-words-deal-python-code/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2014-12-22/the-thrift-and-csharp/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    thrift基础以及在c#中的使用
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2014-12-03/ci-smarty-config/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">ci配置smarty手记</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2014-12-11/sogou-words-deal-python-code/" data-title="搜狗词库转换为txt文件" data-url="http://zhangwei.net.cn/2014-12-11/sogou-words-deal-python-code/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" class="title">用单例和动态类在sqlalchemy中做动态表绑定</a></p>
+                            <p class="item-date"><time datetime="2016-07-28T09:30:44.000Z" itemprop="datePublished">2016-07-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-07-05/mac-net-core-尝试/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-07-05/mac-net-core-尝试/" class="title">mac .net core尝试</a></p>
+                            <p class="item-date"><time datetime="2016-07-05T03:43:47.000Z" itemprop="datePublished">2016-07-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-07-04/简单的坐标转省市区的算法/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-07-04/简单的坐标转省市区的算法/" class="title">简单的坐标转省市区的算法</a></p>
+                            <p class="item-date"><time datetime="2016-07-04T07:55:22.000Z" itemprop="datePublished">2016-07-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-06-14/kettle随记/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-06-14/kettle随记/" class="title">kettle随记</a></p>
+                            <p class="item-date"><time datetime="2016-06-14T03:00:35.000Z" itemprop="datePublished">2016-06-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016-04-06/memcacheq-berkeleydb-备份恢复/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016-04-06/memcacheq-berkeleydb-备份恢复/" class="title">memcacheq Berkeleydb 备份恢复</a></p>
+                            <p class="item-date"><time datetime="2016-04-06T07:29:44.000Z" itemprop="datePublished">2016-04-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ci/">ci</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fastDFS/">fastDFS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ikvm/">ikvm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magick/">magick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx-php/">nginx php</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pdf/">pdf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/saltstack/">saltstack</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smarty/">smarty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/">solr</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tesseract-ocr/">tesseract-ocr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thrift/">thrift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/">zabbix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/词库/">词库</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/ci/" style="font-size: 10px;">ci</a> <a href="/tags/fastDFS/" style="font-size: 16px;">fastDFS</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx-php/" style="font-size: 10px;">nginx php</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/php/" style="font-size: 12px;">php</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18px;">solr</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/zabbix/" style="font-size: 10px;">zabbix</a> <a href="/tags/工具/" style="font-size: 12px;">工具</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 xxiu<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zwblog'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
