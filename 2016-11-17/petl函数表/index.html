@@ -3,17 +3,30 @@
 <head>
     <meta charset="utf-8">
     
-    <title>归档: 2016/3 | 张巍的博客</title>
+    <title>petl函数表 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="好记性烂笔头">
-<meta property="og:type" content="website">
-<meta property="og:title" content="张巍的博客">
-<meta property="og:url" content="http://zhangwei.net.cn/archives/2016/03/index.html">
+    <meta name="description" content="petl文档地址： https://petl.readthedocs.io/en/latest/index.html
+Extract/Load可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件
+Transfrom   转换Basicpetl.transform.basics.
+
+head(t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="petl函数表">
+<meta property="og:url" content="http://zhangwei.net.cn/2016-11-17/petl函数表/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="好记性烂笔头">
+<meta property="og:description" content="petl文档地址： https://petl.readthedocs.io/en/latest/index.html
+Extract/Load可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件
+Transfrom   转换Basicpetl.transform.basics.
+
+head(t">
+<meta property="og:updated_time" content="2016-11-17T08:53:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="张巍的博客">
-<meta name="twitter:description" content="好记性烂笔头">
+<meta name="twitter:title" content="petl函数表">
+<meta name="twitter:description" content="petl文档地址： https://petl.readthedocs.io/en/latest/index.html
+Extract/Load可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件
+Transfrom   转换Basicpetl.transform.basics.
+
+head(t">
     
 
     
@@ -146,92 +159,276 @@
 </aside>
 
             
-            <section id="main"><div class="timeline timeline-wrap">
-    
-            <div class="timeline-row timeline-row-major">
-                <span class="node"><i class="fa fa-calendar"></i></span>
-                <h1 class="title">2016</h1>
-            </div>
+            <section id="main"><article id="post-petl函数表" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/">Mac上制作Ubuntu USB启动盘</a>
+        <h1 class="article-title" itemprop="name">
+            petl函数表
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/">
-            <time datetime="2016-03-25T02:59:14.000Z" itemprop="datePublished">2016-03-25</time>
+        <a href="/2016-11-17/petl函数表/">
+            <time datetime="2016-11-17T08:52:31.000Z" itemprop="datePublished">2016-11-17</time>
         </a>
     </div>
 
 
-                    
-                    
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+                        
+                        
+                    </div>
                 
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2016-03-04/hugo试用/">hugo试用</a>
-        </h1>
-    
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="petl"><a href="#petl" class="headerlink" title="petl"></a>petl</h2><p>文档地址： <a href="https://petl.readthedocs.io/en/latest/index.html" target="_blank" rel="external">https://petl.readthedocs.io/en/latest/index.html</a></p>
+<h2 id="Extract-Load"><a href="#Extract-Load" class="headerlink" title="Extract/Load"></a>Extract/Load</h2><p>可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件</p>
+<h2 id="Transfrom-转换"><a href="#Transfrom-转换" class="headerlink" title="Transfrom   转换"></a>Transfrom   转换</h2><h4 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h4><p>petl.transform.basics.</p>
+<ol>
+<li>head(table, n=5)                 取开始的行</li>
+<li>tail(table, n=5)                 取尾部的行</li>
+<li>rowslice(table, *sliceargs)      对行做切片</li>
+<li>cut(table, <em>args, *</em>kwargs)      取指定列</li>
+<li>cutout(table, <em>args, *</em>kwargs)   排除指定列</li>
+<li>movefield(table, field, index)   移动列到新的位置</li>
+<li>cat(<em>tables, *</em>kwargs)           连接两个表</li>
+<li>stack(<em>tables, *</em>kwargs)         连接两个表，不匹配表头</li>
+<li>skipcomments(table, prefix)      跳过包含指定前缀的行</li>
+<li>addfield(table, field, value=None, index=None, missing=None)    添加一个新的字段</li>
+<li>addcolumn(table, field, col, index=None, missing=None)          添加新的数据列(和addfield有些相似)</li>
+<li>addrownumbers(table, start=1, step=1, field=’row’)              添加行计数</li>
+<li>addfieldusingcontext(table, field, query)                       添加字段，query是一个回调，把相邻三行作为三个参数传入</li>
+<li>annex(<em>tables, *</em>kwargs)                                        join 两个或多个表，按行连接</li>
+</ol>
+<h4 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h4><p>petl.transform.headers</p>
+<ol>
+<li>rename(table, <em>args, *</em>kwargs)   修改名称</li>
+<li>setheader(table, header)         设置表头</li>
+<li>extendheader(table, fields)      扩展表头（可以用来补全表头信息）</li>
+<li>pushheader(table, header, *args) 设置表头（将第一行当中数据，而不是表头)</li>
+<li>prefixheader(table, prefix)      为表头添加前缀</li>
+<li>suffixheader(table, suffix)      为表头添加后缀</li>
+<li>sortheader(table, reverse=False, missing=None)  排序</li>
+<li>skip(table, n)                   跳过行的项不为 n 的行</li>
+</ol>
+<h4 id="Converting"><a href="#Converting" class="headerlink" title="Converting"></a>Converting</h4><p>petl.transform.conversions</p>
+<ol>
+<li>convert(table, <em>args, *</em>kwargs) 转换（包括数据类型，格式，替换，lambda 等)</li>
+<li>convertall(table, <em>args, *</em>kwargs) 同convert</li>
+<li>convertnumbers(table, strict=False, **kwargs)   转换为数值</li>
+<li>replace(table, field, a, b, **kwargs)           替换</li>
+<li>replaceall(table, a, b, **kwargs)               替换全部</li>
+<li>format(table, field, fmt, **kwargs)             格式化</li>
+<li>formatall(table, fmt, **kwargs)                 格式化全部</li>
+<li>interpolate(table, field, fmt, **kwargs)        插入</li>
+<li>interpolateall(table, fmt, **kwargs)</li>
+<li>update(table, field, value, **kwargs)          更新</li>
+</ol>
+<h4 id="Selecting-rows"><a href="#Selecting-rows" class="headerlink" title="Selecting rows"></a>Selecting rows</h4><p>petl.transform.selects</p>
+<ol>
+<li>select(table, <em>args, <em>*kwargs)  根据条件选择行 （扩展出各种 select</em></em> 的快捷方法</li>
+<li>selectusingcontext(table, query)  基于上一行和下一行来选择数据</li>
+<li>rowlenselect(table, n, complement=False)    选择长度为n的行</li>
+<li>facet(table, key)                           按指定的key分组，将返回值映射到字典</li>
+<li>biselect(table, <em>args, *</em>kwargs)            拆分成两个表，一个为选择的行，一个为抛弃的行</li>
+</ol>
+<h4 id="Regular-expressions"><a href="#Regular-expressions" class="headerlink" title="Regular expressions"></a>Regular expressions</h4><p>petl.transform.regex</p>
+<ol>
+<li>search(table, <em>args, *</em>kwargs)                   查询返回匹配行</li>
+<li>searchcomplement(table, <em>args, *</em>kwargs)         查询返回不匹配的行</li>
+<li>sub(table, field, pattern, repl, count=0, flags=0) 替换</li>
+<li>split(table, field, pattern, newfields=None, include_original=False, maxsplit=0, flags=0)   分割指定fields</li>
+<li>capture(table, field, pattern, newfields=None, include_original=False, flags=0, fill=None)  分组，通过表达式分组来分割fields</li>
+</ol>
+<h4 id="Unpacking-compound-values"><a href="#Unpacking-compound-values" class="headerlink" title="Unpacking compound values"></a>Unpacking compound values</h4><p>petl.transform.unpacks</p>
+<ol>
+<li>unpack(table, field, newfields=None, include_original=False, missing=None)         拆分 list 或 tuples</li>
+<li>unpackdict(table, field, keys=None, includeoriginal=False, samplesize=1000, missing=None)   拆分 dictionary</li>
+</ol>
+<h4 id="Transforming-rows"><a href="#Transforming-rows" class="headerlink" title="Transforming rows"></a>Transforming rows</h4><p>petl.transform.maps</p>
+<ol>
+<li>fieldmap(table, mappings=None, failonerror=False, errorvalue=None)   转换表，在输入与输出之间映射</li>
+<li>rowmap(table, rowmapper, header, failonerror=False)                  转换表，函数</li>
+<li>rowmapmany(table, rowgenerator, header, failonerror=False)           转换表，将行映射到任意行</li>
+<li>rowgroupmap(table, key, mapper, header=None, presorted=False, buffersize=None, tempdir=None, cache=True)</li>
+</ol>
+<h4 id="Sorting"><a href="#Sorting" class="headerlink" title="Sorting"></a>Sorting</h4><p>petl.transform.sorts</p>
+<ol>
+<li>sort             排序</li>
+<li>mergesort        多个表排序，输出一个表</li>
+<li>issorted         判断是否为排序表</li>
+</ol>
+<h4 id="Joins"><a href="#Joins" class="headerlink" title="Joins"></a>Joins</h4><p>petl.transform.joins</p>
+<ol>
+<li>join             根据指定的键连接表</li>
+<li>leftjoin         左连接</li>
+<li>lookupjoin       左连接，如果右表多，任意选择行</li>
+<li>rightjoin        右连接</li>
+<li>outerjoin        完全连接，保留所有，为空填充None</li>
+<li>crossjoin        笛卡尔连接</li>
+<li>antijoin         返回左表中没有在右表出现的行</li>
+<li>unjoin           将一个表拆成两个表</li>
+<li>hashjoin</li>
+<li>hashleftjoin</li>
+<li>hashlookupjoin</li>
+<li>hashrightjoin</li>
+<li>hashantijoin</li>
+</ol>
+<h4 id="Set-operations"><a href="#Set-operations" class="headerlink" title="Set operations"></a>Set operations</h4><p>petl.transform.setops</p>
+<ol>
+<li>complement   返回a中不在b中的行</li>
+<li>diff         查找两个表之间的差异，返回两个表，分别为b表不在a中的，a表不在b中的</li>
+<li>recordcomplement     查找不在b中的记录</li>
+<li>recorddiff           查找两个表之间的差异</li>
+<li>intersection         返回a也在b中的数据</li>
+<li>hashcomplement</li>
+<li>hashintersection</li>
+</ol>
+<h4 id="Deduplicating-rows"><a href="#Deduplicating-rows" class="headerlink" title="Deduplicating rows"></a>Deduplicating rows</h4><p>petl.transform.dedup</p>
+<ol>
+<li>duplicates  选出给定键具有重复的行</li>
+<li>unique      选出给定键唯一行</li>
+<li>conflicts   选出相同键值，但其他行不同的</li>
+<li>distinct    返回表中不同行</li>
+<li>isunique    判断是否唯一</li>
+</ol>
+<h4 id="Reducing-rows-aggregation"><a href="#Reducing-rows-aggregation" class="headerlink" title="Reducing rows (aggregation)"></a>Reducing rows (aggregation)</h4><p>petl.transform.reductions</p>
+<ol>
+<li>aggregate    聚集，对指定键做聚合</li>
+<li>rowreduce    对行根据指定键做reduce</li>
+<li>mergeduplicates 合并给定键下的重复行</li>
+<li>merge            根据指定键合并表</li>
+<li>fold             python reduce 操作</li>
+<li>groupcountdistinctvalues</li>
+<li>groupselectfirst</li>
+</ol>
+<p>‘’’<br>还有很多，不想写了。。。<br>‘’’</p>
 
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016-03-04/hugo试用/">
-            <time datetime="2016-03-04T14:58:56.000Z" itemprop="datePublished">2016-03-04</time>
-        </a>
-    </div>
-
-
-                    
-                    
-                </div>
-            </div>
+        
         </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2016-03-01/walle-install/">walle 安装体验记录</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016-03-01/walle-install/">
-            <time datetime="2016-03-01T09:35:12.000Z" itemprop="datePublished">2016-03-01</time>
-        </a>
-    </div>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-                    
-                    
-                </div>
-            </div>
-        </div>
-    
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
 </div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://zhangwei.net.cn/2016-11-17/petl函数表/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://zhangwei.net.cn/2016-11-17/petl函数表/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">用单例和动态类在sqlalchemy中做动态表绑定</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016-11-17/petl函数表/" data-title="petl函数表" data-url="http://zhangwei.net.cn/2016-11-17/petl函数表/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
 </section>
             
                 <aside id="sidebar">
