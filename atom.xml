@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhangwei.net.cn/"/>
-  <updated>2017-01-19T09:09:07.000Z</updated>
+  <updated>2017-03-22T01:47:45.000Z</updated>
   <id>http://zhangwei.net.cn/</id>
   
   <author>
@@ -14,6 +14,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用acme.sh配置letsencrypt证书</title>
+    <link href="http://zhangwei.net.cn/2017-03-22/%E4%BD%BF%E7%94%A8acme-sh%E9%85%8D%E7%BD%AEletsencrypt%E8%AF%81%E4%B9%A6/"/>
+    <id>http://zhangwei.net.cn/2017-03-22/使用acme-sh配置letsencrypt证书/</id>
+    <published>2017-03-22T01:46:54.000Z</published>
+    <updated>2017-03-22T01:47:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。</p>
+<p>首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl  https://get.acme.sh | sh</div></pre></td></tr></table></figure>
+<p>安装完后 acme.sh 会被安装在~/.acme.sh 的目录下面.</p>
+<h2 id="dns认证"><a href="#dns认证" class="headerlink" title="dns认证"></a>dns认证</h2><p>在安装目录的 dnsapi 目录下面 README.md 有认证方式,我使用了 dnspod 作为 dns 服务。在 dnspod 控制台申请到 id 和key后，在当前目录执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export DP_Id=&quot;1111&quot;</div><div class="line">export DP_Key=&quot;111111111111111&quot;</div><div class="line">acme.sh   --issue   --dns dns_dp   -d aa.com  -d www.aa.com</div></pre></td></tr></table></figure>
+<p>会在 .acme.sh  目录生成一个以域名为目录的证书目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.cer</div><div class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert key is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.key</div><div class="line">[Tue Mar 21 15:51:01 CST 2017] The intermediate CA cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/ca.cer</div><div class="line">[Tue Mar 21 15:51:01 CST 2017] And the full chain certs is there:  /home/pprt/.acme.sh/&lt;domain&gt;/fullchain.cer</div></pre></td></tr></table></figure>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>acme.sh 提供了一个接口用来部署证书，也就是我们需要将生成的证书拷贝到指定的服务器,实例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">acme.sh --deploy -d example.com --deploy-hook cpanel</div></pre></td></tr></table></figure></p>
+<p>服务器上使用了 ansible 作为管理  所以需要将文件使用 ansible 复制到其他机器上指定的文件夹</p>
+<p>在 deploy 文件夹下面 创建一个 ansible.sh 的文件,里面添加如下代码，将文件拷贝到指定的服务器。<br>其中 _cert_dir 为服务器上保存证书的目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">ansible_deploy() &#123;</div><div class="line">  _cdomain=&quot;$1&quot;</div><div class="line">  _ckey=&quot;$2&quot;</div><div class="line">  _ccert=&quot;$3&quot;</div><div class="line">  _cca=&quot;$4&quot;</div><div class="line">  _cfullchain=&quot;$5&quot;</div><div class="line"></div><div class="line">  _debug _cdomain &quot;$_cdomain&quot;</div><div class="line">  _debug _ckey &quot;$_ckey&quot;</div><div class="line">  _debug _ccert &quot;$_ccert&quot;</div><div class="line">  _debug _cca &quot;$_cca&quot;</div><div class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</div><div class="line"></div><div class="line">  _cert_dir=/Code/sslCert/</div><div class="line"></div><div class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</div><div class="line">  ansible olweb -m copy -a &quot;src=$_ccert dest=$_cert_dir/$_cdomain/cert.cer&quot;</div><div class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</div><div class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</div><div class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</div><div class="line">  return 0</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="external">acme.sh github</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="external">acme.sh wiki</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md" target="_blank" rel="external">acme.sh dnsapi</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/blob/master/deploy/README.md" target="_blank" rel="external">acme.sh deploy</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。&lt;/p&gt;
+&lt;p&gt;首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法
+    
+    </summary>
+    
+    
+      <category term="letsencrypt" scheme="http://zhangwei.net.cn/tags/letsencrypt/"/>
+    
+  </entry>
   
   <entry>
     <title>Mac 上的 SQLServer 客户端 Oracle SQL Development</title>
@@ -788,33 +825,6 @@ putRow(newRow);
     
     
       <category term="git" scheme="http://zhangwei.net.cn/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>saltstack-states</title>
-    <link href="http://zhangwei.net.cn/2015-07-09/saltstack-states/"/>
-    <id>http://zhangwei.net.cn/2015-07-09/saltstack-states/</id>
-    <published>2015-07-09T03:15:04.000Z</published>
-    <updated>2016-09-27T02:38:49.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>这里用 ubuntu 中安装 redis 作为示例</p>
-<h2 id="创建-top-sls"><a href="#创建-top-sls" class="headerlink" title="创建 top.sls"></a>创建 top.sls</h2><p>/srv/salt/top.sls<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">base:</div><div class="line">  &apos;server-01&apos;:</div><div class="line">    - roles.redis</div></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p>server-01 是需要安装redis的一台机器</p>
-<h2 id="创建redis-states-树"><a href="#创建redis-states-树" class="headerlink" title="创建redis states 树"></a>创建redis states 树</h2><p>/srv/salt/roles/redis/init.sls<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">redis-server:</div><div class="line">  pkg:</div><div class="line">    - installed     #使用 pkg install 安装  redis-server 包</div><div class="line">  service:</div><div class="line">    - name:  redis-server</div><div class="line">    - running        #运行</div><div class="line">    - require:</div><div class="line">      - pkg:  redis-server</div><div class="line">    - watch:</div><div class="line">      - pkg:  redis-server</div><div class="line">      - file:  /etc/redis/redis.conf</div><div class="line"></div><div class="line">/etc/redis/redis.conf:</div><div class="line">  file.managed:</div><div class="line">    - source: salt://roles/redis/redis.conf</div><div class="line">    - template: jinja</div><div class="line">    - user:  root</div><div class="line">    - group:  root</div><div class="line">    - mode:  644</div></pre></td></tr></table></figure></p>
-<p>参考<br><a href="http://docs.saltstack.cn/zh_CN/latest/topics/tutorials/starting_states.html" target="_blank" rel="external">http://docs.saltstack.cn/zh_CN/latest/topics/tutorials/starting_states.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这里用 ubuntu 中安装 redis 作为示例&lt;/p&gt;
-&lt;h2 id=&quot;创建-top-sls&quot;&gt;&lt;a href=&quot;#创建-top-sls&quot; class=&quot;headerlink&quot; title=&quot;创建 top.sls&quot;&gt;&lt;/a&gt;创建 top.sls&lt;/h2&gt;&lt;p&gt;/srv/salt/top.sls&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;base:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &amp;apos;server-01&amp;apos;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    - roles.redis&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="saltstack" scheme="http://zhangwei.net.cn/tags/saltstack/"/>
     
   </entry>
   

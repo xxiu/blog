@@ -3,17 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>标签: kettle | 张巍的博客</title>
+    <title>使用acme.sh配置letsencrypt证书 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="好记性烂笔头">
-<meta property="og:type" content="website">
-<meta property="og:title" content="张巍的博客">
-<meta property="og:url" content="http://zhangwei.net.cn/tags/kettle/index.html">
+    <meta name="description" content="越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。
+首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。
+安装1curl  https://get.acm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用acme.sh配置letsencrypt证书">
+<meta property="og:url" content="http://zhangwei.net.cn/2017-03-22/使用acme-sh配置letsencrypt证书/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="好记性烂笔头">
+<meta property="og:description" content="越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。
+首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。
+安装1curl  https://get.acm">
+<meta property="og:updated_time" content="2017-03-22T01:47:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="张巍的博客">
-<meta name="twitter:description" content="好记性烂笔头">
+<meta name="twitter:title" content="使用acme.sh配置letsencrypt证书">
+<meta name="twitter:description" content="越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。
+首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。
+安装1curl  https://get.acm">
     
 
     
@@ -146,45 +153,175 @@
 </aside>
 
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fa fa-tag"></i></span>
-        <h1 class="title">#kettle</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-使用acme-sh配置letsencrypt证书" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2017-01-05/kettle-characterEncoding/">kettle 数据导入乱码.md</a>
+        <h1 class="article-title" itemprop="name">
+            使用acme.sh配置letsencrypt证书
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017-01-05/kettle-characterEncoding/">
-            <time datetime="2017-01-05T02:22:17.000Z" itemprop="datePublished">2017-01-05</time>
+        <a href="/2017-03-22/使用acme-sh配置letsencrypt证书/">
+            <time datetime="2017-03-22T01:46:54.000Z" itemprop="datePublished">2017-03-22</time>
         </a>
     </div>
 
 
-                    
-                    
+                        
+                        
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/kettle/">kettle</a>
+        <a class="tag-link" href="/tags/letsencrypt/">letsencrypt</a>
     </div>
 
-                </div>
-            </div>
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。</p>
+<p>首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl  https://get.acme.sh | sh</div></pre></td></tr></table></figure>
+<p>安装完后 acme.sh 会被安装在~/.acme.sh 的目录下面.</p>
+<h2 id="dns认证"><a href="#dns认证" class="headerlink" title="dns认证"></a>dns认证</h2><p>在安装目录的 dnsapi 目录下面 README.md 有认证方式,我使用了 dnspod 作为 dns 服务。在 dnspod 控制台申请到 id 和key后，在当前目录执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export DP_Id=&quot;1111&quot;</div><div class="line">export DP_Key=&quot;111111111111111&quot;</div><div class="line">acme.sh   --issue   --dns dns_dp   -d aa.com  -d www.aa.com</div></pre></td></tr></table></figure>
+<p>会在 .acme.sh  目录生成一个以域名为目录的证书目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.cer</div><div class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert key is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.key</div><div class="line">[Tue Mar 21 15:51:01 CST 2017] The intermediate CA cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/ca.cer</div><div class="line">[Tue Mar 21 15:51:01 CST 2017] And the full chain certs is there:  /home/pprt/.acme.sh/&lt;domain&gt;/fullchain.cer</div></pre></td></tr></table></figure>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>acme.sh 提供了一个接口用来部署证书，也就是我们需要将生成的证书拷贝到指定的服务器,实例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">acme.sh --deploy -d example.com --deploy-hook cpanel</div></pre></td></tr></table></figure></p>
+<p>服务器上使用了 ansible 作为管理  所以需要将文件使用 ansible 复制到其他机器上指定的文件夹</p>
+<p>在 deploy 文件夹下面 创建一个 ansible.sh 的文件,里面添加如下代码，将文件拷贝到指定的服务器。<br>其中 _cert_dir 为服务器上保存证书的目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">ansible_deploy() &#123;</div><div class="line">  _cdomain=&quot;$1&quot;</div><div class="line">  _ckey=&quot;$2&quot;</div><div class="line">  _ccert=&quot;$3&quot;</div><div class="line">  _cca=&quot;$4&quot;</div><div class="line">  _cfullchain=&quot;$5&quot;</div><div class="line"></div><div class="line">  _debug _cdomain &quot;$_cdomain&quot;</div><div class="line">  _debug _ckey &quot;$_ckey&quot;</div><div class="line">  _debug _ccert &quot;$_ccert&quot;</div><div class="line">  _debug _cca &quot;$_cca&quot;</div><div class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</div><div class="line"></div><div class="line">  _cert_dir=/Code/sslCert/</div><div class="line"></div><div class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</div><div class="line">  ansible olweb -m copy -a &quot;src=$_ccert dest=$_cert_dir/$_cdomain/cert.cer&quot;</div><div class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</div><div class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</div><div class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</div><div class="line">  return 0</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="external">acme.sh github</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="external">acme.sh wiki</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md" target="_blank" rel="external">acme.sh dnsapi</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/blob/master/deploy/README.md" target="_blank" rel="external">acme.sh deploy</a></p>
+
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
 </div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://zhangwei.net.cn/2017-03-22/使用acme-sh配置letsencrypt证书/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://zhangwei.net.cn/2017-03-22/使用acme-sh配置letsencrypt证书/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2017-01-19/mac-ms-sqlserver-client/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Mac 上的 SQLServer 客户端 Oracle SQL Development</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2017-03-22/使用acme-sh配置letsencrypt证书/" data-title="使用acme.sh配置letsencrypt证书" data-url="http://zhangwei.net.cn/2017-03-22/使用acme-sh配置letsencrypt证书/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
 </section>
             
                 <aside id="sidebar">
