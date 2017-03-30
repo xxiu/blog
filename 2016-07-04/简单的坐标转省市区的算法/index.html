@@ -8,7 +8,7 @@
     <meta name="description" content="在很早以前，就通过地图 api 抓取的相关的省市区信息，其中有一个字段是 polylines ，里面是一组 gps 的坐标。为了离线来根据 gps 坐标获取省市区的信息，最开始想到的是使用 geohash 来计算出每个区域所包含的hash值，把所有的hash值存下来，这样查询变成了键值查询，如果 geohash精确到第8位，值偏差大概是19米，这个精度已经在我所能够承受的范围内了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单的坐标转省市区的算法">
-<meta property="og:url" content="http://zhangwei.net.cn/2016-07-04/简单的坐标转省市区的算法/index.html">
+<meta property="og:url" content="/2016-07-04/简单的坐标转省市区的算法/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="在很早以前，就通过地图 api 抓取的相关的省市区信息，其中有一个字段是 polylines ，里面是一组 gps 的坐标。为了离线来根据 gps 坐标获取省市区的信息，最开始想到的是使用 geohash 来计算出每个区域所包含的hash值，把所有的hash值存下来，这样查询变成了键值查询，如果 geohash精确到第8位，值偏差大概是19米，这个精度已经在我所能够承受的范围内了。">
 <meta property="og:updated_time" content="2016-09-27T02:32:49.000Z">
@@ -73,7 +73,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -90,7 +90,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -238,8 +238,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
             
     
-        <a href="http://zhangwei.net.cn/2016-07-04/简单的坐标转省市区的算法/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://zhangwei.net.cn/2016-07-04/简单的坐标转省市区的算法/">评论</a>
-    
 
         </footer>
     </div>
@@ -271,47 +269,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
     
     <section id="comments">
-    
-        
-    <div class="ds-thread" data-thread-key="2016-07-04/简单的坐标转省市区的算法/" data-title="简单的坐标转省市区的算法" data-url="http://zhangwei.net.cn/2016-07-04/简单的坐标转省市区的算法/"></div>
-    <style>
-        #ds-thread #ds-reset .ds-textarea-wrapper {
-            background: none;
-        }
-        #ds-reset .ds-avatar img {
-            box-shadow: none;
-        }
-        #ds-reset .ds-gradient-bg {
-            background: #f7f7f7;
-        }
-        #ds-thread #ds-reset li.ds-tab a {
-            border-radius: 3px;
-        }
-        #ds-thread #ds-reset .ds-post-button {
-            color: white;
-            border: none;
-            box-shadow: none;
-            background: #d32;
-            text-shadow: none;
-            font-weight: normal;
-            font-family: 'Microsoft Yahei';
-        }
-        #ds-thread #ds-reset .ds-post-button:hover {
-            color: white;
-            background: #DE594C;
-        }
-        #ds-thread #ds-reset .ds-post-button:active {
-            background: #d32;
-        }
-        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
-            color: white;
-            background: #d32;
-            box-shadow: none;
-            text-shadow: none;
-            font-weight: normal;
-        }
-    </style>
-
     
     </section>
 
@@ -483,20 +440,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     </div>
 </footer>
         
-    
-    <script type="text/javascript">
-    var duoshuoQuery = {short_name:'zwblog'};
-    (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0]
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-    </script>
-
-
 
     
         <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>

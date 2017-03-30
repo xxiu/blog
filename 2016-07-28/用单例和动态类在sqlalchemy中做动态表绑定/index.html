@@ -8,7 +8,7 @@
     <meta name="description" content="当我们的数据表需要分库的时候，如果使用了 sqlalchemy 来做 ORM，在做数据表和类关联的时候就很痛苦了，一个类只能和一个表关联。当然还有一种方法就是修改 model.tablename.name 来解决，但是这个有个问题是只能绑定一次，实例化后修改就无效了。所以我们就需要使用 type 来动态的创建一个类，到这里问题又来了，如果在不同的时候创建了两个相同的类名的时候，程序就会抛出异常。所">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用单例和动态类在sqlalchemy中做动态表绑定">
-<meta property="og:url" content="http://zhangwei.net.cn/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/index.html">
+<meta property="og:url" content="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="当我们的数据表需要分库的时候，如果使用了 sqlalchemy 来做 ORM，在做数据表和类关联的时候就很痛苦了，一个类只能和一个表关联。当然还有一种方法就是修改 model.tablename.name 来解决，但是这个有个问题是只能绑定一次，实例化后修改就无效了。所以我们就需要使用 type 来动态的创建一个类，到这里问题又来了，如果在不同的时候创建了两个相同的类名的时候，程序就会抛出异常。所">
 <meta property="og:updated_time" content="2016-09-27T02:31:53.000Z">
@@ -73,7 +73,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -90,7 +90,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value="http://zhangwei.net.cn"></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -230,8 +230,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
             
     
-        <a href="http://zhangwei.net.cn/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://zhangwei.net.cn/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/">评论</a>
-    
 
         </footer>
     </div>
@@ -263,47 +261,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
     
     <section id="comments">
-    
-        
-    <div class="ds-thread" data-thread-key="2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" data-title="用单例和动态类在sqlalchemy中做动态表绑定" data-url="http://zhangwei.net.cn/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/"></div>
-    <style>
-        #ds-thread #ds-reset .ds-textarea-wrapper {
-            background: none;
-        }
-        #ds-reset .ds-avatar img {
-            box-shadow: none;
-        }
-        #ds-reset .ds-gradient-bg {
-            background: #f7f7f7;
-        }
-        #ds-thread #ds-reset li.ds-tab a {
-            border-radius: 3px;
-        }
-        #ds-thread #ds-reset .ds-post-button {
-            color: white;
-            border: none;
-            box-shadow: none;
-            background: #d32;
-            text-shadow: none;
-            font-weight: normal;
-            font-family: 'Microsoft Yahei';
-        }
-        #ds-thread #ds-reset .ds-post-button:hover {
-            color: white;
-            background: #DE594C;
-        }
-        #ds-thread #ds-reset .ds-post-button:active {
-            background: #d32;
-        }
-        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
-            color: white;
-            background: #d32;
-            box-shadow: none;
-            text-shadow: none;
-            font-weight: normal;
-        }
-    </style>
-
     
     </section>
 
@@ -475,20 +432,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     </div>
 </footer>
         
-    
-    <script type="text/javascript">
-    var duoshuoQuery = {short_name:'zwblog'};
-    (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0]
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-    </script>
-
-
 
     
         <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>

@@ -4,9 +4,9 @@
   <subtitle>张巍的博客</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://zhangwei.net.cn/"/>
-  <updated>2017-03-22T01:47:45.000Z</updated>
-  <id>http://zhangwei.net.cn/</id>
+  <link href="/"/>
+  <updated>2017-03-30T05:09:10.000Z</updated>
+  <id>/</id>
   
   <author>
     <name>xxiu</name>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>使用acme.sh配置letsencrypt证书</title>
-    <link href="http://zhangwei.net.cn/2017-03-22/%E4%BD%BF%E7%94%A8acme-sh%E9%85%8D%E7%BD%AEletsencrypt%E8%AF%81%E4%B9%A6/"/>
-    <id>http://zhangwei.net.cn/2017-03-22/使用acme-sh配置letsencrypt证书/</id>
+    <link href="/2017-03-22/%E4%BD%BF%E7%94%A8acme-sh%E9%85%8D%E7%BD%AEletsencrypt%E8%AF%81%E4%B9%A6/"/>
+    <id>/2017-03-22/使用acme-sh配置letsencrypt证书/</id>
     <published>2017-03-22T01:46:54.000Z</published>
-    <updated>2017-03-22T01:47:45.000Z</updated>
+    <updated>2017-03-30T05:09:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。</p>
 <p>首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。</p>
@@ -33,7 +33,9 @@
 <h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>acme.sh 提供了一个接口用来部署证书，也就是我们需要将生成的证书拷贝到指定的服务器,实例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">acme.sh --deploy -d example.com --deploy-hook cpanel</div></pre></td></tr></table></figure></p>
 <p>服务器上使用了 ansible 作为管理  所以需要将文件使用 ansible 复制到其他机器上指定的文件夹</p>
 <p>在 deploy 文件夹下面 创建一个 ansible.sh 的文件,里面添加如下代码，将文件拷贝到指定的服务器。<br>其中 _cert_dir 为服务器上保存证书的目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">ansible_deploy() &#123;</div><div class="line">  _cdomain=&quot;$1&quot;</div><div class="line">  _ckey=&quot;$2&quot;</div><div class="line">  _ccert=&quot;$3&quot;</div><div class="line">  _cca=&quot;$4&quot;</div><div class="line">  _cfullchain=&quot;$5&quot;</div><div class="line"></div><div class="line">  _debug _cdomain &quot;$_cdomain&quot;</div><div class="line">  _debug _ckey &quot;$_ckey&quot;</div><div class="line">  _debug _ccert &quot;$_ccert&quot;</div><div class="line">  _debug _cca &quot;$_cca&quot;</div><div class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</div><div class="line"></div><div class="line">  _cert_dir=/Code/sslCert/</div><div class="line"></div><div class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</div><div class="line">  ansible olweb -m copy -a &quot;src=$_ccert dest=$_cert_dir/$_cdomain/cert.cer&quot;</div><div class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</div><div class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</div><div class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</div><div class="line">  return 0</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">ansible_deploy() &#123;</div><div class="line">  _cdomain=&quot;$1&quot;</div><div class="line">  _ckey=&quot;$2&quot;</div><div class="line">  _ccert=&quot;$3&quot;</div><div class="line">  _cca=&quot;$4&quot;</div><div class="line">  _cfullchain=&quot;$5&quot;</div><div class="line"></div><div class="line">  _debug _cdomain &quot;$_cdomain&quot;</div><div class="line">  _debug _ckey &quot;$_ckey&quot;</div><div class="line">  _debug _ccert &quot;$_ccert&quot;</div><div class="line">  _debug _cca &quot;$_cca&quot;</div><div class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</div><div class="line"></div><div class="line">  _cert_dir=/Code/sslCert/</div><div class="line"></div><div class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</div><div class="line">  ansible olweb -m copy -a &quot;src=$_cfullchain dest=$_cert_dir/$_cdomain/cert.cer&quot;</div><div class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</div><div class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</div><div class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</div><div class="line">  return 0</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在执行deploy后，会制动添加一个 crontab<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">33 0 * * * &quot;/home/pprt/.acme.sh&quot;/acme.sh --cron   --home &quot;/home/pprt/.acme.sh&quot; &gt; /dev/null</div></pre></td></tr></table></figure></p>
+<p>如果设置有多个域名，只会部署第一个，需要在crontab添加一个<code>-f</code>的参数</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="external">acme.sh github</a></p>
 <p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="external">acme.sh wiki</a></p>
 <p><a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md" target="_blank" rel="external">acme.sh dnsapi</a></p>
@@ -48,14 +50,14 @@
     </summary>
     
     
-      <category term="letsencrypt" scheme="http://zhangwei.net.cn/tags/letsencrypt/"/>
+      <category term="letsencrypt" scheme="/tags/letsencrypt/"/>
     
   </entry>
   
   <entry>
     <title>Mac 上的 SQLServer 客户端 Oracle SQL Development</title>
-    <link href="http://zhangwei.net.cn/2017-01-19/mac-ms-sqlserver-client/"/>
-    <id>http://zhangwei.net.cn/2017-01-19/mac-ms-sqlserver-client/</id>
+    <link href="/2017-01-19/mac-ms-sqlserver-client/"/>
+    <id>/2017-01-19/mac-ms-sqlserver-client/</id>
     <published>2017-01-19T08:51:16.000Z</published>
     <updated>2017-01-19T09:09:07.000Z</updated>
     
@@ -84,8 +86,8 @@
   
   <entry>
     <title>kettle 数据导入乱码.md</title>
-    <link href="http://zhangwei.net.cn/2017-01-05/kettle-characterEncoding/"/>
-    <id>http://zhangwei.net.cn/2017-01-05/kettle-characterEncoding/</id>
+    <link href="/2017-01-05/kettle-characterEncoding/"/>
+    <id>/2017-01-05/kettle-characterEncoding/</id>
     <published>2017-01-05T02:22:17.000Z</published>
     <updated>2017-01-05T03:52:39.000Z</updated>
     
@@ -110,14 +112,14 @@
     </summary>
     
     
-      <category term="kettle" scheme="http://zhangwei.net.cn/tags/kettle/"/>
+      <category term="kettle" scheme="/tags/kettle/"/>
     
   </entry>
   
   <entry>
     <title>petl函数表</title>
-    <link href="http://zhangwei.net.cn/2016-11-17/petl%E5%87%BD%E6%95%B0%E8%A1%A8/"/>
-    <id>http://zhangwei.net.cn/2016-11-17/petl函数表/</id>
+    <link href="/2016-11-17/petl%E5%87%BD%E6%95%B0%E8%A1%A8/"/>
+    <id>/2016-11-17/petl函数表/</id>
     <published>2016-11-17T08:52:31.000Z</published>
     <updated>2016-11-17T08:53:35.000Z</updated>
     
@@ -256,8 +258,8 @@
   
   <entry>
     <title>用单例和动态类在sqlalchemy中做动态表绑定</title>
-    <link href="http://zhangwei.net.cn/2016-07-28/%E7%94%A8%E5%8D%95%E4%BE%8B%E5%92%8C%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9C%A8sqlalchemy%E4%B8%AD%E5%81%9A%E5%8A%A8%E6%80%81%E8%A1%A8%E7%BB%91%E5%AE%9A/"/>
-    <id>http://zhangwei.net.cn/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/</id>
+    <link href="/2016-07-28/%E7%94%A8%E5%8D%95%E4%BE%8B%E5%92%8C%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9C%A8sqlalchemy%E4%B8%AD%E5%81%9A%E5%8A%A8%E6%80%81%E8%A1%A8%E7%BB%91%E5%AE%9A/"/>
+    <id>/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/</id>
     <published>2016-07-28T09:30:44.000Z</published>
     <updated>2016-09-27T02:31:53.000Z</updated>
     
@@ -277,8 +279,8 @@
   
   <entry>
     <title>mac .net core尝试</title>
-    <link href="http://zhangwei.net.cn/2016-07-05/mac-net-core-%E5%B0%9D%E8%AF%95/"/>
-    <id>http://zhangwei.net.cn/2016-07-05/mac-net-core-尝试/</id>
+    <link href="/2016-07-05/mac-net-core-%E5%B0%9D%E8%AF%95/"/>
+    <id>/2016-07-05/mac-net-core-尝试/</id>
     <published>2016-07-05T03:43:47.000Z</published>
     <updated>2016-09-27T02:37:07.000Z</updated>
     
@@ -316,8 +318,8 @@
   
   <entry>
     <title>简单的坐标转省市区的算法</title>
-    <link href="http://zhangwei.net.cn/2016-07-04/%E7%AE%80%E5%8D%95%E7%9A%84%E5%9D%90%E6%A0%87%E8%BD%AC%E7%9C%81%E5%B8%82%E5%8C%BA%E7%9A%84%E7%AE%97%E6%B3%95/"/>
-    <id>http://zhangwei.net.cn/2016-07-04/简单的坐标转省市区的算法/</id>
+    <link href="/2016-07-04/%E7%AE%80%E5%8D%95%E7%9A%84%E5%9D%90%E6%A0%87%E8%BD%AC%E7%9C%81%E5%B8%82%E5%8C%BA%E7%9A%84%E7%AE%97%E6%B3%95/"/>
+    <id>/2016-07-04/简单的坐标转省市区的算法/</id>
     <published>2016-07-04T07:55:22.000Z</published>
     <updated>2016-09-27T02:32:49.000Z</updated>
     
@@ -345,8 +347,8 @@
   
   <entry>
     <title>kettle随记</title>
-    <link href="http://zhangwei.net.cn/2016-06-14/kettle%E9%9A%8F%E8%AE%B0/"/>
-    <id>http://zhangwei.net.cn/2016-06-14/kettle随记/</id>
+    <link href="/2016-06-14/kettle%E9%9A%8F%E8%AE%B0/"/>
+    <id>/2016-06-14/kettle随记/</id>
     <published>2016-06-14T03:00:35.000Z</published>
     <updated>2016-09-27T02:36:54.000Z</updated>
     
@@ -400,8 +402,8 @@ putRow(newRow);
   
   <entry>
     <title>memcacheq Berkeleydb 备份恢复</title>
-    <link href="http://zhangwei.net.cn/2016-04-06/memcacheq-berkeleydb-%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/"/>
-    <id>http://zhangwei.net.cn/2016-04-06/memcacheq-berkeleydb-备份恢复/</id>
+    <link href="/2016-04-06/memcacheq-berkeleydb-%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/"/>
+    <id>/2016-04-06/memcacheq-berkeleydb-备份恢复/</id>
     <published>2016-04-06T07:29:44.000Z</published>
     <updated>2016-09-27T02:37:29.000Z</updated>
     
@@ -452,8 +454,8 @@ putRow(newRow);
   
   <entry>
     <title>Mac上制作Ubuntu USB启动盘</title>
-    <link href="http://zhangwei.net.cn/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/"/>
-    <id>http://zhangwei.net.cn/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/</id>
+    <link href="/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/"/>
+    <id>/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/</id>
     <published>2016-03-25T02:59:14.000Z</published>
     <updated>2016-09-27T02:37:13.000Z</updated>
     
@@ -482,8 +484,8 @@ putRow(newRow);
   
   <entry>
     <title>hugo试用</title>
-    <link href="http://zhangwei.net.cn/2016-03-04/hugo%E8%AF%95%E7%94%A8/"/>
-    <id>http://zhangwei.net.cn/2016-03-04/hugo试用/</id>
+    <link href="/2016-03-04/hugo%E8%AF%95%E7%94%A8/"/>
+    <id>/2016-03-04/hugo试用/</id>
     <published>2016-03-04T14:58:56.000Z</published>
     <updated>2016-09-27T02:35:02.000Z</updated>
     
@@ -511,8 +513,8 @@ putRow(newRow);
   
   <entry>
     <title>walle 安装体验记录</title>
-    <link href="http://zhangwei.net.cn/2016-03-01/walle-install/"/>
-    <id>http://zhangwei.net.cn/2016-03-01/walle-install/</id>
+    <link href="/2016-03-01/walle-install/"/>
+    <id>/2016-03-01/walle-install/</id>
     <published>2016-03-01T09:35:12.000Z</published>
     <updated>2016-09-27T02:40:08.000Z</updated>
     
@@ -552,8 +554,8 @@ putRow(newRow);
   
   <entry>
     <title>在osx el capitan 中安装 wxpython</title>
-    <link href="http://zhangwei.net.cn/2016-02-23/wxpython-on-os-x-el-capitan-install/"/>
-    <id>http://zhangwei.net.cn/2016-02-23/wxpython-on-os-x-el-capitan-install/</id>
+    <link href="/2016-02-23/wxpython-on-os-x-el-capitan-install/"/>
+    <id>/2016-02-23/wxpython-on-os-x-el-capitan-install/</id>
     <published>2016-02-23T07:18:31.000Z</published>
     <updated>2016-09-27T02:40:13.000Z</updated>
     
@@ -573,14 +575,14 @@ putRow(newRow);
     </summary>
     
     
-      <category term="python" scheme="http://zhangwei.net.cn/tags/python/"/>
+      <category term="python" scheme="/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>sublime3配置</title>
-    <link href="http://zhangwei.net.cn/2016-02-21/sublime3/"/>
-    <id>http://zhangwei.net.cn/2016-02-21/sublime3/</id>
+    <link href="/2016-02-21/sublime3/"/>
+    <id>/2016-02-21/sublime3/</id>
     <published>2016-02-21T03:51:24.000Z</published>
     <updated>2016-09-27T02:39:36.000Z</updated>
     
@@ -627,14 +629,14 @@ putRow(newRow);
     </summary>
     
     
-      <category term="工具" scheme="http://zhangwei.net.cn/tags/%E5%B7%A5%E5%85%B7/"/>
+      <category term="工具" scheme="/tags/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
   <entry>
     <title>keepass</title>
-    <link href="http://zhangwei.net.cn/2016-01-22/keepass/"/>
-    <id>http://zhangwei.net.cn/2016-01-22/keepass/</id>
+    <link href="/2016-01-22/keepass/"/>
+    <id>/2016-01-22/keepass/</id>
     <published>2016-01-22T07:34:30.000Z</published>
     <updated>2016-09-27T02:36:45.000Z</updated>
     
@@ -670,14 +672,14 @@ putRow(newRow);
     </summary>
     
     
-      <category term="工具" scheme="http://zhangwei.net.cn/tags/%E5%B7%A5%E5%85%B7/"/>
+      <category term="工具" scheme="/tags/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
   <entry>
     <title>zabbix监控pm2.5</title>
-    <link href="http://zhangwei.net.cn/2016-01-06/zabbix-pm2-5/"/>
-    <id>http://zhangwei.net.cn/2016-01-06/zabbix-pm2-5/</id>
+    <link href="/2016-01-06/zabbix-pm2-5/"/>
+    <id>/2016-01-06/zabbix-pm2-5/</id>
     <published>2016-01-06T01:55:57.000Z</published>
     <updated>2016-09-27T02:40:19.000Z</updated>
     
@@ -706,14 +708,14 @@ putRow(newRow);
     </summary>
     
     
-      <category term="zabbix" scheme="http://zhangwei.net.cn/tags/zabbix/"/>
+      <category term="zabbix" scheme="/tags/zabbix/"/>
     
   </entry>
   
   <entry>
     <title>supervisor-python进程管理</title>
-    <link href="http://zhangwei.net.cn/2016-01-04/supervisor-python%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
-    <id>http://zhangwei.net.cn/2016-01-04/supervisor-python进程管理/</id>
+    <link href="/2016-01-04/supervisor-python%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
+    <id>/2016-01-04/supervisor-python进程管理/</id>
     <published>2016-01-04T08:14:40.000Z</published>
     <updated>2016-09-27T02:39:40.000Z</updated>
     
@@ -734,14 +736,14 @@ putRow(newRow);
     </summary>
     
     
-      <category term="python" scheme="http://zhangwei.net.cn/tags/python/"/>
+      <category term="python" scheme="/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>python安装PIL</title>
-    <link href="http://zhangwei.net.cn/2015-08-04/python-install-pil/"/>
-    <id>http://zhangwei.net.cn/2015-08-04/python-install-pil/</id>
+    <link href="/2015-08-04/python-install-pil/"/>
+    <id>/2015-08-04/python-install-pil/</id>
     <published>2015-08-04T06:43:37.000Z</published>
     <updated>2016-09-27T02:37:45.000Z</updated>
     
@@ -775,14 +777,14 @@ putRow(newRow);
     </summary>
     
     
-      <category term="python" scheme="http://zhangwei.net.cn/tags/python/"/>
+      <category term="python" scheme="/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>mac重新安装java</title>
-    <link href="http://zhangwei.net.cn/2015-07-20/mac%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%85java/"/>
-    <id>http://zhangwei.net.cn/2015-07-20/mac重新安装java/</id>
+    <link href="/2015-07-20/mac%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%85java/"/>
+    <id>/2015-07-20/mac重新安装java/</id>
     <published>2015-07-20T01:24:33.000Z</published>
     <updated>2016-09-27T02:33:12.000Z</updated>
     
@@ -801,14 +803,14 @@ putRow(newRow);
     </summary>
     
     
-      <category term="java" scheme="http://zhangwei.net.cn/tags/java/"/>
+      <category term="java" scheme="/tags/java/"/>
     
   </entry>
   
   <entry>
     <title>gitolite-install</title>
-    <link href="http://zhangwei.net.cn/2015-07-09/gitolite-install/"/>
-    <id>http://zhangwei.net.cn/2015-07-09/gitolite-install/</id>
+    <link href="/2015-07-09/gitolite-install/"/>
+    <id>/2015-07-09/gitolite-install/</id>
     <published>2015-07-09T07:04:58.000Z</published>
     <updated>2016-09-27T02:34:32.000Z</updated>
     
@@ -824,7 +826,7 @@ putRow(newRow);
     </summary>
     
     
-      <category term="git" scheme="http://zhangwei.net.cn/tags/git/"/>
+      <category term="git" scheme="/tags/git/"/>
     
   </entry>
   
