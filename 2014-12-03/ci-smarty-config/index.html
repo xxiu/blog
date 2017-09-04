@@ -11,7 +11,7 @@
 <meta property="og:url" content="/2014-12-03/ci-smarty-config/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="需要用ci来写一个后台配置smarty,在网络上能够找到一些相关的文章.但是都是比较旧的内容,大部分是smary2.*的配置方法.按照这个配置后会出现一些错误.其实配置看smary官方会比较简单.">
-<meta property="og:updated_time" content="2016-09-27T02:33:29.000Z">
+<meta property="og:updated_time" content="2017-06-21T07:56:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ci配置smarty手记">
 <meta name="twitter:description" content="需要用ci来写一个后台配置smarty,在网络上能够找到一些相关的文章.但是都是比较旧的内容,大部分是smary2.*的配置方法.按照这个配置后会出现一些错误.其实配置看smary官方会比较简单.">
@@ -113,7 +113,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                52
+                53
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -194,9 +194,9 @@
 <p>###配置</p>
 <p>smarty里面有4个需要配置的项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$smarty-&gt;setTemplateDir( ...);</div><div class="line">$smarty-&gt;setCompileDir(... );</div><div class="line">$smarty-&gt;setConfigDir( ...);</div><div class="line">$smarty-&gt;setCacheDir(... );</div></pre></td></tr></table></figure></p>
 <p>那么我们在ci的config里面创建一个smarty.php的文件,并加入4个变量.其中<code>APPPATH</code>的值为application目录.创建’templates_c’,其他三个文件夹ci里面都存在.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;?php  if ( ! defined(&apos;BASEPATH&apos;)) exit(&apos;No direct script access allowed&apos;);</div><div class="line"></div><div class="line">$config[&apos;template_dir&apos;] = APPPATH . &apos;views&apos;;</div><div class="line">$config[&apos;compile_dir&apos;]  = APPPATH . &apos;templates_c&apos;;</div><div class="line">$config[&apos;cache_dir&apos;]    = APPPATH . &apos;cache&apos;;</div><div class="line">$config[&apos;config_dir&apos;]   = APPPATH . &apos;config&apos;;</div></pre></td></tr></table></figure></p>
-<p>###类库<br>首先将smarty的lib目录复制到ci的libraries目录,并改名为smarty.在libraries里面创建一个<code>ci_smarty.php</code>的文件.这里主要是加载配置文件等.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">if(!defined(&apos;BASEPATH&apos;)) EXIT(&apos;No direct script asscess allowed&apos;);</div><div class="line">require_once( APPPATH . &apos;libraries/smarty/Smarty.class.php&apos; );</div><div class="line"></div><div class="line">class Ci_smarty extends Smarty &#123;</div><div class="line">    protected $ci;</div><div class="line">    public function  __construct()&#123;</div><div class="line">        parent::__construct();</div><div class="line">        $this-&gt;ci = &amp; get_instance();</div><div class="line">        $this-&gt;ci-&gt;load-&gt;config(&apos;smarty&apos;);//加载smarty的配置文件</div><div class="line">        //获取相关的配置项</div><div class="line">        // $this-&gt;template_dir= .. ;这是2.*的方法,3.1之后修改为 getXXX setXXX</div><div class="line">        $this-&gt;setTemplateDir($this-&gt;ci-&gt;config-&gt;item(&apos;template_dir&apos;));</div><div class="line">        $this-&gt;setCompileDir($this-&gt;ci-&gt;config-&gt;item(&apos;compile_dir&apos;));</div><div class="line">        $this-&gt;setCacheDir($this-&gt;ci-&gt;config-&gt;item(&apos;cache_dir&apos;));</div><div class="line">        $this-&gt;setConfigDir($this-&gt;ci-&gt;config-&gt;item(&apos;config_dir&apos;));</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>###类库<br>首先将smarty的lib目录复制到ci的libraries目录,并改名为smarty.在libraries里面创建一个<code>Ci_smarty.php</code>(文件名首字母大写，类名和文件名一样)的文件.这里主要是加载配置文件等.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">if(!defined(&apos;BASEPATH&apos;)) EXIT(&apos;No direct script asscess allowed&apos;);</div><div class="line">require_once( APPPATH . &apos;libraries/smarty/Smarty.class.php&apos; );</div><div class="line"></div><div class="line">class Ci_smarty extends Smarty &#123;</div><div class="line">    protected $ci;</div><div class="line">    public function  __construct()&#123;</div><div class="line">        parent::__construct();</div><div class="line">        $this-&gt;ci = &amp; get_instance();</div><div class="line">        $this-&gt;ci-&gt;load-&gt;config(&apos;smarty&apos;);//加载smarty的配置文件</div><div class="line">        //获取相关的配置项</div><div class="line">        // $this-&gt;template_dir= .. ;这是2.*的方法,3.1之后修改为 getXXX setXXX</div><div class="line">        $this-&gt;setTemplateDir($this-&gt;ci-&gt;config-&gt;item(&apos;template_dir&apos;));</div><div class="line">        $this-&gt;setCompileDir($this-&gt;ci-&gt;config-&gt;item(&apos;compile_dir&apos;));</div><div class="line">        $this-&gt;setCacheDir($this-&gt;ci-&gt;config-&gt;item(&apos;cache_dir&apos;));</div><div class="line">        $this-&gt;setConfigDir($this-&gt;ci-&gt;config-&gt;item(&apos;config_dir&apos;));</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>然后在config/autoload.php里面设置自动加载Ci_smarty</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$autoload[&apos;libraries&apos;] = array(&apos;ci_smarty&apos;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$autoload[&apos;libraries&apos;] = array(&apos;Ci_smarty&apos;);</div></pre></td></tr></table></figure>
 <p>##自定义控制器<br>在<code>core</code>文件夹添加一个<code>My_Controller.php</code>的自定义控制器.将smarty的assign和display两个函数添加进入.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;?php  if(!defined(&apos;BASEPATH&apos;)) EXIT(&apos;No direct script asscess allowed&apos;);</div><div class="line"></div><div class="line">class MY_Controller extends CI_Controller &#123;</div><div class="line">    public function __construct() &#123;</div><div class="line">        parent::__construct();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public function assign($key,$val) &#123;</div><div class="line">        $this-&gt;ci_smarty-&gt;assign($key,$val);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public function display($html) &#123;</div><div class="line">        $this-&gt;ci_smarty-&gt;display($html);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>将控制器继承自My_Controller就可以使用这两个函数了.</p>
 <p>##实例</p>
@@ -297,6 +297,25 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2017-09-04/vagrant-init/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017-09-04/vagrant-init/" class="title">vagrant_init</a></p>
+                            <p class="item-date"><time datetime="2017-09-04T06:56:28.000Z" itemprop="datePublished">2017-09-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2017-03-22/使用acme-sh配置letsencrypt证书/" class="thumbnail">
     
     
@@ -370,25 +389,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/" class="title">用单例和动态类在sqlalchemy中做动态表绑定</a></p>
-                            <p class="item-date"><time datetime="2016-07-28T09:30:44.000Z" itemprop="datePublished">2016-07-28</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -400,7 +400,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">7</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">7</span></li></ul>
         </div>
     </div>
 

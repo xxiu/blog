@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2017-03-30T05:09:10.000Z</updated>
+  <updated>2017-09-04T07:09:53.000Z</updated>
   <id>/</id>
   
   <author>
@@ -14,6 +14,47 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vagrant_init</title>
+    <link href="/2017-09-04/vagrant-init/"/>
+    <id>/2017-09-04/vagrant-init/</id>
+    <published>2017-09-04T06:56:28.000Z</published>
+    <updated>2017-09-04T07:09:53.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="vagrant-基础操作"><a href="#vagrant-基础操作" class="headerlink" title="vagrant 基础操作   "></a>vagrant 基础操作   </h1><p>下载安装 VirtualBox ：<a href="https://www.virtualbox.org/" target="_blank" rel="external">https://www.virtualbox.org/</a></p>
+<p>下载安装 Vagrant ：<a href="http://www.vagrantup.com/" target="_blank" rel="external">http://www.vagrantup.com/</a></p>
+<p>假设你的电脑上已经安装了  VirtualBox 和 Vagrant 。请务必先安装 VirtualBox，因为 Vagrant 是依赖它的。</p>
+<h2 id="添加-box"><a href="#添加-box" class="headerlink" title="添加 box"></a>添加 box</h2><p>如果你已经将 wifi.box 这个 vagrant 的包下载到了你的电脑上，我们需要将这个包导入到 Vagrant.这个包大小有 5.4 G。请保证你的硬盘空间足够大。为它保留出25G的空间（5.4G 缓存包+ 17G 左右的虚拟机）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$vagrant box add openwrt  wifi.box # vagrant box add &lt;name&gt; &lt;path&gt;</div></pre></td></tr></table></figure>
+<p>执行了以上的命令后，你的 vagrant 里面已经包括了这个包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ vagrant box list</div><div class="line">openwrt (virtualbox, 0)  # 这个就是我们刚才导入的这个包</div></pre></td></tr></table></figure>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境 "></a>开发环境 </h2><p>进入到自己的开发目录,假设是本地硬盘上的 <code>~/openwrt_build</code> 或者 <code>D:\openwrt_build</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">cd ~/openwrt_build # d:# cd  openwrt_build   # 进入指定目录</div><div class="line"> </div><div class="line">vagrant init  openwrt   # 执行后会在当前目录创建一个  Vagrantfile 的文件  </div><div class="line"></div><div class="line">vagrant up       # 启动，第一次创建目录 。等待命令完成后可以看到 VirtualBox 中虚拟机的状态是启动状态</div><div class="line"></div><div class="line">vagrant ssh      # 使用 ssh 登录到 虚拟机</div></pre></td></tr></table></figure></p>
+<h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><p>Vagrant的网络有三种模式</p>
+<p>1、较为常用是端口映射，就是将虚拟机中的端口映射到宿主机对应的端口直接使用 ，在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">config.vm.network :forwarded_port, guest: 80, host: 8080</div></pre></td></tr></table></figure></p>
+<p>guest: 80 表示虚拟机中的80端口， host: 8080 表示映射到宿主机的8080端口。</p>
+<pre><code>开启这个后，如果vagrant已经启动了，在命令行输入 vagrant reload 重启机器，就可以再宿主机伤使用 localhost:8080来访问虚拟机的localhost:80 。
+</code></pre><p>2、如果需要自己自由的访问虚拟机，但是别人不需要访问虚拟机，可以使用private_network，并为虚拟机设置IP ，在Vagrantfile中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">config.vm.network :private_network, ip: &quot;192.168.1.104&quot;</div></pre></td></tr></table></figure>
+<p>192.168.1.104 表示虚拟机的IP，多台虚拟机的话需要互相访问的话，设置在相同网段即可<br>3、如果需要将虚拟机作为当前局域网中的一台计算机，由局域网进行DHCP，那么在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">config.vm.network :public_network</div></pre></td></tr></table></figure></p>
+<h2 id="目录映射"><a href="#目录映射" class="headerlink" title="目录映射"></a>目录映射</h2><p>既然是开发环境，那么开发工作肯定还是需要在本地完成，而不是都要进到虚拟机中去完成，虚拟机就好好在后台运行服务就好了，不然就本末倒置了，所以这里就需要使用目录映射功能，将本地的目录映射到虚拟机的对应目录。</p>
+<p>默认情况下，当前的工作目录，会被映射到虚拟机的 /vagrant 目录，当前目录下的文件可以直接在 /vagrant 下进行访问，当然也可以在通过 ln 创建软连接，如</p>
+<p>ln -fs /vagrant/wwwroot /var/www</p>
+<p>来进行目录映射，当然，从自动化配置的角度，能不进系统就不需要进系统，所以在Vagrant也可以进行目录映射的操作：</p>
+<p>config.vm.synced_folder “wwwroot/“, “/var/www”</p>
+<p>前面的参数 “wwwroot/” 表示的是本地的路径，这里使用对于工作目录的相对路径，这里也可以使用绝对路径，比如： “d:/www/”</p>
+<p>后面的参数 “/var/www” 表示虚拟机中对应映射的目录。</p>
+<p>一些命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">vagrant up （启动虚拟机）</div><div class="line">vagrant halt （关闭虚拟机——对应就是关机）</div><div class="line">vagrant suspend （暂停虚拟机——只是暂停，虚拟机内存等信息将以状态文件的方式保存在本地，可以执行恢复操作后继续使用）</div><div class="line">vagrant resume （恢复虚拟机 —— 与前面的暂停相对应）</div><div class="line">vagrant destroy （删除虚拟机，删除后在当前虚拟机所做进行的除开Vagrantfile中的配置都不会保留）</div><div class="line">vagrant reload  (重启)</div><div class="line"></div><div class="line">`</div></pre></td></tr></table></figure></p>
+<h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题 "></a>一些问题 </h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;vagrant-基础操作&quot;&gt;&lt;a href=&quot;#vagrant-基础操作&quot; class=&quot;headerlink&quot; title=&quot;vagrant 基础操作   &quot;&gt;&lt;/a&gt;vagrant 基础操作   &lt;/h1&gt;&lt;p&gt;下载安装 VirtualBox ：&lt;a href
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>使用acme.sh配置letsencrypt证书</title>
@@ -804,29 +845,6 @@ putRow(newRow);
     
     
       <category term="java" scheme="/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>gitolite-install</title>
-    <link href="/2015-07-09/gitolite-install/"/>
-    <id>/2015-07-09/gitolite-install/</id>
-    <published>2015-07-09T07:04:58.000Z</published>
-    <updated>2016-09-27T02:34:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="安装脚本"><a href="#安装脚本" class="headerlink" title="安装脚本"></a>安装脚本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">useradd -m git</div><div class="line"></div><div class="line">#安装git-core</div><div class="line">apt-get install git-core</div><div class="line"></div><div class="line">#创建gitolite安装路径</div><div class="line">shell_dir=/</div><div class="line">gitolite=/home/git/gitolite</div><div class="line">mkdir -p $gitolite</div><div class="line"></div><div class="line">&lt;!--more--&gt;</div><div class="line"></div><div class="line">#cp key</div><div class="line"># 安装时替换为管理员秘钥</div><div class="line">echo &apos;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEtBEpIoVQ6ZxFgkQR/Df23lsX+1m5IzKI9VbWDu2KSJhWsuFqc1KGvwYI7DOtcRBUKQFTkf9ExxqbfqUWlyn2cnkpMsfH24Mb28HmHmEBqjtTfurOSH9SNQSgDhxG2K3A0EqiSKFMgFuuGkcyMfIjtTWFhbg5TAWZ69WRnr71QR2pCTuc46bRwRyeZR1s2Ohtss6pF28HphCI58HVg7+VVHTpqz5XLmX6TwOrQtjrTAp0lu12d7Ul5K0IKadF62MOSJJMh0YcC3VZIq1ixqAooUfry+/yS9NBGjJZpKJFeew25tRq9iZJwTp zhangwei@zhangwei&apos; &gt;$gitolite/admin.pub</div><div class="line"></div><div class="line">#cp admin.pub $gitolite</div><div class="line"></div><div class="line">cd  $gitolite</div><div class="line"></div><div class="line">git clone git://github.com/sitaramc/gitolite  src</div><div class="line"></div><div class="line">echo &apos;开始安装gitolite ......&apos;</div><div class="line"></div><div class="line">$&#123;gitolite&#125;/src/install -to $gitolite</div><div class="line"></div><div class="line">echo &quot;安装到了$gitolite&quot;</div><div class="line"></div><div class="line">rm -rf $&#123;gitolite&#125;/src</div><div class="line"></div><div class="line">chown -R  git:git $gitolite</div><div class="line"></div><div class="line">#将管理员key放到同级目录命名为admin.pub 并启动</div><div class="line">su - git -c &quot;$&#123;gitolite&#125;/gitolite setup -pk $&#123;gitolite&#125;/admin.pub &quot;</div></pre></td></tr></table></figure>
-<h2 id="安装钩子"><a href="#安装钩子" class="headerlink" title="安装钩子"></a>安装钩子</h2><p>gitolite 钩子目录为  /home/git/.gitolite/hooks/common</p>
-<p>钩子脚本拷贝到这个目录，比如post-receive。<br>执行以下脚本刷新钩子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/home/git/gitolite/gitolite setup --hooks-only</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;安装脚本&quot;&gt;&lt;a href=&quot;#安装脚本&quot; class=&quot;headerlink&quot; title=&quot;安装脚本&quot;&gt;&lt;/a&gt;安装脚本&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
-    
-    </summary>
-    
-    
-      <category term="git" scheme="/tags/git/"/>
     
   </entry>
   

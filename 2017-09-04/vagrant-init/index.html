@@ -3,24 +3,27 @@
 <head>
     <meta charset="utf-8">
     
-    <title>sublime3配置 | 张巍的博客</title>
+    <title>vagrant_init | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="安装插件管理器https://sublime.wbond.net/installation
-菜单view &amp;gt; Show Console 调出命令行工具粘贴命令，之后重启
-1import urllib.request,os,hashlib; h = &amp;apos;2915d1851351e5ee549c20394736b442&amp;apos; + &amp;apos;8bc59f460fa1548d1514">
+    <meta name="description" content="vagrant 基础操作   下载安装 VirtualBox ：https://www.virtualbox.org/
+下载安装 Vagrant ：http://www.vagrantup.com/
+假设你的电脑上已经安装了  VirtualBox 和 Vagrant 。请务必先安装 VirtualBox，因为 Vagrant 是依赖它的。
+添加 box如果你已经将 wifi.box 这个 vag">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sublime3配置">
-<meta property="og:url" content="/2016-02-21/sublime3/index.html">
+<meta property="og:title" content="vagrant_init">
+<meta property="og:url" content="/2017-09-04/vagrant-init/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="安装插件管理器https://sublime.wbond.net/installation
-菜单view &amp;gt; Show Console 调出命令行工具粘贴命令，之后重启
-1import urllib.request,os,hashlib; h = &amp;apos;2915d1851351e5ee549c20394736b442&amp;apos; + &amp;apos;8bc59f460fa1548d1514">
-<meta property="og:updated_time" content="2016-09-27T02:39:36.000Z">
+<meta property="og:description" content="vagrant 基础操作   下载安装 VirtualBox ：https://www.virtualbox.org/
+下载安装 Vagrant ：http://www.vagrantup.com/
+假设你的电脑上已经安装了  VirtualBox 和 Vagrant 。请务必先安装 VirtualBox，因为 Vagrant 是依赖它的。
+添加 box如果你已经将 wifi.box 这个 vag">
+<meta property="og:updated_time" content="2017-09-04T07:09:53.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sublime3配置">
-<meta name="twitter:description" content="安装插件管理器https://sublime.wbond.net/installation
-菜单view &amp;gt; Show Console 调出命令行工具粘贴命令，之后重启
-1import urllib.request,os,hashlib; h = &amp;apos;2915d1851351e5ee549c20394736b442&amp;apos; + &amp;apos;8bc59f460fa1548d1514">
+<meta name="twitter:title" content="vagrant_init">
+<meta name="twitter:description" content="vagrant 基础操作   下载安装 VirtualBox ：https://www.virtualbox.org/
+下载安装 Vagrant ：http://www.vagrantup.com/
+假设你的电脑上已经安装了  VirtualBox 和 Vagrant 。请务必先安装 VirtualBox，因为 Vagrant 是依赖它的。
+添加 box如果你已经将 wifi.box 这个 vag">
     
 
     
@@ -153,7 +156,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-sublime3" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-vagrant-init" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -161,7 +164,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            sublime3配置
+            vagrant_init
         </h1>
     
 
@@ -170,19 +173,14 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016-02-21/sublime3/">
-            <time datetime="2016-02-21T03:51:24.000Z" itemprop="datePublished">2016-02-21</time>
+        <a href="/2017-09-04/vagrant-init/">
+            <time datetime="2017-09-04T06:56:28.000Z" itemprop="datePublished">2017-09-04</time>
         </a>
     </div>
 
 
                         
                         
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/工具/">工具</a>
-    </div>
-
                     </div>
                 
             </header>
@@ -191,39 +189,30 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h2 id="安装插件管理器"><a href="#安装插件管理器" class="headerlink" title="安装插件管理器"></a>安装插件管理器</h2><p><a href="https://sublime.wbond.net/installation" target="_blank" rel="external">https://sublime.wbond.net/installation</a></p>
-<p>菜单view &gt; Show Console 调出命令行工具粘贴命令，之后重启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import urllib.request,os,hashlib; h = &apos;2915d1851351e5ee549c20394736b442&apos; + &apos;8bc59f460fa1548d1514676163dafc88&apos;; pf = &apos;Package Control.sublime-package&apos;; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( &apos;http://packagecontrol.io/&apos; + pf.replace(&apos; &apos;, &apos;%20&apos;)).read(); dh = hashlib.sha256(by).hexdigest(); print(&apos;Error validating download (got %s instead of %s), please try manual install&apos; % (dh, h)) if dh != h else open(os.path.join( ipp, pf), &apos;wb&apos; ).write(by)</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>执行不成功,可能需要代理 （我用的 ss +Privoxy）<br>菜单PreferencesSettings &gt;&gt; Settings –<br>User<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;http_proxy&quot;: &quot;http://127.0.0.1:8118&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>shift+ctrl+p<br>输入pci （Package Control: Install Package）</p>
-<ol>
-<li>Emmet          提高HTML &amp; CSS3编写速度。</li>
-<li>DocBlockr      快速注释</li>
-<li>ConvertToUTF8  UTF8转换</li>
-<li>Markdown Preview Markdown 文件预览</li>
-<li>SideBarEnhancements 扩展侧边栏，delete 是到回收站</li>
-<li><p>Anaconda</p>
-<p> 终极 Python 插件。它为 ST3 增添了多项 IDE 类似的功能，例如：</p>
-<p> Autocompletion 自动完成，该选项默认开启，同时提供多种配置选项。<br> Code linting 使用支持 pep8 标准的 PyLint 或者 PyFlakes<br> McCabe code complexity checker 让你可以在特定的文件中使用 McCabe complexity checker. 如果你对软件复杂度检查工具不太熟悉的话，请务必先浏览上边的链接。<br> Goto Definitions 能够在你的整个工程中查找并且显示任意一个变量，函数，或者类的定义。<br> Find Usage 能够快速的查找某个变量，函数或者类在某个特定文件中的什么地方被使用了。<br> Show Documentation： 能够显示一个函数或者类的说明性字符串(当然，是在定义了字符串的情况下)</p>
-<p> Sublime &gt; Preferences &gt; Package Settings &gt; Anaconda &gt; Settings – User：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;auto_formatting&quot;: true,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>Preferences-&gt;Settings-User  增加：</p>
-<pre><code>// 显示空格
-&quot;draw_white_space&quot;: &quot;all&quot;,
-// tab 为4个空格
-&quot;tab_size&quot;: 4,
- // tab 转换为空格
-&quot;translate_tabs_to_spaces&quot;: true
-// 保存时自动去除行末空白
-&quot;trim_trailing_white_space_on_save&quot;: true,
-// 保存时自动增加文件末尾换行
-&quot;ensure_newline_at_eof_on_save&quot;: true,
-// 默认编码格式
-&quot;default_encoding&quot;: &quot;UTF-8&quot;
-</code></pre>
+            <h1 id="vagrant-基础操作"><a href="#vagrant-基础操作" class="headerlink" title="vagrant 基础操作   "></a>vagrant 基础操作   </h1><p>下载安装 VirtualBox ：<a href="https://www.virtualbox.org/" target="_blank" rel="external">https://www.virtualbox.org/</a></p>
+<p>下载安装 Vagrant ：<a href="http://www.vagrantup.com/" target="_blank" rel="external">http://www.vagrantup.com/</a></p>
+<p>假设你的电脑上已经安装了  VirtualBox 和 Vagrant 。请务必先安装 VirtualBox，因为 Vagrant 是依赖它的。</p>
+<h2 id="添加-box"><a href="#添加-box" class="headerlink" title="添加 box"></a>添加 box</h2><p>如果你已经将 wifi.box 这个 vagrant 的包下载到了你的电脑上，我们需要将这个包导入到 Vagrant.这个包大小有 5.4 G。请保证你的硬盘空间足够大。为它保留出25G的空间（5.4G 缓存包+ 17G 左右的虚拟机）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$vagrant box add openwrt  wifi.box # vagrant box add &lt;name&gt; &lt;path&gt;</div></pre></td></tr></table></figure>
+<p>执行了以上的命令后，你的 vagrant 里面已经包括了这个包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ vagrant box list</div><div class="line">openwrt (virtualbox, 0)  # 这个就是我们刚才导入的这个包</div></pre></td></tr></table></figure>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境 "></a>开发环境 </h2><p>进入到自己的开发目录,假设是本地硬盘上的 <code>~/openwrt_build</code> 或者 <code>D:\openwrt_build</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">cd ~/openwrt_build # d:# cd  openwrt_build   # 进入指定目录</div><div class="line"> </div><div class="line">vagrant init  openwrt   # 执行后会在当前目录创建一个  Vagrantfile 的文件  </div><div class="line"></div><div class="line">vagrant up       # 启动，第一次创建目录 。等待命令完成后可以看到 VirtualBox 中虚拟机的状态是启动状态</div><div class="line"></div><div class="line">vagrant ssh      # 使用 ssh 登录到 虚拟机</div></pre></td></tr></table></figure></p>
+<h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><p>Vagrant的网络有三种模式</p>
+<p>1、较为常用是端口映射，就是将虚拟机中的端口映射到宿主机对应的端口直接使用 ，在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">config.vm.network :forwarded_port, guest: 80, host: 8080</div></pre></td></tr></table></figure></p>
+<p>guest: 80 表示虚拟机中的80端口， host: 8080 表示映射到宿主机的8080端口。</p>
+<pre><code>开启这个后，如果vagrant已经启动了，在命令行输入 vagrant reload 重启机器，就可以再宿主机伤使用 localhost:8080来访问虚拟机的localhost:80 。
+</code></pre><p>2、如果需要自己自由的访问虚拟机，但是别人不需要访问虚拟机，可以使用private_network，并为虚拟机设置IP ，在Vagrantfile中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">config.vm.network :private_network, ip: &quot;192.168.1.104&quot;</div></pre></td></tr></table></figure>
+<p>192.168.1.104 表示虚拟机的IP，多台虚拟机的话需要互相访问的话，设置在相同网段即可<br>3、如果需要将虚拟机作为当前局域网中的一台计算机，由局域网进行DHCP，那么在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">config.vm.network :public_network</div></pre></td></tr></table></figure></p>
+<h2 id="目录映射"><a href="#目录映射" class="headerlink" title="目录映射"></a>目录映射</h2><p>既然是开发环境，那么开发工作肯定还是需要在本地完成，而不是都要进到虚拟机中去完成，虚拟机就好好在后台运行服务就好了，不然就本末倒置了，所以这里就需要使用目录映射功能，将本地的目录映射到虚拟机的对应目录。</p>
+<p>默认情况下，当前的工作目录，会被映射到虚拟机的 /vagrant 目录，当前目录下的文件可以直接在 /vagrant 下进行访问，当然也可以在通过 ln 创建软连接，如</p>
+<p>ln -fs /vagrant/wwwroot /var/www</p>
+<p>来进行目录映射，当然，从自动化配置的角度，能不进系统就不需要进系统，所以在Vagrant也可以进行目录映射的操作：</p>
+<p>config.vm.synced_folder “wwwroot/“, “/var/www”</p>
+<p>前面的参数 “wwwroot/” 表示的是本地的路径，这里使用对于工作目录的相对路径，这里也可以使用绝对路径，比如： “d:/www/”</p>
+<p>后面的参数 “/var/www” 表示虚拟机中对应映射的目录。</p>
+<p>一些命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">vagrant up （启动虚拟机）</div><div class="line">vagrant halt （关闭虚拟机——对应就是关机）</div><div class="line">vagrant suspend （暂停虚拟机——只是暂停，虚拟机内存等信息将以状态文件的方式保存在本地，可以执行恢复操作后继续使用）</div><div class="line">vagrant resume （恢复虚拟机 —— 与前面的暂停相对应）</div><div class="line">vagrant destroy （删除虚拟机，删除后在当前虚拟机所做进行的除开Vagrantfile中的配置都不会保留）</div><div class="line">vagrant reload  (重启)</div><div class="line"></div><div class="line">`</div></pre></td></tr></table></figure></p>
+<h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题 "></a>一些问题 </h2>
         
         </div>
         <footer class="article-footer">
@@ -277,19 +266,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2016-02-23/wxpython-on-os-x-el-capitan-install/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    在osx el capitan 中安装 wxpython
-                
-            </div>
-        </a>
     
-    
-        <a href="/2016-01-22/keepass/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017-03-22/使用acme-sh配置letsencrypt证书/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">keepass</div>
+            <div class="article-nav-title">使用acme.sh配置letsencrypt证书</div>
         </a>
     
 </nav>
