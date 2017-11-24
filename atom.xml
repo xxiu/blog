@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2017-09-04T07:09:53.000Z</updated>
+  <updated>2017-11-24T08:05:56.000Z</updated>
   <id>/</id>
   
   <author>
@@ -14,6 +14,53 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>github 下载指定文件夹或文件</title>
+    <link href="/2017-11-24/github-checkout-file-or-dir/"/>
+    <id>/2017-11-24/github-checkout-file-or-dir/</id>
+    <published>2017-11-24T08:03:15.000Z</published>
+    <updated>2017-11-24T08:05:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>工具 svn</p>
+<p>复制指定目录，比如：<br><a href="https://github.com/googlevr/gvr-unity-sdk/tree/master/GoogleVR" target="_blank" rel="external">https://github.com/googlevr/gvr-unity-sdk/tree/master/GoogleVR</a></p>
+<p>将 tree/master 替换为 trunk</p>
+<p><a href="https://github.com/googlevr/gvr-unity-sdk/trunk/GoogleVR" target="_blank" rel="external">https://github.com/googlevr/gvr-unity-sdk/trunk/GoogleVR</a></p>
+<p>命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">svn checkout https://github.com/googlevr/gvr-unity-sdk/trunk/GoogleVR</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;工具 svn&lt;/p&gt;
+&lt;p&gt;复制指定目录，比如：&lt;br&gt;&lt;a href=&quot;https://github.com/googlevr/gvr-unity-sdk/tree/master/GoogleVR&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>openwrt</title>
+    <link href="/2017-09-11/openwrt/"/>
+    <id>/2017-09-11/openwrt/</id>
+    <published>2017-09-11T08:19:57.000Z</published>
+    <updated>2017-09-30T06:08:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>openwrt  框架结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">tools和toolchain目录：包含了一些通用命令, 用来生成固件, 编译器, 和C库.</div><div class="line"></div><div class="line">build_dir/host目录：是一个临时目录, 用来储存不依赖于目标平台的工具.</div><div class="line"></div><div class="line">build_dir/toolchain-目录：用来储存依赖于指定平台的编译链. 只是编译文件存放目录无需修改.</div><div class="line"></div><div class="line">build_dir/target-目录：用来储存依赖于指定平台的软件包的编译文件, 其中包括linux内核, u-boot, packages,</div><div class="line">只是编译文件存放目录无需修改.</div><div class="line"></div><div class="line">staging_dir目录：是编译目标的最终安装位置, 其中包括rootfs, package, toolchain.</div><div class="line"></div><div class="line">package目录：软件包的下载编译规则, 在OpenWrt固件中, 几乎所有东西都是.ipk, 这样就可以很方便的安装和卸载.</div><div class="line"></div><div class="line">target目录：目标系统指嵌入式设备, 针对不同的平台有不同的特性, 针对这些特性, &quot;target/linux&quot;目录下按照平台进行目录划分, 里面包括了针对标准内核的补丁, 特殊配置等.</div><div class="line"></div><div class="line">bin目录：编译完OpenWrt的二进制文件生成目录, 其中包括sdk, uImage, u-boot, dts, rootfs构建一个嵌入式系统完整的二进制文件.</div><div class="line"></div><div class="line">config目录：存放着整个系统的的配置文件.</div><div class="line"></div><div class="line">docs目录：里面包含了整个宿主机的文件源码的介绍, 里面还有Makefile为目标系统生成docs.</div><div class="line"></div><div class="line">include目录：里面包括了整个系统的编译需要的头文件, 但是是以Make进行连接的.</div><div class="line"></div><div class="line">feeds目录：扩展软件包索引目录.</div><div class="line"></div><div class="line">scripts目录：组织编译整个OpenWrt的规则.</div><div class="line"></div><div class="line">tmp目录：编译文件夹, 一般情况为空.</div><div class="line"></div><div class="line">dl目录：所有软件的下载目录, 包括u-boot, kernel.</div><div class="line"></div><div class="line">logs目录：如果编译出错, 可以在这里找到编译出错的log.</div></pre></td></tr></table></figure>
+<p>jshn : 一个 josn 对象转换库<br>ubus : 一个系统总线</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;openwrt  框架结构&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;d
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>vagrant_init</title>
@@ -778,73 +825,6 @@ putRow(newRow);
     
     
       <category term="python" scheme="/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python安装PIL</title>
-    <link href="/2015-08-04/python-install-pil/"/>
-    <id>/2015-08-04/python-install-pil/</id>
-    <published>2015-08-04T06:43:37.000Z</published>
-    <updated>2016-09-27T02:37:45.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libjpeg-dev</div><div class="line">sudo apt-get install libfreetype6-dev</div><div class="line">sudo apt-get install zlib-devel</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<h1 id="安装-PIL"><a href="#安装-PIL" class="headerlink" title="安装 PIL"></a>安装 PIL</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pip install -U PIL --allow-external PIL --allow-unverified PIL</div></pre></td></tr></table></figure>
-<h1 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h1><p>mac 安装 PIL 的时候出现了两个错误，主要是库的问题.</p>
-<h2 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">_imagingft.c:73:10: fatal error: &apos;freetype/fterrors.h&apos; file not found</div><div class="line">#include &lt;freetype/fterrors.h&gt;</div><div class="line">         ^</div><div class="line">1 error generated.</div><div class="line">error: command &apos;cc&apos; failed with exit status 1</div></pre></td></tr></table></figure>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s /usr/local/include/freetype2 /usr/local/include/freetype</div></pre></td></tr></table></figure>
-<h2 id="错误-1"><a href="#错误-1" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/tk.h:78:11: fatal error: &apos;X11/Xlib.h&apos; file not found</div><div class="line"></div><div class="line">#      include &lt;X11/Xlib.h&gt;</div><div class="line"></div><div class="line">               ^</div><div class="line">1 error generated.</div><div class="line">error: command &apos;cc&apos; failed with exit status 1</div></pre></td></tr></table></figure>
-<h2 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11 /usr/local/include/X11</div></pre></td></tr></table></figure>
-<h1 id="ubuntu-上安装的错误"><a href="#ubuntu-上安装的错误" class="headerlink" title="ubuntu 上安装的错误"></a>ubuntu 上安装的错误</h1><h2 id="错误-2"><a href="#错误-2" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">imaging.c:75:20: fatal error: Python.h: No such file or directory</div><div class="line"></div><div class="line"> #include &quot;Python.h&quot;</div><div class="line"></div><div class="line">                    ^</div><div class="line"></div><div class="line">compilation terminated.</div><div class="line"></div><div class="line">error: command &apos;x86_64-linux-gnu-gcc&apos; failed with exit status 1</div></pre></td></tr></table></figure>
-<p>方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">上面是 python 库的问题，可能是默认的 python 路径的问题，可以重新安装来解决</div><div class="line"></div><div class="line">sudo apt-get install python-dev</div></pre></td></tr></table></figure></p>
-<h2 id="错误-3"><a href="#错误-3" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IOError: decoder zip not available</div></pre></td></tr></table></figure>
-<h2 id="方法-2"><a href="#方法-2" class="headerlink" title="方法"></a>方法</h2><p>有可能是 zlib 的问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev</div><div class="line"></div><div class="line"># create these links, if already exists, remove it and re-link it</div><div class="line">ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib</div><div class="line">ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib</div><div class="line">ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib</div><div class="line"></div><div class="line"># reinstall PIL</div><div class="line">pip uninstall PIL</div><div class="line">pip install PIL</div></pre></td></tr></table></figure></p>
-<h2 id="错误-4"><a href="#错误-4" class="headerlink" title="错误"></a>错误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python PIL bug: NoneType object has no attribute bands</div></pre></td></tr></table></figure>
-<h2 id="方法-3"><a href="#方法-3" class="headerlink" title="方法"></a>方法</h2><p>在使用 python PIL 获取分量的时候出现了错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">r,g,b,a = image.split()</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&apos;NoneType&apos; object has no attribute &apos;bands&apos;</div></pre></td></tr></table></figure>
-<p>原因是图片遇到 mode 为 RGBA 的时候会出现这个问题。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">vim /usr/local/lib/python2.7/dist-packages/PIL/Image.py</div><div class="line"></div><div class="line">定位到1501 行</div><div class="line">1494     def split(self):</div><div class="line">1495         &quot;Split image into bands&quot;</div><div class="line">1496</div><div class="line">1497		self.load()    #</div><div class="line">1498         if self.im.bands == 1:</div><div class="line">1499             ims = [self.copy()]</div><div class="line">1500         else:</div><div class="line">1501             #self.load()</div><div class="line">1502             ims = []</div><div class="line">1503             for i in range(self.im.bands):</div><div class="line">1504                 ims.append(self._new(self.im.getband(i)))</div><div class="line">1505         return tuple(ims)</div></pre></td></tr></table></figure>
-<p>将else中得self.load() 放到 if 外面来</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://stackoverflow.com/questions/20325473/error-installing-python-image-library-using-pip-on-mac-os-x-10-9" target="_blank" rel="external">http://stackoverflow.com/questions/20325473/error-installing-python-image-library-using-pip-on-mac-os-x-10-9</a></p>
-<p><a href="http://stackoverflow.com/questions/19532125/cant-install-pil-after-mac-os-x-10-9" target="_blank" rel="external">http://stackoverflow.com/questions/19532125/cant-install-pil-after-mac-os-x-10-9</a></p>
-<p><a href="http://stackoverflow.com/questions/3544155/about-the-pil-error-ioerror-decoder-zip-not-available" target="_blank" rel="external">http://stackoverflow.com/questions/3544155/about-the-pil-error-ioerror-decoder-zip-not-available</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;安装依赖&quot;&gt;&lt;a href=&quot;#安装依赖&quot; class=&quot;headerlink&quot; title=&quot;安装依赖&quot;&gt;&lt;/a&gt;安装依赖&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;sudo apt-get install libjpeg-dev&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;sudo apt-get install libfreetype6-dev&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;sudo apt-get install zlib-devel&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="python" scheme="/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mac重新安装java</title>
-    <link href="/2015-07-20/mac%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%85java/"/>
-    <id>/2015-07-20/mac重新安装java/</id>
-    <published>2015-07-20T01:24:33.000Z</published>
-    <updated>2016-09-27T02:33:12.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>这是个很悲伤的故事，需要接一个java程序。然后当然是开始调试，然后部署到 tomcat 上面。但是不管怎么样编译，放到 tomcat 都会报错。于是开始各种怀疑。</p>
-<a id="more"></a>
-<p>首先这个程序是在 windows 的 JDK1.7 的版本编译，在 linux 的 tomcat 上面运行没有什么问题。拿到我这了后，在 mac 下 JDK1.8 的版本下运行，总是有个地方运行不对。于是开始怀疑是 JDK 的问题。就用命令行删除了和 JDK 有关的文件 。然后到 oracle 官网下载了对于的版本，发现安装到最后会出错，同事说 mac 下面不在支持 JDK1.7，于是接着下载 JDK1.8 来安装。但是在最后还是出了问题。死活都安装不上。此时心里真是有一万头草泥马呼啸而过。</p>
-<p>最后搜索了很久，偶然的得到了一个地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://support.apple.com/downloads/java</div></pre></td></tr></table></figure>
-<p>啥也不说，热泪一行。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这是个很悲伤的故事，需要接一个java程序。然后当然是开始调试，然后部署到 tomcat 上面。但是不管怎么样编译，放到 tomcat 都会报错。于是开始各种怀疑。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="java" scheme="/tags/java/"/>
     
   </entry>
   

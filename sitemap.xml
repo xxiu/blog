@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>/2017-11-24/github-checkout-file-or-dir/</loc>
+    
+    <lastmod>2017-11-24T08:05:56.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>/2017-09-11/openwrt/</loc>
+    
+    <lastmod>2017-09-30T06:08:56.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>/2017-09-04/vagrant-init/</loc>
     
     <lastmod>2017-09-04T07:09:53.000Z</lastmod>

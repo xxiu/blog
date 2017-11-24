@@ -3,17 +3,21 @@
 <head>
     <meta charset="utf-8">
     
-    <title>标签: pdf | 张巍的博客</title>
+    <title>openwrt | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="好记性烂笔头">
-<meta property="og:type" content="website">
-<meta property="og:title" content="张巍的博客">
-<meta property="og:url" content="/tags/pdf/index.html">
+    <meta name="description" content="openwrt  框架结构
+1234567891011121314151617181920212223242526272829303132tools和toolchain目录：包含了一些通用命令, 用来生成固件, 编译器, 和C库.build_dir/host目录：是一个临时目录, 用来储存不依赖于目标平台的工具.build_dir/toolchain-目录：用来储存依赖于指定平台的编译链. 只是编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openwrt">
+<meta property="og:url" content="/2017-09-11/openwrt/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="好记性烂笔头">
+<meta property="og:description" content="openwrt  框架结构
+1234567891011121314151617181920212223242526272829303132tools和toolchain目录：包含了一些通用命令, 用来生成固件, 编译器, 和C库.build_dir/host目录：是一个临时目录, 用来储存不依赖于目标平台的工具.build_dir/toolchain-目录：用来储存依赖于指定平台的编译链. 只是编">
+<meta property="og:updated_time" content="2017-09-30T06:08:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="张巍的博客">
-<meta name="twitter:description" content="好记性烂笔头">
+<meta name="twitter:title" content="openwrt">
+<meta name="twitter:description" content="openwrt  框架结构
+1234567891011121314151617181920212223242526272829303132tools和toolchain目录：包含了一些通用命令, 用来生成固件, 编译器, 和C库.build_dir/host目录：是一个临时目录, 用来储存不依赖于目标平台的工具.build_dir/toolchain-目录：用来储存依赖于指定平台的编译链. 只是编">
     
 
     
@@ -146,45 +150,123 @@
 </aside>
 
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fa fa-tag"></i></span>
-        <h1 class="title">#pdf</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-openwrt" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2014-11-28/pdf-convert-to-image-for-magick-net/">使用magick.net将pdf转换为图片</a>
+        <h1 class="article-title" itemprop="name">
+            openwrt
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2014-11-28/pdf-convert-to-image-for-magick-net/">
-            <time datetime="2014-11-28T08:34:25.000Z" itemprop="datePublished">2014-11-28</time>
+        <a href="/2017-09-11/openwrt/">
+            <time datetime="2017-09-11T08:19:57.000Z" itemprop="datePublished">2017-09-11</time>
         </a>
     </div>
 
 
-                    
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/magick/">magick</a>, <a class="tag-link" href="/tags/pdf/">pdf</a>
-    </div>
+                        
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>openwrt  框架结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">tools和toolchain目录：包含了一些通用命令, 用来生成固件, 编译器, 和C库.</div><div class="line"></div><div class="line">build_dir/host目录：是一个临时目录, 用来储存不依赖于目标平台的工具.</div><div class="line"></div><div class="line">build_dir/toolchain-目录：用来储存依赖于指定平台的编译链. 只是编译文件存放目录无需修改.</div><div class="line"></div><div class="line">build_dir/target-目录：用来储存依赖于指定平台的软件包的编译文件, 其中包括linux内核, u-boot, packages,</div><div class="line">只是编译文件存放目录无需修改.</div><div class="line"></div><div class="line">staging_dir目录：是编译目标的最终安装位置, 其中包括rootfs, package, toolchain.</div><div class="line"></div><div class="line">package目录：软件包的下载编译规则, 在OpenWrt固件中, 几乎所有东西都是.ipk, 这样就可以很方便的安装和卸载.</div><div class="line"></div><div class="line">target目录：目标系统指嵌入式设备, 针对不同的平台有不同的特性, 针对这些特性, &quot;target/linux&quot;目录下按照平台进行目录划分, 里面包括了针对标准内核的补丁, 特殊配置等.</div><div class="line"></div><div class="line">bin目录：编译完OpenWrt的二进制文件生成目录, 其中包括sdk, uImage, u-boot, dts, rootfs构建一个嵌入式系统完整的二进制文件.</div><div class="line"></div><div class="line">config目录：存放着整个系统的的配置文件.</div><div class="line"></div><div class="line">docs目录：里面包含了整个宿主机的文件源码的介绍, 里面还有Makefile为目标系统生成docs.</div><div class="line"></div><div class="line">include目录：里面包括了整个系统的编译需要的头文件, 但是是以Make进行连接的.</div><div class="line"></div><div class="line">feeds目录：扩展软件包索引目录.</div><div class="line"></div><div class="line">scripts目录：组织编译整个OpenWrt的规则.</div><div class="line"></div><div class="line">tmp目录：编译文件夹, 一般情况为空.</div><div class="line"></div><div class="line">dl目录：所有软件的下载目录, 包括u-boot, kernel.</div><div class="line"></div><div class="line">logs目录：如果编译出错, 可以在这里找到编译出错的log.</div></pre></td></tr></table></figure>
+<p>jshn : 一个 josn 对象转换库<br>ubus : 一个系统总线</p>
 
-                </div>
-            </div>
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
 </div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017-11-24/github-checkout-file-or-dir/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    github 下载指定文件夹或文件
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017-09-04/vagrant-init/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">vagrant_init</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+    </section>
+
 </section>
             
                 <aside id="sidebar">
