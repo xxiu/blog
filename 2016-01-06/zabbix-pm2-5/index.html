@@ -5,31 +5,18 @@
     
     <title>zabbix监控pm2.5 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="文件
-pm2.5.py 用来获取pm值
-zabbix-pm25.conf 配置 zabbix 的 UserParameter
-
-github: https://github.com/xxiu/pm2.5_zabbix
-pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的方式来获取当前的pm2.5的值">
+    <meta name="description" content="文件 pm2.5.py 用来获取pm值 zabbix-pm25.conf 配置 zabbix 的 UserParameter  github: https://github.com/xxiu/pm2.5_zabbix pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的方式来获取当前的pm2.5的值">
+<meta name="keywords" content="zabbix">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zabbix监控pm2.5">
 <meta property="og:url" content="/2016-01-06/zabbix-pm2-5/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="文件
-pm2.5.py 用来获取pm值
-zabbix-pm25.conf 配置 zabbix 的 UserParameter
-
-github: https://github.com/xxiu/pm2.5_zabbix
-pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的方式来获取当前的pm2.5的值">
+<meta property="og:description" content="文件 pm2.5.py 用来获取pm值 zabbix-pm25.conf 配置 zabbix 的 UserParameter  github: https://github.com/xxiu/pm2.5_zabbix pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的方式来获取当前的pm2.5的值">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:40:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix监控pm2.5">
-<meta name="twitter:description" content="文件
-pm2.5.py 用来获取pm值
-zabbix-pm25.conf 配置 zabbix 的 UserParameter
-
-github: https://github.com/xxiu/pm2.5_zabbix
-pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的方式来获取当前的pm2.5的值">
+<meta name="twitter:description" content="文件 pm2.5.py 用来获取pm值 zabbix-pm25.conf 配置 zabbix 的 UserParameter  github: https://github.com/xxiu/pm2.5_zabbix pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的方式来获取当前的pm2.5的值">
     
 
     
@@ -88,7 +75,7 @@ pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -105,7 +92,7 @@ pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -204,11 +191,11 @@ pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的
 <li>pm2.5.py 用来获取pm值</li>
 <li>zabbix-pm25.conf 配置 zabbix 的 UserParameter</li>
 </ol>
-<p>github: <a href="https://github.com/xxiu/pm2.5_zabbix" target="_blank" rel="external">https://github.com/xxiu/pm2.5_zabbix</a></p>
+<p>github: <a href="https://github.com/xxiu/pm2.5_zabbix" target="_blank" rel="noopener">https://github.com/xxiu/pm2.5_zabbix</a></p>
 <p>pm2.5没有找到很好的api，于是找了个pm2.5的网站，用解析html的方式来获取当前的pm2.5的值</p>
 <a id="more"></a>
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>我的 zabbix 配置文件目录在 <code>/usr/local/etc</code><br>将 pm2.5.py 拷贝到/usr/local/etc/zabbix_agentd.conf.d<br>将 zabbix-pm25.conf 拷贝到 /usr/local/etc/script<br>重启 zabbix-agentd</p>
-<p>可以在zabbix-server上测试一下配置是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">zabbix_get -s IP -p 10050 -k &apos;pm25[beijing]&apos;</div></pre></td></tr></table></figure></p>
+<p>可以在zabbix-server上测试一下配置是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zabbix_get -s IP -p 10050 -k &apos;pm25[beijing]&apos;</span><br></pre></td></tr></table></figure></p>
 <h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><p>添加一个项目 pm25_beijing 键值为 pm25[beijing]<br>添加一个图像来监控这个项目的走势<br>添加3个触发器，表达式如下，用来监控pm2.5超过100，200，350的变化，过了350的感觉就生无可恋了。<br>{pm25:pm25[beijing].last()}&gt;100<br>{pm25:pm25[beijing].last()}&gt;200<br>{pm25:pm25[beijing].last()}&gt;350</p>
 <h2 id="告警"><a href="#告警" class="headerlink" title="告警"></a>告警</h2><p>action 那里已经配置了全局的告警，就不需要配置了。</p>
 

@@ -5,28 +5,18 @@
     
     <title>在github上配置hexo写blog | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="####安装nodejs
-
-http://nodejs.org/
-
-安装hexo1npm install -g hexo">
+    <meta name="description" content="####安装nodejs  http://nodejs.org/  安装hexo1npm install -g hexo">
+<meta name="keywords" content="hexo,github,blog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在github上配置hexo写blog">
 <meta property="og:url" content="/2014-11-26/hexo-and-github-blog/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="####安装nodejs
-
-http://nodejs.org/
-
-安装hexo1npm install -g hexo">
+<meta property="og:description" content="####安装nodejs  http://nodejs.org/  安装hexo1npm install -g hexo">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:34:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在github上配置hexo写blog">
-<meta name="twitter:description" content="####安装nodejs
-
-http://nodejs.org/
-
-安装hexo1npm install -g hexo">
+<meta name="twitter:description" content="####安装nodejs  http://nodejs.org/  安装hexo1npm install -g hexo">
     
 
     
@@ -85,7 +75,7 @@ http://nodejs.org/
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -102,7 +92,7 @@ http://nodejs.org/
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -199,23 +189,23 @@ http://nodejs.org/
             
             <p>####安装nodejs</p>
 <blockquote>
-<p><a href="http://nodejs.org/" target="_blank" rel="external">http://nodejs.org/</a></p>
+<p><a href="http://nodejs.org/" target="_blank" rel="noopener">http://nodejs.org/</a></p>
 </blockquote>
-<h4 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo</div></pre></td></tr></table></figure>
+<h4 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>###创建<code>bolg</code>文件夹</p>
 <p>安装完成后在自己的工作目录创建一个文件夹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">D:\work&gt;mkdir blog</div><div class="line"></div><div class="line">D:\work&gt;cd blog</div><div class="line"></div><div class="line">D:\work\blog&gt;hexo init  #初始化</div><div class="line">[info] Copying data</div><div class="line">[info] You are almost done! Don&apos;t forget to run `npm install` before you start b</div><div class="line">logging with Hexo!</div><div class="line"></div><div class="line">D:\work\blog&gt;npm install   #安装依赖</div><div class="line">hexo-renderer-marked@0.1.0 node_modules\hexo-renderer-marked</div><div class="line">├── marked@0.3.2</div><div class="line">└── lodash@2.4.1</div><div class="line"></div><div class="line">hexo-renderer-ejs@0.1.0 node_modules\hexo-renderer-ejs</div><div class="line">├── ejs@1.0.0</div><div class="line">└── lodash@2.4.1</div><div class="line"></div><div class="line">hexo-renderer-stylus@0.1.0 node_modules\hexo-renderer-stylus</div><div class="line">├── stylus@0.44.0 (css-parse@1.7.0, mkdirp@0.3.5, sax@0.5.8, debug@2.1.0, glo</div><div class="line">b@3.2.11)</div><div class="line">└── nib@1.0.4 (stylus@0.45.1)</div></pre></td></tr></table></figure>
-<p>执行完上面的命令，就已经搭了一个本地的hexo环境，在当前目录输入命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo server</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">D:\work&gt;mkdir blog</span><br><span class="line"></span><br><span class="line">D:\work&gt;cd blog</span><br><span class="line"></span><br><span class="line">D:\work\blog&gt;hexo init  #初始化</span><br><span class="line">[info] Copying data</span><br><span class="line">[info] You are almost done! Don&apos;t forget to run `npm install` before you start b</span><br><span class="line">logging with Hexo!</span><br><span class="line"></span><br><span class="line">D:\work\blog&gt;npm install   #安装依赖</span><br><span class="line">hexo-renderer-marked@0.1.0 node_modules\hexo-renderer-marked</span><br><span class="line">├── marked@0.3.2</span><br><span class="line">└── lodash@2.4.1</span><br><span class="line"></span><br><span class="line">hexo-renderer-ejs@0.1.0 node_modules\hexo-renderer-ejs</span><br><span class="line">├── ejs@1.0.0</span><br><span class="line">└── lodash@2.4.1</span><br><span class="line"></span><br><span class="line">hexo-renderer-stylus@0.1.0 node_modules\hexo-renderer-stylus</span><br><span class="line">├── stylus@0.44.0 (css-parse@1.7.0, mkdirp@0.3.5, sax@0.5.8, debug@2.1.0, glo</span><br><span class="line">b@3.2.11)</span><br><span class="line">└── nib@1.0.4 (stylus@0.45.1)</span><br></pre></td></tr></table></figure>
+<p>执行完上面的命令，就已经搭了一个本地的hexo环境，在当前目录输入命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure></p>
 <p>访问 <code>http://localhost:4000/</code> ，这时候本地的bolg就搭建好了。</p>
 <h3 id="config-yml设置"><a href="#config-yml设置" class="headerlink" title="_config.yml设置"></a>_config.yml设置</h3><blockquote>
-<p>参考<a href="http://zipperary.com/2013/05/29/hexo-guide-3/" target="_blank" rel="external">http://zipperary.com/2013/05/29/hexo-guide-3/</a></p>
+<p>参考<a href="http://zipperary.com/2013/05/29/hexo-guide-3/" target="_blank" rel="noopener">http://zipperary.com/2013/05/29/hexo-guide-3/</a></p>
 </blockquote>
-<h3 id="设置主题"><a href="#设置主题" class="headerlink" title="设置主题"></a>设置主题</h3><p>在 <a href="https://github.com/hexojs/hexo/wiki/Themes" target="_blank" rel="external">https://github.com/hexojs/hexo/wiki/Themes</a> 可以找到喜欢的主题<br>使用git命令下载比如<code>pacman</code>这个主题</p>
+<h3 id="设置主题"><a href="#设置主题" class="headerlink" title="设置主题"></a>设置主题</h3><p>在 <a href="https://github.com/hexojs/hexo/wiki/Themes" target="_blank" rel="noopener">https://github.com/hexojs/hexo/wiki/Themes</a> 可以找到喜欢的主题<br>使用git命令下载比如<code>pacman</code>这个主题</p>
 <blockquote>
-<p>$ git clone <a href="https://github.com/A-limon/pacman.git" target="_blank" rel="external">https://github.com/A-limon/pacman.git</a> themes/pacman</p>
+<p>$ git clone <a href="https://github.com/A-limon/pacman.git" target="_blank" rel="noopener">https://github.com/A-limon/pacman.git</a> themes/pacman</p>
 </blockquote>
-<h3 id="上传到github"><a href="#上传到github" class="headerlink" title="上传到github"></a>上传到github</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo d -g</div></pre></td></tr></table></figure>
+<h3 id="上传到github"><a href="#上传到github" class="headerlink" title="上传到github"></a>上传到github</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g</span><br></pre></td></tr></table></figure>
 <h3 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h3><ol>
 <li>需要在git的master分支下创建一个名称为CNAME的文件。</li>
 <li>ping name.github.io 的到一个IP地址。</li>

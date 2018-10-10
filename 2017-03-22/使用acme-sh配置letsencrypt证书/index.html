@@ -5,22 +5,18 @@
     
     <title>使用acme.sh配置letsencrypt证书 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。
-首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。
-安装1curl  https://get.acm">
+    <meta name="description" content="越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。 首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。 安装1curl  https://get.acm">
+<meta name="keywords" content="letsencrypt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用acme.sh配置letsencrypt证书">
 <meta property="og:url" content="/2017-03-22/使用acme-sh配置letsencrypt证书/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。
-首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。
-安装1curl  https://get.acm">
+<meta property="og:description" content="越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。 首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。 安装1curl  https://get.acm">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2017-03-30T05:09:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用acme.sh配置letsencrypt证书">
-<meta name="twitter:description" content="越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。
-首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。
-安装1curl  https://get.acm">
+<meta name="twitter:description" content="越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。 首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。 安装1curl  https://get.acm">
     
 
     
@@ -79,7 +75,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -96,7 +92,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -193,22 +189,22 @@
             
             <p>越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。</p>
 <p>首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl  https://get.acme.sh | sh</div></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl  https://get.acme.sh | sh</span><br></pre></td></tr></table></figure>
 <p>安装完后 acme.sh 会被安装在~/.acme.sh 的目录下面.</p>
 <h2 id="dns认证"><a href="#dns认证" class="headerlink" title="dns认证"></a>dns认证</h2><p>在安装目录的 dnsapi 目录下面 README.md 有认证方式,我使用了 dnspod 作为 dns 服务。在 dnspod 控制台申请到 id 和key后，在当前目录执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export DP_Id=&quot;1111&quot;</div><div class="line">export DP_Key=&quot;111111111111111&quot;</div><div class="line">acme.sh   --issue   --dns dns_dp   -d aa.com  -d www.aa.com</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export DP_Id=&quot;1111&quot;</span><br><span class="line">export DP_Key=&quot;111111111111111&quot;</span><br><span class="line">acme.sh   --issue   --dns dns_dp   -d aa.com  -d www.aa.com</span><br></pre></td></tr></table></figure>
 <p>会在 .acme.sh  目录生成一个以域名为目录的证书目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.cer</div><div class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert key is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.key</div><div class="line">[Tue Mar 21 15:51:01 CST 2017] The intermediate CA cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/ca.cer</div><div class="line">[Tue Mar 21 15:51:01 CST 2017] And the full chain certs is there:  /home/pprt/.acme.sh/&lt;domain&gt;/fullchain.cer</div></pre></td></tr></table></figure>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>acme.sh 提供了一个接口用来部署证书，也就是我们需要将生成的证书拷贝到指定的服务器,实例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">acme.sh --deploy -d example.com --deploy-hook cpanel</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.cer</span><br><span class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert key is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.key</span><br><span class="line">[Tue Mar 21 15:51:01 CST 2017] The intermediate CA cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/ca.cer</span><br><span class="line">[Tue Mar 21 15:51:01 CST 2017] And the full chain certs is there:  /home/pprt/.acme.sh/&lt;domain&gt;/fullchain.cer</span><br></pre></td></tr></table></figure>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>acme.sh 提供了一个接口用来部署证书，也就是我们需要将生成的证书拷贝到指定的服务器,实例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --deploy -d example.com --deploy-hook cpanel</span><br></pre></td></tr></table></figure></p>
 <p>服务器上使用了 ansible 作为管理  所以需要将文件使用 ansible 复制到其他机器上指定的文件夹</p>
 <p>在 deploy 文件夹下面 创建一个 ansible.sh 的文件,里面添加如下代码，将文件拷贝到指定的服务器。<br>其中 _cert_dir 为服务器上保存证书的目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">ansible_deploy() &#123;</div><div class="line">  _cdomain=&quot;$1&quot;</div><div class="line">  _ckey=&quot;$2&quot;</div><div class="line">  _ccert=&quot;$3&quot;</div><div class="line">  _cca=&quot;$4&quot;</div><div class="line">  _cfullchain=&quot;$5&quot;</div><div class="line"></div><div class="line">  _debug _cdomain &quot;$_cdomain&quot;</div><div class="line">  _debug _ckey &quot;$_ckey&quot;</div><div class="line">  _debug _ccert &quot;$_ccert&quot;</div><div class="line">  _debug _cca &quot;$_cca&quot;</div><div class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</div><div class="line"></div><div class="line">  _cert_dir=/Code/sslCert/</div><div class="line"></div><div class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</div><div class="line">  ansible olweb -m copy -a &quot;src=$_cfullchain dest=$_cert_dir/$_cdomain/cert.cer&quot;</div><div class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</div><div class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</div><div class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</div><div class="line">  return 0</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在执行deploy后，会制动添加一个 crontab<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">33 0 * * * &quot;/home/pprt/.acme.sh&quot;/acme.sh --cron   --home &quot;/home/pprt/.acme.sh&quot; &gt; /dev/null</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">ansible_deploy() &#123;</span><br><span class="line">  _cdomain=&quot;$1&quot;</span><br><span class="line">  _ckey=&quot;$2&quot;</span><br><span class="line">  _ccert=&quot;$3&quot;</span><br><span class="line">  _cca=&quot;$4&quot;</span><br><span class="line">  _cfullchain=&quot;$5&quot;</span><br><span class="line"></span><br><span class="line">  _debug _cdomain &quot;$_cdomain&quot;</span><br><span class="line">  _debug _ckey &quot;$_ckey&quot;</span><br><span class="line">  _debug _ccert &quot;$_ccert&quot;</span><br><span class="line">  _debug _cca &quot;$_cca&quot;</span><br><span class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</span><br><span class="line"></span><br><span class="line">  _cert_dir=/Code/sslCert/</span><br><span class="line"></span><br><span class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</span><br><span class="line">  ansible olweb -m copy -a &quot;src=$_cfullchain dest=$_cert_dir/$_cdomain/cert.cer&quot;</span><br><span class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</span><br><span class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</span><br><span class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</span><br><span class="line">  return 0</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在执行deploy后，会制动添加一个 crontab<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">33 0 * * * &quot;/home/pprt/.acme.sh&quot;/acme.sh --cron   --home &quot;/home/pprt/.acme.sh&quot; &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
 <p>如果设置有多个域名，只会部署第一个，需要在crontab添加一个<code>-f</code>的参数</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="external">acme.sh github</a></p>
-<p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="external">acme.sh wiki</a></p>
-<p><a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md" target="_blank" rel="external">acme.sh dnsapi</a></p>
-<p><a href="https://github.com/Neilpang/acme.sh/blob/master/deploy/README.md" target="_blank" rel="external">acme.sh deploy</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="noopener">acme.sh github</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh wiki</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md" target="_blank" rel="noopener">acme.sh dnsapi</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/blob/master/deploy/README.md" target="_blank" rel="noopener">acme.sh deploy</a></p>
 
         
         </div>

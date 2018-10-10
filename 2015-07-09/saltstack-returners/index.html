@@ -5,22 +5,18 @@
     
     <title>saltstack-returners | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="return 是在 minion 端运行的一个回调
-创建return目录1mkdir /srv/salt/_returners
-创建一个local_return/srv/salt/_returners/local_return.py">
+    <meta name="description" content="return 是在 minion 端运行的一个回调 创建return目录1mkdir /srv/salt/_returners 创建一个local_return/srv/salt/_returners/local_return.py">
+<meta name="keywords" content="saltstack">
 <meta property="og:type" content="article">
 <meta property="og:title" content="saltstack-returners">
 <meta property="og:url" content="/2015-07-09/saltstack-returners/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="return 是在 minion 端运行的一个回调
-创建return目录1mkdir /srv/salt/_returners
-创建一个local_return/srv/salt/_returners/local_return.py">
+<meta property="og:description" content="return 是在 minion 端运行的一个回调 创建return目录1mkdir /srv/salt/_returners 创建一个local_return/srv/salt/_returners/local_return.py">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:38:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="saltstack-returners">
-<meta name="twitter:description" content="return 是在 minion 端运行的一个回调
-创建return目录1mkdir /srv/salt/_returners
-创建一个local_return/srv/salt/_returners/local_return.py">
+<meta name="twitter:description" content="return 是在 minion 端运行的一个回调 创建return目录1mkdir /srv/salt/_returners 创建一个local_return/srv/salt/_returners/local_return.py">
     
 
     
@@ -79,7 +75,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -96,7 +92,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -192,14 +188,14 @@
         
             
             <p>return 是在 minion 端运行的一个回调</p>
-<p>创建return目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir /srv/salt/_returners</div></pre></td></tr></table></figure></p>
+<p>创建return目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /srv/salt/_returners</span><br></pre></td></tr></table></figure></p>
 <p>创建一个local_return<br>/srv/salt/_returners/local_return.py<br><a id="more"></a></p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#coding=utf8</div><div class="line">import json</div><div class="line">def __virtual__():</div><div class="line">    return &apos;local_return&apos;</div><div class="line">def returner(ret):</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    Return data to the local file</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    result_file = &apos;/var/local/salt/returner&apos;</div><div class="line">    result = file(result_file,&apos;a+&apos;)</div><div class="line">    result.write(str(json.dumps(ret.values()))[1:-1]+&apos;\n&apos;)</div><div class="line">    result.close()</div></pre></td></tr></table></figure>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#coding=utf8</span><br><span class="line">import json</span><br><span class="line">def __virtual__():</span><br><span class="line">    return &apos;local_return&apos;</span><br><span class="line">def returner(ret):</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    Return data to the local file</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    result_file = &apos;/var/local/salt/returner&apos;</span><br><span class="line">    result = file(result_file,&apos;a+&apos;)</span><br><span class="line">    result.write(str(json.dumps(ret.values()))[1:-1]+&apos;\n&apos;)</span><br><span class="line">    result.close()</span><br></pre></td></tr></table></figure>
 <p><strong>virtual</strong>() 用来定义返回器的名称</p>
 <p>returner(ret) 为具体返回器执行的值</p>
-<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo salt &apos;*&apos; saltutil.sync_all</div></pre></td></tr></table></figure>
-<h2 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h2><p>minion 端在执行完 test.ping 后会回调 local_runturn<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo salt &apos;*’ test.ping  --return  local_return</div></pre></td></tr></table></figure></p>
-<h2 id="return-reids-示例"><a href="#return-reids-示例" class="headerlink" title="return reids 示例"></a>return reids 示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">try:</div><div class="line">    import redis</div><div class="line">    HAS_REDIS = True</div><div class="line">except ImportError:</div><div class="line">    HAS_REDIS = False</div><div class="line"></div><div class="line">__virtualname__ = &apos;redis&apos;</div><div class="line"></div><div class="line">def __virtual__():</div><div class="line">    if not HAS_REDIS:</div><div class="line">        return False</div><div class="line">    return __virtualname__</div><div class="line"></div><div class="line">def returner(ret):</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    Return information to a redis server</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    # Get a redis connection</div><div class="line">    serv = redis.Redis(</div><div class="line">                host=&apos;redis-serv.example.com&apos;,</div><div class="line">                port=6379,</div><div class="line">                db=&apos;0&apos;)</div><div class="line">    serv.sadd(&quot;%(id)s:jobs&quot; % ret, ret[&apos;jid&apos;])</div><div class="line">    serv.set(&quot;%(jid)s:%(id)s&quot; % ret, json.dumps(ret[&apos;return&apos;]))</div><div class="line">    serv.sadd(&apos;jobs&apos;, ret[&apos;jid&apos;])</div><div class="line">    serv.sadd(ret[&apos;jid&apos;], ret[&apos;id&apos;])</div></pre></td></tr></table></figure>
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo salt &apos;*&apos; saltutil.sync_all</span><br></pre></td></tr></table></figure>
+<h2 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h2><p>minion 端在执行完 test.ping 后会回调 local_runturn<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo salt &apos;*’ test.ping  --return  local_return</span><br></pre></td></tr></table></figure></p>
+<h2 id="return-reids-示例"><a href="#return-reids-示例" class="headerlink" title="return reids 示例"></a>return reids 示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">try:</span><br><span class="line">    import redis</span><br><span class="line">    HAS_REDIS = True</span><br><span class="line">except ImportError:</span><br><span class="line">    HAS_REDIS = False</span><br><span class="line"></span><br><span class="line">__virtualname__ = &apos;redis&apos;</span><br><span class="line"></span><br><span class="line">def __virtual__():</span><br><span class="line">    if not HAS_REDIS:</span><br><span class="line">        return False</span><br><span class="line">    return __virtualname__</span><br><span class="line"></span><br><span class="line">def returner(ret):</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    Return information to a redis server</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    # Get a redis connection</span><br><span class="line">    serv = redis.Redis(</span><br><span class="line">                host=&apos;redis-serv.example.com&apos;,</span><br><span class="line">                port=6379,</span><br><span class="line">                db=&apos;0&apos;)</span><br><span class="line">    serv.sadd(&quot;%(id)s:jobs&quot; % ret, ret[&apos;jid&apos;])</span><br><span class="line">    serv.set(&quot;%(jid)s:%(id)s&quot; % ret, json.dumps(ret[&apos;return&apos;]))</span><br><span class="line">    serv.sadd(&apos;jobs&apos;, ret[&apos;jid&apos;])</span><br><span class="line">    serv.sadd(ret[&apos;jid&apos;], ret[&apos;id&apos;])</span><br></pre></td></tr></table></figure>
 
         
         </div>

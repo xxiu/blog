@@ -11,6 +11,7 @@
 <meta property="og:url" content="/2016-07-04/简单的坐标转省市区的算法/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="在很早以前，就通过地图 api 抓取的相关的省市区信息，其中有一个字段是 polylines ，里面是一组 gps 的坐标。为了离线来根据 gps 坐标获取省市区的信息，最开始想到的是使用 geohash 来计算出每个区域所包含的hash值，把所有的hash值存下来，这样查询变成了键值查询，如果 geohash精确到第8位，值偏差大概是19米，这个精度已经在我所能够承受的范围内了。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:32:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简单的坐标转省市区的算法">
@@ -73,7 +74,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -90,7 +91,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -187,9 +188,9 @@
 <p>需要重新考虑计算方法，看着这一堆的数据表，数据表中有个 center 的字段，突然发现计算一个点是否在围栏里面的算法是线性的，也就是算法负责度为O(n).于是马上改变了思路。</p>
 <p>计算方法，首先找到给坐标（x,y)点最近的4个区域，然后计算点在哪个区域里。</p>
 <p>那么整么才能找到给定坐标的最近的点呢，这里就要请出 mongodb ，利用 mongodb 的 2d 索引，可以非常方便的找到临近的点。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">collection.area.find(&#123;&apos;gps&apos;: &#123;&apos;$near&apos;: &#123;&apos;lat&apos;: lat, &apos;lng&apos;: lng&#125;&#125;, &apos;leaf_note&apos;: 1&#125;).limit(4)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">collection.area.find(&#123;&apos;gps&apos;: &#123;&apos;$near&apos;: &#123;&apos;lat&apos;: lat, &apos;lng&apos;: lng&#125;&#125;, &apos;leaf_note&apos;: 1&#125;).limit(4)</span><br></pre></td></tr></table></figure>
 <p>找到临近点后，只需要循环算一下点在哪个区域内，这个算法是在入坑前就找到的，原理就是从目录点随便引出一条射线，如果射线与围栏区域的交点是奇数个，那么这个点就在区域内，算法代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">def boundary(p, points):</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    计算方法：射线法  从内部发出一条射线，判断与边的交点个数</div><div class="line"></div><div class="line">    计算点是否在区域内</div><div class="line"></div><div class="line">    算法来源 http://stackoverflow.com/questions/8721406/how-to-determine-if-a-point-is-inside-a-2d-convex-polygon</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    result = False</div><div class="line"></div><div class="line">    i = 0</div><div class="line">    j = len(points) - 1</div><div class="line"></div><div class="line">    while i &lt; len(points):</div><div class="line">        if (points[i].y &gt; p.y) != (points[j].y &gt; p.y) and (p.x &lt; (points[j].x - points[i].x) * (p.y - points[i].y) / (points[j].y - points[i].y) + points[i].x):</div><div class="line">            result = not result</div><div class="line">        j = i</div><div class="line">        i = i + 1</div><div class="line"></div><div class="line">    return result</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def boundary(p, points):</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    计算方法：射线法  从内部发出一条射线，判断与边的交点个数</span><br><span class="line"></span><br><span class="line">    计算点是否在区域内</span><br><span class="line"></span><br><span class="line">    算法来源 http://stackoverflow.com/questions/8721406/how-to-determine-if-a-point-is-inside-a-2d-convex-polygon</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    result = False</span><br><span class="line"></span><br><span class="line">    i = 0</span><br><span class="line">    j = len(points) - 1</span><br><span class="line"></span><br><span class="line">    while i &lt; len(points):</span><br><span class="line">        if (points[i].y &gt; p.y) != (points[j].y &gt; p.y) and (p.x &lt; (points[j].x - points[i].x) * (p.y - points[i].y) / (points[j].y - points[i].y) + points[i].x):</span><br><span class="line">            result = not result</span><br><span class="line">        j = i</span><br><span class="line">        i = i + 1</span><br><span class="line"></span><br><span class="line">    return result</span><br></pre></td></tr></table></figure>
 <p>然后这个没几行代码、简单、快速、不占用什么存储、方便移植到其他语言的计算方法就算完成了。当然中间还有些细节的考虑</p>
 
         

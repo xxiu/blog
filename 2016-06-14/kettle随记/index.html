@@ -5,22 +5,17 @@
     
     <title>kettle随记 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="注意排序，作为流处理，排序很重要，想要体会排序，可以理解一下普通排重和 hash 排重的区别。
- 普通排重，是需要排序后线性处理，排重的时候只需要比较相邻的就行了，不许要保存状态 hash排重，对需要排重的字段做 hash，比较 hash 值，所以不需要排序。
- kettle 作为一个流处理工具，还是排序后做处理好一点，很多时候会避免掉很多的莫名其妙，其实是自己理解补充的问题。">
+    <meta name="description" content="注意排序，作为流处理，排序很重要，想要体会排序，可以理解一下普通排重和 hash 排重的区别。  普通排重，是需要排序后线性处理，排重的时候只需要比较相邻的就行了，不许要保存状态 hash排重，对需要排重的字段做 hash，比较 hash 值，所以不需要排序。  kettle 作为一个流处理工具，还是排序后做处理好一点，很多时候会避免掉很多的莫名其妙，其实是自己理解补充的问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kettle随记">
 <meta property="og:url" content="/2016-06-14/kettle随记/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="注意排序，作为流处理，排序很重要，想要体会排序，可以理解一下普通排重和 hash 排重的区别。
- 普通排重，是需要排序后线性处理，排重的时候只需要比较相邻的就行了，不许要保存状态 hash排重，对需要排重的字段做 hash，比较 hash 值，所以不需要排序。
- kettle 作为一个流处理工具，还是排序后做处理好一点，很多时候会避免掉很多的莫名其妙，其实是自己理解补充的问题。">
+<meta property="og:description" content="注意排序，作为流处理，排序很重要，想要体会排序，可以理解一下普通排重和 hash 排重的区别。  普通排重，是需要排序后线性处理，排重的时候只需要比较相邻的就行了，不许要保存状态 hash排重，对需要排重的字段做 hash，比较 hash 值，所以不需要排序。  kettle 作为一个流处理工具，还是排序后做处理好一点，很多时候会避免掉很多的莫名其妙，其实是自己理解补充的问题。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:36:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kettle随记">
-<meta name="twitter:description" content="注意排序，作为流处理，排序很重要，想要体会排序，可以理解一下普通排重和 hash 排重的区别。
- 普通排重，是需要排序后线性处理，排重的时候只需要比较相邻的就行了，不许要保存状态 hash排重，对需要排重的字段做 hash，比较 hash 值，所以不需要排序。
- kettle 作为一个流处理工具，还是排序后做处理好一点，很多时候会避免掉很多的莫名其妙，其实是自己理解补充的问题。">
+<meta name="twitter:description" content="注意排序，作为流处理，排序很重要，想要体会排序，可以理解一下普通排重和 hash 排重的区别。  普通排重，是需要排序后线性处理，排重的时候只需要比较相邻的就行了，不许要保存状态 hash排重，对需要排重的字段做 hash，比较 hash 值，所以不需要排序。  kettle 作为一个流处理工具，还是排序后做处理好一点，很多时候会避免掉很多的莫名其妙，其实是自己理解补充的问题。">
     
 
     
@@ -79,7 +74,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -96,7 +91,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -193,7 +188,7 @@
 </li>
 </ol>
 <a id="more"></a>
-<ol>
+<ol start="2">
 <li><p>kettle行转列</p>
 <p> kettle 中提供了行转列，列转行的控价，但是适用性不高，需要特定的不是特别好用，在 kettle 的例子里面有一个用来处理的 JavaScript 的脚本 <code>JavaScript - create new rows.ktr</code>，可以用来坐行转列。</p>
 <p> ‘’’</p>
@@ -215,7 +210,7 @@ putRow(newRow);
 <li><p>更新和补充<br>数据更新和补充，其实是一回事，比如有两个数据源，新的和旧的。需要用新的数据安装指定的 key 替换掉旧的数据，或者对旧数据做补充。<br>首先对两列数据都按 key 排序 然后<code>合并记录</code>可以得到需要的数据。</p>
 </li>
 </ol>
-<ol>
+<ol start="5">
 <li>join Row<br> 在转换中，kettle似乎不能定义全局变量（也行是我没有找到），很多输入后需要定制输出文件，没有全局变量的话，需要在流程中把输出路径一直保持在流中。<br> 这里其实可以在最初的步骤中将路径计算出来后，在需要的时候使用<code>字段选择</code>来选择出路径，然后用<code>join Row</code>将路径连接到尾部。（没有在列表中找到 join row 这个控件，可以到 Join Rows - adding fields to a stream.ktr 里面拷贝一个）</li>
 </ol>
 

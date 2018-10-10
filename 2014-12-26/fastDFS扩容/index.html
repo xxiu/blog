@@ -5,22 +5,18 @@
     
     <title>fastDFS扩容 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="###添加tracker
-tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都是对等的,所有的tracker都接受stroage心跳信息.每个tracker是对等的.由客户端来选择使用哪个tracker.
- 如果新增加一台tracker server，storage server连接该tracker server，发现该tracker server返回的本组stor">
+    <meta name="description" content="###添加tracker tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都是对等的,所有的tracker都接受stroage心跳信息.每个tracker是对等的.由客户端来选择使用哪个tracker.  如果新增加一台tracker server，storage server连接该tracker server，发现该tracker server返回的本组stor">
+<meta name="keywords" content="fastDFS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fastDFS扩容">
 <meta property="og:url" content="/2014-12-26/fastDFS扩容/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="###添加tracker
-tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都是对等的,所有的tracker都接受stroage心跳信息.每个tracker是对等的.由客户端来选择使用哪个tracker.
- 如果新增加一台tracker server，storage server连接该tracker server，发现该tracker server返回的本组stor">
+<meta property="og:description" content="###添加tracker tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都是对等的,所有的tracker都接受stroage心跳信息.每个tracker是对等的.由客户端来选择使用哪个tracker.  如果新增加一台tracker server，storage server连接该tracker server，发现该tracker server返回的本组stor">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:33:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fastDFS扩容">
-<meta name="twitter:description" content="###添加tracker
-tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都是对等的,所有的tracker都接受stroage心跳信息.每个tracker是对等的.由客户端来选择使用哪个tracker.
- 如果新增加一台tracker server，storage server连接该tracker server，发现该tracker server返回的本组stor">
+<meta name="twitter:description" content="###添加tracker tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都是对等的,所有的tracker都接受stroage心跳信息.每个tracker是对等的.由客户端来选择使用哪个tracker.  如果新增加一台tracker server，storage server连接该tracker server，发现该tracker server返回的本组stor">
     
 
     
@@ -79,7 +75,7 @@ tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -96,7 +92,7 @@ tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -219,7 +215,7 @@ tracker非常容易扩展,直接增加tracker机器即可.集群中的tracker都
 <p>IP不一样的话，会比较麻烦一些。<br>如果使用了V4的自定义server ID特性，那么比较容易，直接将tracker上的IP和ID映射文件storage_ids.conf修改好即可。storage_ids文件可以再源码目录的conf里面找到示例.</p>
 <p>如果是用IP地址作为服务器标识，那么需要修改tracker和storage的data目录下的几个数据文件，将旧IP调整为新IP。<br>注意storage的data目录下有一个.打头的隐藏文件也需要修改。<br>另外，需要将后缀为mark的IP地址和端口命名的同步位置记录文件名改名。<br>文件全部调整完成后才能启动集群服务。</p>
 <p>tracker server上需要调整的文件列表：<br>data/storage_groups_new.dat<br>data/storage_servers_new.dat<br>data/storage_sync_timestamp.dat</p>
-<p>storage server需要调整的文件列表：<br>data/.data_init_flag<br>data/sync/${ip<em>addr}</em>${port}.mark：此类文件，需要将文件名中的IP地址调整过来</p>
+<p>storage server需要调整的文件列表：<br>data/.data_init_flag<br>data/sync/${ip_addr}_${port}.mark：此类文件，需要将文件名中的IP地址调整过来</p>
 
         
         </div>

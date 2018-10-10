@@ -5,22 +5,18 @@
     
     <title>saltstack-自定义模块 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="创建 modules 目录1mkdir  /srv/salt/_modules  &amp;amp;&amp;amp; cd /srv/salt/_modules
-在 _modules  目录创建一个模块 test.py
-代码如下12def foo():     return  &amp;apos;foo&amp;apos;">
+    <meta name="description" content="创建 modules 目录1mkdir  /srv/salt/_modules  &amp;amp;&amp;amp; cd /srv/salt/_modules 在 _modules  目录创建一个模块 test.py 代码如下12def foo():     return  &amp;apos;foo&amp;apos;">
+<meta name="keywords" content="saltstack">
 <meta property="og:type" content="article">
 <meta property="og:title" content="saltstack-自定义模块">
 <meta property="og:url" content="/2015-07-09/saltstack-自定义模块/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="创建 modules 目录1mkdir  /srv/salt/_modules  &amp;amp;&amp;amp; cd /srv/salt/_modules
-在 _modules  目录创建一个模块 test.py
-代码如下12def foo():     return  &amp;apos;foo&amp;apos;">
+<meta property="og:description" content="创建 modules 目录1mkdir  /srv/salt/_modules  &amp;amp;&amp;amp; cd /srv/salt/_modules 在 _modules  目录创建一个模块 test.py 代码如下12def foo():     return  &amp;apos;foo&amp;apos;">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:38:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="saltstack-自定义模块">
-<meta name="twitter:description" content="创建 modules 目录1mkdir  /srv/salt/_modules  &amp;amp;&amp;amp; cd /srv/salt/_modules
-在 _modules  目录创建一个模块 test.py
-代码如下12def foo():     return  &amp;apos;foo&amp;apos;">
+<meta name="twitter:description" content="创建 modules 目录1mkdir  /srv/salt/_modules  &amp;amp;&amp;amp; cd /srv/salt/_modules 在 _modules  目录创建一个模块 test.py 代码如下12def foo():     return  &amp;apos;foo&amp;apos;">
     
 
     
@@ -79,7 +75,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -96,7 +92,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -191,9 +187,9 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>创建 modules 目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir  /srv/salt/_modules  &amp;&amp; cd /srv/salt/_modules</div></pre></td></tr></table></figure></p>
+            <p>创建 modules 目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir  /srv/salt/_modules  &amp;&amp; cd /srv/salt/_modules</span><br></pre></td></tr></table></figure></p>
 <p>在 _modules  目录创建一个模块 test.py</p>
-<h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">def foo():</div><div class="line">     return  &apos;foo&apos;</div></pre></td></tr></table></figure>
+<h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def foo():</span><br><span class="line">     return  &apos;foo&apos;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <h2 id="同步到客户端"><a href="#同步到客户端" class="headerlink" title="同步到客户端"></a>同步到客户端</h2><p>salt ‘*’ state.highstate</p>
 <p>salt ‘*’ saltutil.sync_returners</p>

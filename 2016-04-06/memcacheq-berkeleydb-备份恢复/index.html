@@ -11,6 +11,7 @@
 <meta property="og:url" content="/2016-04-06/memcacheq-berkeleydb-备份恢复/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="这是很久以前碰到的问题，一直躺在笔记里，没有整理出来。在 memecacheq 运行一段时间后会出现以下的问题,原因是 Berkeleydb 存储出问题了1[memcacheq] [Wed Jun  3 17:02:11 2015] &amp;quot;BDB1546 unable to join the environment&amp;quot;">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:37:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="memcacheq Berkeleydb 备份恢复">
@@ -73,7 +74,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -90,7 +91,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -180,36 +181,36 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>这是很久以前碰到的问题，一直躺在笔记里，没有整理出来。在 memecacheq 运行一段时间后会出现以下的问题,原因是 Berkeleydb 存储出问题了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[memcacheq] [Wed Jun  3 17:02:11 2015] &quot;BDB1546 unable to join the environment&quot;</div></pre></td></tr></table></figure></p>
+            <p>这是很久以前碰到的问题，一直躺在笔记里，没有整理出来。在 memecacheq 运行一段时间后会出现以下的问题,原因是 Berkeleydb 存储出问题了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[memcacheq] [Wed Jun  3 17:02:11 2015] &quot;BDB1546 unable to join the environment&quot;</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <h2 id="日志清理"><a href="#日志清理" class="headerlink" title="日志清理"></a>日志清理</h2><p>有两种方法可以清理memcachedb的日志</p>
 <ol>
 <li><p>利用memcache协议清理日志 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">   echo db_archive|nc 127.0.0.1 21201</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">   echo db_archive|nc 127.0.0.1 21201</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>利用berkeleydb的命令行清理日志 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">   /usr/local/BerkeleyDB.xxx/bin/db_archive -d -h home</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">   /usr/local/BerkeleyDB.xxx/bin/db_archive -d -h home</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h2 id="备份及恢复"><a href="#备份及恢复" class="headerlink" title="备份及恢复"></a>备份及恢复</h2><ol>
 <li><p>备份</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/BerkeleyDB.xxx/bin/db_hotbackup [-c] -h home -b backup_dir</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/BerkeleyDB.xxx/bin/db_hotbackup [-c] -h home -b backup_dir</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>正常恢复</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/BerkeleyDB.xxx/bin/db_recover -f -h home</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/BerkeleyDB.xxx/bin/db_recover -f -h home</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<ol>
-<li>灾难性恢复，新增一个c参数<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/BerkeleyDB.xxx/bin/db_recover -cf -h home</div></pre></td></tr></table></figure>
+<ol start="3">
+<li>灾难性恢复，新增一个c参数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/BerkeleyDB.xxx/bin/db_recover -cf -h home</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h2 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h2><p>  使用memcache协议的stats, stats bdb, stats rep指令，例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">  echo stats|nc 127.0.0.1 21201</div></pre></td></tr></table></figure></p>
+<h2 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h2><p>  使用memcache协议的stats, stats bdb, stats rep指令，例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  echo stats|nc 127.0.0.1 21201</span><br></pre></td></tr></table></figure></p>
 <p>  标准的bdb工具db_stat</p>
 <h2 id="故障恢复"><a href="#故障恢复" class="headerlink" title="故障恢复"></a>故障恢复</h2><p>  master-slave结构的memcachedb,当master当机的时，可采用以下步骤恢复</p>
 <ol>
 <li>停止slave</li>
 <li><p>将slave作为master跑起来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">  memcachedb -p21201 -d -r -u root -H ./mdb_11211_m -N -R 127.0.0.1:31201 -M</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  memcachedb -p21201 -d -r -u root -H ./mdb_11211_m -N -R 127.0.0.1:31201 -M</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>有充裕的时间恢复原master</p>
 </li>

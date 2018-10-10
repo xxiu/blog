@@ -5,25 +5,18 @@
     
     <title>solrphp and solr searcher使用 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="前面我配置好了solr，并且数据库建立索引也完成了。
-为php添加搜索首先下载solrphp
-http://wiki.apache.org/solr/SolPHP
-在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。">
+    <meta name="description" content="前面我配置好了solr，并且数据库建立索引也完成了。 为php添加搜索首先下载solrphp http://wiki.apache.org/solr/SolPHP 在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。">
+<meta name="keywords" content="solr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="solrphp and solr searcher使用">
 <meta property="og:url" content="/2014-11-04/solr_searcher/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="前面我配置好了solr，并且数据库建立索引也完成了。
-为php添加搜索首先下载solrphp
-http://wiki.apache.org/solr/SolPHP
-在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。">
+<meta property="og:description" content="前面我配置好了solr，并且数据库建立索引也完成了。 为php添加搜索首先下载solrphp http://wiki.apache.org/solr/SolPHP 在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:39:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="solrphp and solr searcher使用">
-<meta name="twitter:description" content="前面我配置好了solr，并且数据库建立索引也完成了。
-为php添加搜索首先下载solrphp
-http://wiki.apache.org/solr/SolPHP
-在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。">
+<meta name="twitter:description" content="前面我配置好了solr，并且数据库建立索引也完成了。 为php添加搜索首先下载solrphp http://wiki.apache.org/solr/SolPHP 在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。">
     
 
     
@@ -82,7 +75,7 @@ http://wiki.apache.org/solr/SolPHP
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -99,7 +92,7 @@ http://wiki.apache.org/solr/SolPHP
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -197,40 +190,40 @@ http://wiki.apache.org/solr/SolPHP
             <p>前面我配置好了solr，并且数据库建立索引也完成了。</p>
 <h4 id="为php添加搜索"><a href="#为php添加搜索" class="headerlink" title="为php添加搜索"></a>为php添加搜索</h4><p>首先下载solrphp</p>
 <pre><code>http://wiki.apache.org/solr/SolPHP
-</code></pre><p>在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">require_once(&apos;Solr/Service.php&apos;);</div></pre></td></tr></table></figure></p>
+</code></pre><p>在solrphp里面包括了一个/Apache/solr的文件夹。将solr这个文件夹拷贝到项目中并引用。<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require_once(&apos;Solr/Service.php&apos;);</span><br></pre></td></tr></table></figure></p>
 <p>现在可以开始使用进行搜索了,一下三段代码建立个一个简单的搜索。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">require_once(&apos;Solr/Service.php&apos;);</div><div class="line"></div><div class="line">$solr= new  Apache_Solr_Service(&apos;192.168.10.11&apos;,&apos;8080&apos;,&apos;solr/&apos;);</div><div class="line"></div><div class="line">$query= $solr-&gt;search($_GET[&apos;q&apos;], 0, 10);  //查询q</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">require_once(&apos;Solr/Service.php&apos;);</span><br><span class="line"></span><br><span class="line">$solr= new  Apache_Solr_Service(&apos;192.168.10.11&apos;,&apos;8080&apos;,&apos;solr/&apos;);</span><br><span class="line"></span><br><span class="line">$query= $solr-&gt;search($_GET[&apos;q&apos;], 0, 10);  //查询q</span><br></pre></td></tr></table></figure>
 <p>Apache_Solr_Service实例化了一个连接到solr的服务，$solr-&gt;search表示查询传入的参数q，并查询0开始的10条数据 。$query是一个Apache_Solr_Response对象，这个对象是Solr数据返回的对象。主要包括了5个函数 。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public function getHttpStatus()</div><div class="line"></div><div class="line">public function getHttpStatusMessage()</div><div class="line"></div><div class="line">public function getType()</div><div class="line"></div><div class="line">public function getEncoding()</div><div class="line"></div><div class="line">public function getRawResponse()</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public function getHttpStatus()</span><br><span class="line"></span><br><span class="line">public function getHttpStatusMessage()</span><br><span class="line"></span><br><span class="line">public function getType()</span><br><span class="line"></span><br><span class="line">public function getEncoding()</span><br><span class="line"></span><br><span class="line">public function getRawResponse()</span><br></pre></td></tr></table></figure>
 <p>使用上面的函数来获取需要的数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">if ($query-&gt;getHttpStatus()==200)&#123;</div><div class="line"></div><div class="line">  $raw=$query-&gt;getRawResponse();</div><div class="line"></div><div class="line">  $rawobj=json_decode($raw);</div><div class="line"></div><div class="line">   $response=$rawobj-&gt;response ;</div><div class="line"></div><div class="line">   echo &quot;All:&quot;.$response-&gt;numFound.&quot;&lt;/br&gt;&quot;;</div><div class="line">   echo &quot;start:&quot;.$response-&gt;start.&quot;&lt;/br&gt;&quot;;</div><div class="line"></div><div class="line"></div><div class="line">   foreach ($response-&gt;docs  as   $value) &#123;</div><div class="line">        //$value为在solr的schema.xml文件里配置的 field</div><div class="line">        ......</div><div class="line">   &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">if ($query-&gt;getHttpStatus()==200)&#123;</span><br><span class="line"></span><br><span class="line">  $raw=$query-&gt;getRawResponse();</span><br><span class="line"></span><br><span class="line">  $rawobj=json_decode($raw);</span><br><span class="line"></span><br><span class="line">   $response=$rawobj-&gt;response ;</span><br><span class="line"></span><br><span class="line">   echo &quot;All:&quot;.$response-&gt;numFound.&quot;&lt;/br&gt;&quot;;</span><br><span class="line">   echo &quot;start:&quot;.$response-&gt;start.&quot;&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   foreach ($response-&gt;docs  as   $value) &#123;</span><br><span class="line">        //$value为在solr的schema.xml文件里配置的 field</span><br><span class="line">        ......</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Lucene中的IndexSearcher"><a href="#Lucene中的IndexSearcher" class="headerlink" title="Lucene中的IndexSearcher"></a>Lucene中的IndexSearcher</h4><p>在Lucene中搜索最终是调用了IndexSearcher的search方法，同时传入了一个Query的实例。其中Lucene内置的Query类型包括了一下几个：</p>
 <ol>
 <li><p>TermQuery 通过项进行搜索</p>
 <p> 比如返回域content里包含hello的文档</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Query query=new TermQuery(new Term(&quot;content&quot;,&quot;hello&quot;));</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Query query=new TermQuery(new Term(&quot;content&quot;,&quot;hello&quot;));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>TermRangeQuery 指定范围搜索</p>
 <p> 比如搜索title里面从a到d范围内，包含a不包含d的文档</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Query query=new TermRangeQuery(&quot;title&quot;,&quot;a&quot;,&quot;d&quot;,ture,false);</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Query query=new TermRangeQuery(&quot;title&quot;,&quot;a&quot;,&quot;d&quot;,ture,false);</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>NumericRangeQuery 指定数字范围</p>
 <p> 搜索201401到201405范围内的文档</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Query query=NumericRangeQuery.newIntRange(&quot;month&quot;,&quot;201401&quot;,&quot;201405&quot;,ture,ture);</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Query query=NumericRangeQuery.newIntRange(&quot;month&quot;,&quot;201401&quot;,&quot;201405&quot;,ture,ture);</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>PrefixQuery  通过字符串搜索</p>
 <p> 搜索content中以hello开头的文档</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Query query=new PrefixQuery(new Term(&quot;content&quot;,&quot;hello&quot;));</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Query query=new PrefixQuery(new Term(&quot;content&quot;,&quot;hello&quot;));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>BooleanQuery 组合搜索</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">BooleanQuery query=new  BooleanQuery();</div><div class="line">query.add(iquery,BooleanQuery.Occur.MUST);</div><div class="line">query.add(...);</div><div class="line">......</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BooleanQuery query=new  BooleanQuery();</span><br><span class="line">query.add(iquery,BooleanQuery.Occur.MUST);</span><br><span class="line">query.add(...);</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
 <p> 其中BooleanQuery的add方法传入的一个Query对象和一个Occur的枚举。Occur枚举包括了MUST(and),SHOULD(no),MUST_NOT(not).来和query之间做逻辑的组合。</p>
 </li>
 <li><p>PhraseQuery  短语搜索，用来查询</p>
 </li>
 <li><p>WildcardQuery 通配符查询</p>
 </li>
-<li><p>FuzzQuery   类似项搜索。使用Levenshtein算法，算法详情可以查看 <a href="http://www.cnblogs.com/ac1985482/p/Levenshtein.html" target="_blank" rel="external">http://www.cnblogs.com/ac1985482/p/Levenshtein.html</a></p>
+<li><p>FuzzQuery   类似项搜索。使用Levenshtein算法，算法详情可以查看 <a href="http://www.cnblogs.com/ac1985482/p/Levenshtein.html" target="_blank" rel="noopener">http://www.cnblogs.com/ac1985482/p/Levenshtein.html</a></p>
 </li>
 <li><p>MatchAllDocsQuery 匹配所有文档</p>
 </li>

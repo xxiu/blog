@@ -5,22 +5,18 @@
     
     <title>将数据库表导入到solr索引 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="编辑solrcofnig.xml添加处理器
-
-12345&amp;lt;requestHandler name=&amp;quot;/dataimport&amp;quot; class=&amp;quot;org.apache.solr.handler.dataimport.DataImportHandler&amp;quot;&amp;gt;	&amp;lt;lst name=&amp;quot;defaults&amp;quot;&amp;gt;	  &amp;lt;str">
+    <meta name="description" content="编辑solrcofnig.xml添加处理器  12345&amp;lt;requestHandler name=&amp;quot;/dataimport&amp;quot; class=&amp;quot;org.apache.solr.handler.dataimport.DataImportHandler&amp;quot;&amp;gt;	&amp;lt;lst name=&amp;quot;defaults&amp;quot;&amp;gt;	  &amp;lt;str">
+<meta name="keywords" content="solr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="将数据库表导入到solr索引">
 <meta property="og:url" content="/2014-11-02/将数据库表导入到solr索引/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="编辑solrcofnig.xml添加处理器
-
-12345&amp;lt;requestHandler name=&amp;quot;/dataimport&amp;quot; class=&amp;quot;org.apache.solr.handler.dataimport.DataImportHandler&amp;quot;&amp;gt;	&amp;lt;lst name=&amp;quot;defaults&amp;quot;&amp;gt;	  &amp;lt;str">
+<meta property="og:description" content="编辑solrcofnig.xml添加处理器  12345&amp;lt;requestHandler name=&amp;quot;/dataimport&amp;quot; class=&amp;quot;org.apache.solr.handler.dataimport.DataImportHandler&amp;quot;&amp;gt;	&amp;lt;lst name=&amp;quot;defaults&amp;quot;&amp;gt;	  &amp;lt;str">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:32:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="将数据库表导入到solr索引">
-<meta name="twitter:description" content="编辑solrcofnig.xml添加处理器
-
-12345&amp;lt;requestHandler name=&amp;quot;/dataimport&amp;quot; class=&amp;quot;org.apache.solr.handler.dataimport.DataImportHandler&amp;quot;&amp;gt;	&amp;lt;lst name=&amp;quot;defaults&amp;quot;&amp;gt;	  &amp;lt;str">
+<meta name="twitter:description" content="编辑solrcofnig.xml添加处理器  12345&amp;lt;requestHandler name=&amp;quot;/dataimport&amp;quot; class=&amp;quot;org.apache.solr.handler.dataimport.DataImportHandler&amp;quot;&amp;gt;	&amp;lt;lst name=&amp;quot;defaults&amp;quot;&amp;gt;	  &amp;lt;str">
     
 
     
@@ -79,7 +75,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -96,7 +92,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -194,19 +190,19 @@
             <ol>
 <li>编辑solrcofnig.xml添加处理器</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;requestHandler name=&quot;/dataimport&quot; class=&quot;org.apache.solr.handler.dataimport.DataImportHandler&quot;&gt;</div><div class="line">	&lt;lst name=&quot;defaults&quot;&gt;</div><div class="line">	  &lt;str name=&quot;config&quot;&gt;data-config.xml&lt;/str&gt;</div><div class="line">	&lt;/lst&gt;</div><div class="line">&lt;/requestHandler&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;requestHandler name=&quot;/dataimport&quot; class=&quot;org.apache.solr.handler.dataimport.DataImportHandler&quot;&gt;</span><br><span class="line">	&lt;lst name=&quot;defaults&quot;&gt;</span><br><span class="line">	  &lt;str name=&quot;config&quot;&gt;data-config.xml&lt;/str&gt;</span><br><span class="line">	&lt;/lst&gt;</span><br><span class="line">&lt;/requestHandler&gt;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<ol>
+<ol start="2">
 <li>创建一个名为data-config.xml的文件并保存如下内容到conf目录(也就是solrconfig.xml的目录)</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;dataConfig&gt;</div><div class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</div><div class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</div><div class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</div><div class="line">              user=&quot;user-name&quot;</div><div class="line">              password=&quot;password&quot;/&gt;</div><div class="line">  &lt;document&gt;</div><div class="line">    &lt;entity name=&quot;id&quot;</div><div class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</div><div class="line">    &lt;/entity&gt;</div><div class="line">  &lt;/document&gt;</div><div class="line"></div><div class="line">&lt;/dataConfig&gt;</div></pre></td></tr></table></figure>
-<ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</span><br><span class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</span><br><span class="line">              user=&quot;user-name&quot;</span><br><span class="line">              password=&quot;password&quot;/&gt;</span><br><span class="line">  &lt;document&gt;</span><br><span class="line">    &lt;entity name=&quot;id&quot;</span><br><span class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</span><br><span class="line">    &lt;/entity&gt;</span><br><span class="line">  &lt;/document&gt;</span><br><span class="line"></span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
+<ol start="3">
 <li><p>编辑schema.xml文件，保证文件中有’id’,’name’,’desc’等fields。并更改data-config.xml的详细信息。</p>
 </li>
 <li><p>将JDBC的jar驱动文件放到<solr-home>/lib文件夹中（tomcat/webapps/solr/WEB-INF/lib）</solr-home></p>
 </li>
 <li><p>在<code>solr-4.10.1/dist</code>目录拷贝<code>solr-dataimporthandler</code>开头的jar包到<code>solr/WEB-INF/lib/</code>目录.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp solr-dataimporthandler-* /usr/local/tomcat/webapps/solr/WEB-INF/lib/</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp solr-dataimporthandler-* /usr/local/tomcat/webapps/solr/WEB-INF/lib/</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>运行命令<code>http://solr-host:port/solr/dataimport?command=full-import</code>进行全量索引，每次进行全量索引时，会将数据清空，如果不想清空需要添加clean=false。例如<code>http://solr-host:port/solr/dataimport?command=full-import&amp;clean=false</code></p>
 </li>
@@ -214,16 +210,16 @@
 <p>####在字段名和field明不同的时候添加索引</p>
 <ol>
 <li><p>修改data-config.xml,如下所示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;dataConfig&gt;</div><div class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</div><div class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</div><div class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</div><div class="line">              user=&quot;user-name&quot;</div><div class="line">              password=&quot;password&quot;/&gt;</div><div class="line">  &lt;document&gt;</div><div class="line">    &lt;entity name=&quot;id&quot;</div><div class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</div><div class="line">       &lt;field column=&quot;id&quot; name=&quot;solr_id&quot;/&gt;</div><div class="line">       &lt;field column=&quot;name&quot; name=&quot;solr_name&quot;/&gt;</div><div class="line">       &lt;field column=&quot;desc&quot; name=&quot;solr_desc&quot;/&gt;</div><div class="line">    &lt;/entity&gt;</div><div class="line">  &lt;/document&gt;</div><div class="line">&lt;/dataConfig&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</span><br><span class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</span><br><span class="line">              user=&quot;user-name&quot;</span><br><span class="line">              password=&quot;password&quot;/&gt;</span><br><span class="line">  &lt;document&gt;</span><br><span class="line">    &lt;entity name=&quot;id&quot;</span><br><span class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</span><br><span class="line">       &lt;field column=&quot;id&quot; name=&quot;solr_id&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;name&quot; name=&quot;solr_name&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;desc&quot; name=&quot;solr_desc&quot;/&gt;</span><br><span class="line">    &lt;/entity&gt;</span><br><span class="line">  &lt;/document&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>写入solr的字段为’solr_id’, ‘solr_name’, solr_desc’。所以schema.xml中必须要要这几个field。</p>
 </li>
-<li><p>运行 <a href="http://solr-host:port/dataimpor?command=full-import" target="_blank" rel="external">http://solr-host:port/dataimpor?command=full-import</a> 建立索引</p>
+<li><p>运行 <a href="http://solr-host:port/dataimpor?command=full-import" target="_blank" rel="noopener">http://solr-host:port/dataimpor?command=full-import</a> 建立索引</p>
 </li>
 </ol>
 <h4 id="配置多个表建立索引"><a href="#配置多个表建立索引" class="headerlink" title="配置多个表建立索引"></a>配置多个表建立索引</h4><ol>
 <li><p>修改data-config如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;dataConfig&gt;</div><div class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</div><div class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</div><div class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</div><div class="line">              user=&quot;user-name&quot;</div><div class="line">              password=&quot;password&quot;/&gt;</div><div class="line">  &lt;document&gt;</div><div class="line">    &lt;entity name=&quot;outer&quot;</div><div class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</div><div class="line">       &lt;field column=&quot;id&quot; name=&quot;solr_id&quot;/&gt;</div><div class="line">       &lt;field column=&quot;name&quot; name=&quot;solr_name&quot;/&gt;</div><div class="line">       &lt;field column=&quot;desc&quot; name=&quot;solr_desc&quot;/&gt;</div><div class="line">       &lt;entity name=&quot;inner&quot;</div><div class="line">               query=&quot;select details from another_table where id =&apos;$&#123;outer.id&#125;&apos;&quot;&gt;</div><div class="line">              &lt;field column=&quot;details&quot; name=&quot;solr_details&quot;/&gt;</div><div class="line">       &lt;/entity&gt;</div><div class="line">    &lt;/entity&gt;</div><div class="line">  &lt;/document&gt;</div><div class="line">&lt;/dataConfig&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</span><br><span class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</span><br><span class="line">              user=&quot;user-name&quot;</span><br><span class="line">              password=&quot;password&quot;/&gt;</span><br><span class="line">  &lt;document&gt;</span><br><span class="line">    &lt;entity name=&quot;outer&quot;</span><br><span class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</span><br><span class="line">       &lt;field column=&quot;id&quot; name=&quot;solr_id&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;name&quot; name=&quot;solr_name&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;desc&quot; name=&quot;solr_desc&quot;/&gt;</span><br><span class="line">       &lt;entity name=&quot;inner&quot;</span><br><span class="line">               query=&quot;select details from another_table where id =&apos;$&#123;outer.id&#125;&apos;&quot;&gt;</span><br><span class="line">              &lt;field column=&quot;details&quot; name=&quot;solr_details&quot;/&gt;</span><br><span class="line">       &lt;/entity&gt;</span><br><span class="line">    &lt;/entity&gt;</span><br><span class="line">  &lt;/document&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>schema.xml应该包含solr_details的字段</p>
 </li>
@@ -234,7 +230,7 @@
 <li><p>下载mysql的JDBC的jar，并拷贝到<solr-home>/lib的文件夹</solr-home></p>
 </li>
 <li><p>修改data-config为如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;dataConfig&gt;</div><div class="line">&lt;dataSource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot;</div><div class="line">   url=&quot;jdbc:mysql://ip:3306/dbname&quot;</div><div class="line">   user=&quot;username&quot;</div><div class="line">   password=&quot;password&quot;/&gt;</div><div class="line">    &lt;document name=&quot;products&quot;&gt;</div><div class="line">        &lt;entity</div><div class="line">            ......</div><div class="line">        &lt;/entity&gt;</div><div class="line">    &lt;/document&gt;</div><div class="line">&lt;/dataConfig&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">&lt;dataSource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">   url=&quot;jdbc:mysql://ip:3306/dbname&quot;</span><br><span class="line">   user=&quot;username&quot;</span><br><span class="line">   password=&quot;password&quot;/&gt;</span><br><span class="line">    &lt;document name=&quot;products&quot;&gt;</span><br><span class="line">        &lt;entity</span><br><span class="line">            ......</span><br><span class="line">        &lt;/entity&gt;</span><br><span class="line">    &lt;/document&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 

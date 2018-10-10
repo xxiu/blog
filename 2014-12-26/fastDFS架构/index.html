@@ -5,31 +5,18 @@
     
     <title>fastDFS架构 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="####FastDFS是什么
-FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成
-
-tracker server (跟踪服务器)
-storage server (存储服务器)
-client (客户端)">
+    <meta name="description" content="####FastDFS是什么 FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成  tracker server (跟踪服务器) storage server (存储服务器) client (客户端)">
+<meta name="keywords" content="fastDFS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fastDFS架构">
 <meta property="og:url" content="/2014-12-26/fastDFS架构/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="####FastDFS是什么
-FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成
-
-tracker server (跟踪服务器)
-storage server (存储服务器)
-client (客户端)">
+<meta property="og:description" content="####FastDFS是什么 FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成  tracker server (跟踪服务器) storage server (存储服务器) client (客户端)">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:34:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fastDFS架构">
-<meta name="twitter:description" content="####FastDFS是什么
-FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成
-
-tracker server (跟踪服务器)
-storage server (存储服务器)
-client (客户端)">
+<meta name="twitter:description" content="####FastDFS是什么 FastDFS是开源的轻量级分布式文件系统,解决海量存储的问题,适合中小文件存储.由三部分组成  tracker server (跟踪服务器) storage server (存储服务器) client (客户端)">
     
 
     
@@ -88,7 +75,7 @@ client (客户端)">
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -105,7 +92,7 @@ client (客户端)">
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -244,7 +231,7 @@ client (客户端)">
 <li>First server ordered by priority，按优先级排序（优先级在storage上配置）</li>
 </ol>
 <h4 id="生成的文件名"><a href="#生成的文件名" class="headerlink" title="生成的文件名"></a>生成的文件名</h4><p>当文件存储到某个子目录后,会为文件生成一个文件名,文件名有group,存储目录,两级子目录,fileid,文件后缀拼接而成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[组名]  [磁盘] [目录]    [文件名]</div><div class="line">group1/  M00   /00/0d/   wKgKC1SQBbeABu7vAAAAEGqzRP4043.txt</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[组名]  [磁盘] [目录]    [文件名]</span><br><span class="line">group1/  M00   /00/0d/   wKgKC1SQBbeABu7vAAAAEGqzRP4043.txt</span><br></pre></td></tr></table></figure>
 <p>###download file</p>
 <p>客户端上传完成后,会到达file_id信息.</p>
 <ol>

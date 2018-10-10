@@ -5,19 +5,18 @@
     
     <title>saltstack-cp模块 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="git_file1sudo salt   &amp;apos;*&amp;apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5]
-其中salt: 所指定的位置为 /srv/salt ,可以指定模板 和 压缩等级">
+    <meta name="description" content="git_file1sudo salt   &amp;apos;*&amp;apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5] 其中salt: 所指定的位置为 /srv/salt ,可以指定模板 和 压缩等级">
+<meta name="keywords" content="saltstack">
 <meta property="og:type" content="article">
 <meta property="og:title" content="saltstack-cp模块">
 <meta property="og:url" content="/2015-07-09/saltstack-cp模块/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="git_file1sudo salt   &amp;apos;*&amp;apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5]
-其中salt: 所指定的位置为 /srv/salt ,可以指定模板 和 压缩等级">
+<meta property="og:description" content="git_file1sudo salt   &amp;apos;*&amp;apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5] 其中salt: 所指定的位置为 /srv/salt ,可以指定模板 和 压缩等级">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:38:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="saltstack-cp模块">
-<meta name="twitter:description" content="git_file1sudo salt   &amp;apos;*&amp;apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5]
-其中salt: 所指定的位置为 /srv/salt ,可以指定模板 和 压缩等级">
+<meta name="twitter:description" content="git_file1sudo salt   &amp;apos;*&amp;apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5] 其中salt: 所指定的位置为 /srv/salt ,可以指定模板 和 压缩等级">
     
 
     
@@ -76,7 +75,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -93,7 +92,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -188,16 +187,16 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h2 id="git-file"><a href="#git-file" class="headerlink" title="git_file"></a>git_file</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo salt   &apos;*&apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5]</div></pre></td></tr></table></figure>
+            <h2 id="git-file"><a href="#git-file" class="headerlink" title="git_file"></a>git_file</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo salt   &apos;*&apos;   cp.get_file    salt://files/1.txt      /srv/1.txt   [template=jinja]   [gzip=5]</span><br></pre></td></tr></table></figure>
 <p>其中salt: 所指定的位置为 /srv/salt ,可以指定模板 和 压缩等级</p>
 <a id="more"></a>
-<h2 id="get-dir"><a href="#get-dir" class="headerlink" title="get_dir"></a>get_dir</h2><p>cp.get_dir可以从master下载整个目录，语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># salt &apos;*&apos; cp.get_dir salt://etc/apache2 /etc</div></pre></td></tr></table></figure></p>
-<p>cp.get_dir也支持模板和压缩：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># salt &apos;*&apos; cp.get_dir salt://etc/&#123;&#123;pillar.webserver&#125;&#125; /etc gzip=5 template=jinja</div></pre></td></tr></table></figure></p>
+<h2 id="get-dir"><a href="#get-dir" class="headerlink" title="get_dir"></a>get_dir</h2><p>cp.get_dir可以从master下载整个目录，语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># salt &apos;*&apos; cp.get_dir salt://etc/apache2 /etc</span><br></pre></td></tr></table></figure></p>
+<p>cp.get_dir也支持模板和压缩：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># salt &apos;*&apos; cp.get_dir salt://etc/&#123;&#123;pillar.webserver&#125;&#125; /etc gzip=5 template=jinja</span><br></pre></td></tr></table></figure></p>
 <!--more-->
 <h2 id="get-url"><a href="#get-url" class="headerlink" title="get_url"></a>get_url</h2><p>cp.get_url可以从一个URL地址下载文件，URL可以是msater上的路径（salt://），也可以是http网址。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># salt &apos;*&apos; cp.get_url salt://my/file /tmp/mine</div><div class="line"># salt &apos;*&apos; cp.get_url http://www.abc.com /tmp/index.html</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># salt &apos;*&apos; cp.get_url salt://my/file /tmp/mine</span><br><span class="line"># salt &apos;*&apos; cp.get_url http://www.abc.com /tmp/index.html</span><br></pre></td></tr></table></figure>
 <h2 id="get-template"><a href="#get-template" class="headerlink" title="get_template"></a>get_template</h2><p>cp.get_template可以在文件下载之前用模板引擎处理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># salt &apos;*&apos; cp.get_template salt://path/to/template /minion/dest</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># salt &apos;*&apos; cp.get_template salt://path/to/template /minion/dest</span><br></pre></td></tr></table></figure>
 <h2 id="push"><a href="#push" class="headerlink" title="push"></a>push</h2><p>cp.push可以从客户端传文件到master上，处于很明显的安全考虑，默认没有启用此功能</p>
 
         

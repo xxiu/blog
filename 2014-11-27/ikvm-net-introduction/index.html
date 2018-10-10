@@ -5,31 +5,18 @@
     
     <title>ikvm.net简介 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="ikvm.net是什么http://www.ikvm.net/
-ikvm.net是能够运行在mono和.net framework的java虚拟机。它包括了
-
-在.net中实现的一个java虚拟机
-java类库的.net实现
-java和.net的互操作工具">
+    <meta name="description" content="ikvm.net是什么http://www.ikvm.net/ ikvm.net是能够运行在mono和.net framework的java虚拟机。它包括了  在.net中实现的一个java虚拟机 java类库的.net实现 java和.net的互操作工具">
+<meta name="keywords" content="ikvm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ikvm.net简介">
 <meta property="og:url" content="/2014-11-27/ikvm-net-introduction/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="ikvm.net是什么http://www.ikvm.net/
-ikvm.net是能够运行在mono和.net framework的java虚拟机。它包括了
-
-在.net中实现的一个java虚拟机
-java类库的.net实现
-java和.net的互操作工具">
+<meta property="og:description" content="ikvm.net是什么http://www.ikvm.net/ ikvm.net是能够运行在mono和.net framework的java虚拟机。它包括了  在.net中实现的一个java虚拟机 java类库的.net实现 java和.net的互操作工具">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:35:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ikvm.net简介">
-<meta name="twitter:description" content="ikvm.net是什么http://www.ikvm.net/
-ikvm.net是能够运行在mono和.net framework的java虚拟机。它包括了
-
-在.net中实现的一个java虚拟机
-java类库的.net实现
-java和.net的互操作工具">
+<meta name="twitter:description" content="ikvm.net是什么http://www.ikvm.net/ ikvm.net是能够运行在mono和.net framework的java虚拟机。它包括了  在.net中实现的一个java虚拟机 java类库的.net实现 java和.net的互操作工具">
     
 
     
@@ -88,7 +75,7 @@ java和.net的互操作工具">
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -105,7 +92,7 @@ java和.net的互操作工具">
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -200,7 +187,7 @@ java和.net的互操作工具">
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h1 id="ikvm-net是什么"><a href="#ikvm-net是什么" class="headerlink" title="ikvm.net是什么"></a>ikvm.net是什么</h1><p><a href="http://www.ikvm.net/" target="_blank" rel="external">http://www.ikvm.net/</a></p>
+            <h1 id="ikvm-net是什么"><a href="#ikvm-net是什么" class="headerlink" title="ikvm.net是什么"></a>ikvm.net是什么</h1><p><a href="http://www.ikvm.net/" target="_blank" rel="noopener">http://www.ikvm.net/</a></p>
 <p>ikvm.net是能够运行在mono和.net framework的java虚拟机。它包括了</p>
 <ul>
 <li>在.net中实现的一个java虚拟机</li>
@@ -211,9 +198,9 @@ java和.net的互操作工具">
 <p>它可以再.net中使用java库。它包括一个<code>ikvmc</code>可以讲java字节码转换为.net IL。如果你在.net application中引用java library 。</p>
 <p>ikvm现在最大化的实现了与jdk1.4的兼容。</p>
 <h1 id="引用java-api-到-net-中"><a href="#引用java-api-到-net-中" class="headerlink" title="引用java api 到.net 中"></a>引用java api 到.net 中</h1><p>首先需要添加<code>IKVM.Runtime.dll</code> ， <code>OpenJDK.ClassLibrary.dll</code>到项目中，使用<code>ikvmc</code>将jar转换为.net dll。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ikvmc -target:library mylib.jar</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ikvmc -target:library mylib.jar</span><br></pre></td></tr></table></figure>
 <p>例如我需要使用pdfbox在.net中调用，使用以下命令生成了<code>PDFBox-0.7.3.dll</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ikvmc -target:library PDFBox-0.7.3.jar</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ikvmc -target:library PDFBox-0.7.3.jar</span><br></pre></td></tr></table></figure>
 <h1 id="ikvm-net的组成"><a href="#ikvm-net的组成" class="headerlink" title="ikvm.net的组成"></a>ikvm.net的组成</h1><p>IKVM.Runtime.dll: VM运行时和所有支持代码。<br>它包括以下的功能：</p>
 <ul>
 <li>Byte Code JIT 编译器和验证器: 使用JIT将Java Byte Code编译为IL。</li>
@@ -231,9 +218,9 @@ java和.net的互操作工具">
 <h1 id="IKVM-NET-8-0"><a href="#IKVM-NET-8-0" class="headerlink" title="IKVM.NET 8.0"></a>IKVM.NET 8.0</h1><p>2015年的1月份ikvm发布了新的版本,支持java8.类库使用<code>OpenJDK 8</code> .</p>
 <p>IKVM提供了两种模式。在动态模式下，它就像其他任何虚拟机那样直接运行Java应用。在静态模式下，Java字节码被重新编译为.NET库和可执行程序。</p>
 <p>在使用意在运行在IKVM 上的Java代码时，通过在命名空间前面加上“cli.”，可以把.NET类导进来。为满足Java编译器的需求，还需要使用ikvmstub工具生成相应的Java存根文件。</p>
-<p>可以使用<code>nuget</code>直接安装使用,在vs里使用nuget搜索ikvm下载安装即可.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">install-package IKVM</div></pre></td></tr></table></figure></p>
-<p><a href="http://weblog.ikvm.net/2015/01/12/IKVMNET80ReleaseCandidate1.aspx" target="_blank" rel="external">http://weblog.ikvm.net/2015/01/12/IKVMNET80ReleaseCandidate1.aspx</a></p>
-<p><a href="https://www.nuget.org/packages/IKVM" target="_blank" rel="external">https://www.nuget.org/packages/IKVM</a></p>
+<p>可以使用<code>nuget</code>直接安装使用,在vs里使用nuget搜索ikvm下载安装即可.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install-package IKVM</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://weblog.ikvm.net/2015/01/12/IKVMNET80ReleaseCandidate1.aspx" target="_blank" rel="noopener">http://weblog.ikvm.net/2015/01/12/IKVMNET80ReleaseCandidate1.aspx</a></p>
+<p><a href="https://www.nuget.org/packages/IKVM" target="_blank" rel="noopener">https://www.nuget.org/packages/IKVM</a></p>
 
         
         </div>

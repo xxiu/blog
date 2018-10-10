@@ -11,6 +11,7 @@
 <meta property="og:url" content="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="当我们的数据表需要分库的时候，如果使用了 sqlalchemy 来做 ORM，在做数据表和类关联的时候就很痛苦了，一个类只能和一个表关联。当然还有一种方法就是修改 model.tablename.name 来解决，但是这个有个问题是只能绑定一次，实例化后修改就无效了。所以我们就需要使用 type 来动态的创建一个类，到这里问题又来了，如果在不同的时候创建了两个相同的类名的时候，程序就会抛出异常。所">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:31:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用单例和动态类在sqlalchemy中做动态表绑定">
@@ -73,7 +74,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -90,7 +91,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -182,7 +183,7 @@
             
             <p>当我们的数据表需要分库的时候，如果使用了 sqlalchemy 来做 ORM，在做数据表和类关联的时候就很痛苦了，一个类只能和一个表关联。<br>当然还有一种方法就是修改 model.<strong>tablename</strong>.name 来解决，但是这个有个问题是只能绑定一次，实例化后修改就无效了。所以我们就需要使用 type 来动态的创建一个类，到这里问题又来了，如果在不同的时候创建了两个相同的类名的时候，程序就会抛出异常。所以类名必须是单例的。整个的实现如下：</p>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Base = declarative_base()</div><div class="line"></div><div class="line">class m_model(object):</div><div class="line"></div><div class="line">    _mapper = &#123;&#125;</div><div class="line"></div><div class="line">    @staticmethod</div><div class="line">    def model(tablename):</div><div class="line">        class_name = tablename</div><div class="line">        modelClass = m_model._mapper.get(class_name, None)</div><div class="line"></div><div class="line">        if modelClass is None:</div><div class="line">            modelClass = type(class_name, (Base,),&#123;</div><div class="line">                &apos;__module__&apos;: __name__,</div><div class="line">                &apos;__name__&apos;: class_name,</div><div class="line">                &apos;__tablename__&apos;: class_name,</div><div class="line">                &apos;id&apos;: Column(Integer, primary_key=True),</div><div class="line">                &apos;phone&apos;: Column(String),</div><div class="line">                # ......</div><div class="line">            &#125;)</div><div class="line">            m_model._mapper[class_name] = modelClass</div><div class="line">        return modelClass()</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Base = declarative_base()</span><br><span class="line"></span><br><span class="line">class m_model(object):</span><br><span class="line"></span><br><span class="line">    _mapper = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def model(tablename):</span><br><span class="line">        class_name = tablename</span><br><span class="line">        modelClass = m_model._mapper.get(class_name, None)</span><br><span class="line"></span><br><span class="line">        if modelClass is None:</span><br><span class="line">            modelClass = type(class_name, (Base,),&#123;</span><br><span class="line">                &apos;__module__&apos;: __name__,</span><br><span class="line">                &apos;__name__&apos;: class_name,</span><br><span class="line">                &apos;__tablename__&apos;: class_name,</span><br><span class="line">                &apos;id&apos;: Column(Integer, primary_key=True),</span><br><span class="line">                &apos;phone&apos;: Column(String),</span><br><span class="line">                # ......</span><br><span class="line">            &#125;)</span><br><span class="line">            m_model._mapper[class_name] = modelClass</span><br><span class="line">        return modelClass()</span><br></pre></td></tr></table></figure>
 
         
         </div>

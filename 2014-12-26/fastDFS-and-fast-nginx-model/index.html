@@ -5,22 +5,18 @@
     
     <title>FastDFS配置nginx以及fastdfs-nginx-model | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="###下载zlib
-http://zlib.net/
-123456wget http://zlib.net/zlib-1.2.8.tar.gztar -zxvf zlib-1.2.8.tar.gzcd zlib-1.2.8./configuremakemake install">
+    <meta name="description" content="###下载zlib http://zlib.net/ 123456wget http://zlib.net/zlib-1.2.8.tar.gztar -zxvf zlib-1.2.8.tar.gzcd zlib-1.2.8./configuremakemake install">
+<meta name="keywords" content="fastDFS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FastDFS配置nginx以及fastdfs-nginx-model">
 <meta property="og:url" content="/2014-12-26/fastDFS-and-fast-nginx-model/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="###下载zlib
-http://zlib.net/
-123456wget http://zlib.net/zlib-1.2.8.tar.gztar -zxvf zlib-1.2.8.tar.gzcd zlib-1.2.8./configuremakemake install">
+<meta property="og:description" content="###下载zlib http://zlib.net/ 123456wget http://zlib.net/zlib-1.2.8.tar.gztar -zxvf zlib-1.2.8.tar.gzcd zlib-1.2.8./configuremakemake install">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:34:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FastDFS配置nginx以及fastdfs-nginx-model">
-<meta name="twitter:description" content="###下载zlib
-http://zlib.net/
-123456wget http://zlib.net/zlib-1.2.8.tar.gztar -zxvf zlib-1.2.8.tar.gzcd zlib-1.2.8./configuremakemake install">
+<meta name="twitter:description" content="###下载zlib http://zlib.net/ 123456wget http://zlib.net/zlib-1.2.8.tar.gztar -zxvf zlib-1.2.8.tar.gzcd zlib-1.2.8./configuremakemake install">
     
 
     
@@ -79,7 +75,7 @@ http://zlib.net/
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -96,7 +92,7 @@ http://zlib.net/
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -192,22 +188,22 @@ http://zlib.net/
         
             
             <p>###下载zlib</p>
-<p><a href="http://zlib.net/" target="_blank" rel="external">http://zlib.net/</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">wget http://zlib.net/zlib-1.2.8.tar.gz</div><div class="line">tar -zxvf zlib-1.2.8.tar.gz</div><div class="line">cd zlib-1.2.8</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<p><a href="http://zlib.net/" target="_blank" rel="noopener">http://zlib.net/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget http://zlib.net/zlib-1.2.8.tar.gz</span><br><span class="line">tar -zxvf zlib-1.2.8.tar.gz</span><br><span class="line">cd zlib-1.2.8</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>###下载安装pcre</p>
-<p><a href="http://pcre.org/" target="_blank" rel="external">http://pcre.org/</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz</div><div class="line">tar -zxvf pcre-8.34.tar.gz</div><div class="line">cd pcre-8.34</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure></p>
+<p><a href="http://pcre.org/" target="_blank" rel="noopener">http://pcre.org/</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz</span><br><span class="line">tar -zxvf pcre-8.34.tar.gz</span><br><span class="line">cd pcre-8.34</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
 <p>###nginx安装</p>
 <p>nginx编译安装需要添加fastdfs-nginx-module的模块,路径为fastdfs-nginx-module/src的路径.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sudo ./configure --with-pcre=../pcre-8.36 \</div><div class="line">--with-zlib=../zlib-1.2.8  \</div><div class="line">--add-module=../fastdfs-nginx-module/src</div><div class="line"></div><div class="line"> make</div><div class="line"> make install</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo ./configure --with-pcre=../pcre-8.36 \</span><br><span class="line">--with-zlib=../zlib-1.2.8  \</span><br><span class="line">--add-module=../fastdfs-nginx-module/src</span><br><span class="line"></span><br><span class="line"> make</span><br><span class="line"> make install</span><br></pre></td></tr></table></figure>
 <p>###mod_fastdfs.conf 配置</p>
 <p>mod_fastdfs.conf配置基本和storage的配置差不多,主要是一下几条记录的配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">tracker_server=192.168.10.11:22122  #tracker服务器</div><div class="line"></div><div class="line">storage_server_port=23000           #storage服务器端口</div><div class="line"></div><div class="line">group_name=group1                   #这台服务器的group名</div><div class="line">store_path0=/home/vagrant/fastdfs_data/storage/   #store_path路径,和storage.conf相同</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tracker_server=192.168.10.11:22122  #tracker服务器</span><br><span class="line"></span><br><span class="line">storage_server_port=23000           #storage服务器端口</span><br><span class="line"></span><br><span class="line">group_name=group1                   #这台服务器的group名</span><br><span class="line">store_path0=/home/vagrant/fastdfs_data/storage/   #store_path路径,和storage.conf相同</span><br></pre></td></tr></table></figure>
 <p>###nginx配置</p>
-<p>首先在storage/data中建立软链<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s //home/vagrant/fastdfs_data/storage/data /home/vagrant/fastdfs_data/storage/data/M00</div></pre></td></tr></table></figure></p>
+<p>首先在storage/data中建立软链<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s //home/vagrant/fastdfs_data/storage/data /home/vagrant/fastdfs_data/storage/data/M00</span><br></pre></td></tr></table></figure></p>
 <p>然后在nginx中配置如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen 8090;</div><div class="line">    server_name 192.168.11.10;</div><div class="line">    access_log   logs/fastdfs.log;</div><div class="line">    location /M00&#123;</div><div class="line">         root /home/vagrant/fastdfs_data/storage/data;</div><div class="line">         ngx_fastdfs_module;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>如果有多个store_path值,可以继续上面的步骤. 假设store_path有多个值,可以为这几个值创建不同的软链.在nginx继续添加location配置,例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"> ln -s //home/vagrant/fastdfs_data/storage/data /home/vagrant/fastdfs_data/storage/data/M00</div><div class="line"></div><div class="line"> ln -s //home/vagrant/fastdfs_data/storage1/data /home/vagrant/fastdfs_data/storage1/data/M01</div><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen 8090;</div><div class="line">    server_name 192.168.11.10;</div><div class="line">    access_log   logs/fastdfs.log;</div><div class="line">    location /M00&#123;</div><div class="line">         root /home/vagrant/fastdfs_data/storage/data;</div><div class="line">         ngx_fastdfs_module;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    location /M01&#123;</div><div class="line">         root /home/vagrant/fastdfs_data/storage1/data;</div><div class="line">         ngx_fastdfs_module;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8090;</span><br><span class="line">    server_name 192.168.11.10;</span><br><span class="line">    access_log   logs/fastdfs.log;</span><br><span class="line">    location /M00&#123;</span><br><span class="line">         root /home/vagrant/fastdfs_data/storage/data;</span><br><span class="line">         ngx_fastdfs_module;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果有多个store_path值,可以继续上面的步骤. 假设store_path有多个值,可以为这几个值创建不同的软链.在nginx继续添加location配置,例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> ln -s //home/vagrant/fastdfs_data/storage/data /home/vagrant/fastdfs_data/storage/data/M00</span><br><span class="line"></span><br><span class="line"> ln -s //home/vagrant/fastdfs_data/storage1/data /home/vagrant/fastdfs_data/storage1/data/M01</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 8090;</span><br><span class="line">    server_name 192.168.11.10;</span><br><span class="line">    access_log   logs/fastdfs.log;</span><br><span class="line">    location /M00&#123;</span><br><span class="line">         root /home/vagrant/fastdfs_data/storage/data;</span><br><span class="line">         ngx_fastdfs_module;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location /M01&#123;</span><br><span class="line">         root /home/vagrant/fastdfs_data/storage1/data;</span><br><span class="line">         ngx_fastdfs_module;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
         
         </div>

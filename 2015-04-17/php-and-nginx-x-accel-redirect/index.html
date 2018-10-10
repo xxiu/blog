@@ -6,11 +6,13 @@
     <title>php和nginx使用x-accel-redirect做文件下载 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="1234567891011$file_url= &quot;g1/&quot;.$file_path;$file_name=$title.&apos;.&apos;.$file_ext;header(&quot;Content-Type:application/octet-stream;charset=utf-8&quot;);header(&apos;Content-Disposition: attachment; filename=&apos;.$file_name);h">
+<meta name="keywords" content="nginx php">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php和nginx使用x-accel-redirect做文件下载">
 <meta property="og:url" content="/2015-04-17/php-and-nginx-x-accel-redirect/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="1234567891011$file_url= &quot;g1/&quot;.$file_path;$file_name=$title.&apos;.&apos;.$file_ext;header(&quot;Content-Type:application/octet-stream;charset=utf-8&quot;);header(&apos;Content-Disposition: attachment; filename=&apos;.$file_name);h">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:37:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="php和nginx使用x-accel-redirect做文件下载">
@@ -73,7 +75,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -90,7 +92,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -185,9 +187,9 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$file_url= <span class="string">"g1/"</span>.$file_path;</div><div class="line">$file_name=$title.<span class="string">'.'</span>.$file_ext;</div><div class="line"></div><div class="line">header(<span class="string">"Content-Type:application/octet-stream;charset=utf-8"</span>);</div><div class="line">header(<span class="string">'Content-Disposition: attachment; filename='</span>.$file_name);</div><div class="line">header(<span class="string">'X-Accel-Redirect: /filedfs/'</span>.$file_url);</div><div class="line">header(<span class="string">"X-Accel-Buffering: yes"</span>);</div><div class="line">header(<span class="string">"X-Accel-Limit-Rate :102400"</span>); <span class="comment">//速度限制 Byte/s</span></div><div class="line">header(<span class="string">"Accept-Ranges: none"</span>);<span class="comment">//单线程 限制多线程</span></div><div class="line">header(<span class="string">"X-Accel-Charset: utf-8"</span>);</div></pre></td></tr></table></figure>
+            <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$file_url= <span class="string">"g1/"</span>.$file_path;</span><br><span class="line">$file_name=$title.<span class="string">'.'</span>.$file_ext;</span><br><span class="line"></span><br><span class="line">header(<span class="string">"Content-Type:application/octet-stream;charset=utf-8"</span>);</span><br><span class="line">header(<span class="string">'Content-Disposition: attachment; filename='</span>.$file_name);</span><br><span class="line">header(<span class="string">'X-Accel-Redirect: /filedfs/'</span>.$file_url);</span><br><span class="line">header(<span class="string">"X-Accel-Buffering: yes"</span>);</span><br><span class="line">header(<span class="string">"X-Accel-Limit-Rate :102400"</span>); <span class="comment">//速度限制 Byte/s</span></span><br><span class="line">header(<span class="string">"Accept-Ranges: none"</span>);<span class="comment">//单线程 限制多线程</span></span><br><span class="line">header(<span class="string">"X-Accel-Charset: utf-8"</span>);</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location  /filedfs/ &#123;</div><div class="line">    internal;</div><div class="line">    proxy_pass http://10.8.8.100:8808/;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span>  /filedfs/ &#123;</span><br><span class="line">    internal;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://10.8.8.100:8808/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>首先在 php 里面设置了 <code>X-Accel-Redirect</code> 值为 /filedfs/ + fileurl .<br>然后 nginx 里面将 /filedfs/ 转发到固定的url .并设置连接为内部的 <code>internal</code> .</p>
 <p>遇到的问题 :</p>
 <ol>
@@ -195,10 +197,10 @@
 <li>对于<code>nginx</code>的<code>internal</code>的理解不足.</li>
 </ol>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li><a href="http://wiki.nginx.org/XSendfile" target="_blank" rel="external">http://wiki.nginx.org/XSendfile</a></li>
-<li><a href="http://kovyrin.net/2010/07/24/nginx-fu-x-accel-redirect-remote/" target="_blank" rel="external">http://kovyrin.net/2010/07/24/nginx-fu-x-accel-redirect-remote/</a></li>
-<li><a href="http://blog.csdn.net/h70614959/article/details/37766697" target="_blank" rel="external">http://blog.csdn.net/h70614959/article/details/37766697</a></li>
-<li><a href="http://blog.csdn.net/guichenglin/article/details/7737790" target="_blank" rel="external">http://blog.csdn.net/guichenglin/article/details/7737790</a></li>
+<li><a href="http://wiki.nginx.org/XSendfile" target="_blank" rel="noopener">http://wiki.nginx.org/XSendfile</a></li>
+<li><a href="http://kovyrin.net/2010/07/24/nginx-fu-x-accel-redirect-remote/" target="_blank" rel="noopener">http://kovyrin.net/2010/07/24/nginx-fu-x-accel-redirect-remote/</a></li>
+<li><a href="http://blog.csdn.net/h70614959/article/details/37766697" target="_blank" rel="noopener">http://blog.csdn.net/h70614959/article/details/37766697</a></li>
+<li><a href="http://blog.csdn.net/guichenglin/article/details/7737790" target="_blank" rel="noopener">http://blog.csdn.net/guichenglin/article/details/7737790</a></li>
 </ol>
 
         

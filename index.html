@@ -11,6 +11,7 @@
 <meta property="og:url" content="/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="好记性烂笔头">
+<meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="张巍的博客">
 <meta name="twitter:description" content="好记性烂笔头">
@@ -72,7 +73,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -89,7 +90,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -185,23 +186,23 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>docker docs : <a href="https://docs.docker.com" target="_blank" rel="external">https://docs.docker.com</a></p>
-<h1 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h1><p>下载地址：<a href="https://store.docker.com/editions/community/docker-ce-desktop-windows" target="_blank" rel="external">https://store.docker.com/editions/community/docker-ce-desktop-windows</a></p>
+            <p>docker docs : <a href="https://docs.docker.com" target="_blank" rel="noopener">https://docs.docker.com</a></p>
+<h1 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h1><p>下载地址：<a href="https://store.docker.com/editions/community/docker-ce-desktop-windows" target="_blank" rel="noopener">https://store.docker.com/editions/community/docker-ce-desktop-windows</a></p>
 <p>需要开启 Hyper-V</p>
 <p>直接安装</p>
-<h1 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h1><p>下载地址 <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" target="_blank" rel="external">https://store.docker.com/editions/community/docker-ce-desktop-mac</a></p>
+<h1 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h1><p>下载地址 <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" target="_blank" rel="noopener">https://store.docker.com/editions/community/docker-ce-desktop-mac</a></p>
 <p>直接安装 Docker.dmg .</p>
 <h1 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h1><p>如果是新安装的建议将<code>/etc/apt/source.list</code>内容替换为阿里源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</div><div class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</div><div class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</div><div class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</div><div class="line"></div><div class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</div><div class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</div><div class="line"></div><div class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</div><div class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</div></pre></td></tr></table></figure>
-<h2 id="用脚本安装"><a href="#用脚本安装" class="headerlink" title="用脚本安装"></a>用脚本安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl -fsSL https://get.docker.com -o get-docker.sh</div><div class="line">$ sudo sh get-docker.sh</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<h2 id="用脚本安装"><a href="#用脚本安装" class="headerlink" title="用脚本安装"></a>用脚本安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> curl -fsSL https://get.docker.com -o get-docker.sh</span><br><span class="line"><span class="meta">$</span> sudo sh get-docker.sh</span><br></pre></td></tr></table></figure>
 <h2 id="按步骤安装"><a href="#按步骤安装" class="headerlink" title="按步骤安装"></a>按步骤安装</h2><p>安装 Docker CE 需要 64 位的 Ubuntu</p>
-<h3 id="删除老版本的-Docker"><a href="#删除老版本的-Docker" class="headerlink" title="删除老版本的 Docker"></a>删除老版本的 Docker</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get remove docker docker-engine docker.io</div></pre></td></tr></table></figure>
+<h3 id="删除老版本的-Docker"><a href="#删除老版本的-Docker" class="headerlink" title="删除老版本的 Docker"></a>删除老版本的 Docker</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo apt-get remove docker docker-engine docker.io</span><br></pre></td></tr></table></figure>
 <h3 id="Docker-支持-aufs"><a href="#Docker-支持-aufs" class="headerlink" title="Docker 支持 aufs"></a>Docker 支持 aufs</h3><p>ubunut14.04 需要，16.04 不需要</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line"></div><div class="line">$ sudo apt-get install \</div><div class="line">    linux-image-extra-$(uname -r) \</div><div class="line">    linux-image-extra-virtual</div></pre></td></tr></table></figure>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="update-apt-get"><a href="#update-apt-get" class="headerlink" title="update apt-get"></a>update apt-get</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div></pre></td></tr></table></figure>
-<h4 id="添加apt-https-支持"><a href="#添加apt-https-支持" class="headerlink" title="添加apt https 支持"></a>添加apt https 支持</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install \</div><div class="line">    apt-transport-https \</div><div class="line">    ca-certificates \</div><div class="line">    curl \</div><div class="line">    software-properties-common</div></pre></td></tr></table></figure>
-<h4 id="添加-Docker-GPG-key"><a href="#添加-Docker-GPG-key" class="headerlink" title="添加 Docker GPG key"></a>添加 Docker GPG key</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</div><div class="line">$ sudo apt-key fingerprint 0EBFCD88 #验证</div><div class="line">pub   4096R/0EBFCD88 2017-02-22</div><div class="line">      Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</div><div class="line">uid                  Docker Release (CE deb) &lt;docker@docker.com&gt;</div><div class="line">sub   4096R/F273FCD8 2017-02-22</div><div class="line"></div><div class="line">$ sudo add-apt-repository \</div><div class="line">   &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</div><div class="line">   $(lsb_release -cs) \</div><div class="line">   stable&quot;</div></pre></td></tr></table></figure>
-<h4 id="安装Docker-CE"><a href="#安装Docker-CE" class="headerlink" title="安装Docker-CE"></a>安装Docker-CE</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line">$ sudo apt-get install docker-ce #写文档时最新版本docker version 18.06.1-ce</div><div class="line"># $ sudo apt-get install docker-ce=&lt;VERSION&gt;  # 安装指定版本的docker</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> sudo apt-get install \</span><br><span class="line">    linux-image-extra-$(uname -r) \</span><br><span class="line">    linux-image-extra-virtual</span><br></pre></td></tr></table></figure>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="update-apt-get"><a href="#update-apt-get" class="headerlink" title="update apt-get"></a>update apt-get</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo apt-get update</span><br></pre></td></tr></table></figure>
+<h4 id="添加apt-https-支持"><a href="#添加apt-https-支持" class="headerlink" title="添加apt https 支持"></a>添加apt https 支持</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    software-properties-common</span><br></pre></td></tr></table></figure>
+<h4 id="添加-Docker-GPG-key"><a href="#添加-Docker-GPG-key" class="headerlink" title="添加 Docker GPG key"></a>添加 Docker GPG key</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line"><span class="meta">$</span> sudo apt-key fingerprint 0EBFCD88 #验证</span><br><span class="line">pub   4096R/0EBFCD88 2017-02-22</span><br><span class="line">      Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</span><br><span class="line">uid                  Docker Release (CE deb) &lt;docker@docker.com&gt;</span><br><span class="line">sub   4096R/F273FCD8 2017-02-22</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> sudo add-apt-repository \</span><br><span class="line">   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span><br><span class="line"><span class="meta">   $</span>(lsb_release -cs) \</span><br><span class="line">   stable"</span><br></pre></td></tr></table></figure>
+<h4 id="安装Docker-CE"><a href="#安装Docker-CE" class="headerlink" title="安装Docker-CE"></a>安装Docker-CE</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo apt-get update</span><br><span class="line"><span class="meta">$</span> sudo apt-get install docker-ce #写文档时最新版本docker version 18.06.1-ce</span><br><span class="line"><span class="meta">#</span> $ sudo apt-get install docker-ce=&lt;VERSION&gt;  # 安装指定版本的docker</span><br></pre></td></tr></table></figure>
 
         
         </div>
@@ -291,11 +292,11 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
             
             <p>工具 svn</p>
-<p>复制指定目录，比如：<br><a href="https://github.com/googlevr/gvr-unity-sdk/tree/master/GoogleVR" target="_blank" rel="external">https://github.com/googlevr/gvr-unity-sdk/tree/master/GoogleVR</a></p>
+<p>复制指定目录，比如：<br><a href="https://github.com/googlevr/gvr-unity-sdk/tree/master/GoogleVR" target="_blank" rel="noopener">https://github.com/googlevr/gvr-unity-sdk/tree/master/GoogleVR</a></p>
 <p>将 tree/master 替换为 trunk</p>
-<p><a href="https://github.com/googlevr/gvr-unity-sdk/trunk/GoogleVR" target="_blank" rel="external">https://github.com/googlevr/gvr-unity-sdk/trunk/GoogleVR</a></p>
+<p><a href="https://github.com/googlevr/gvr-unity-sdk/trunk/GoogleVR" target="_blank" rel="noopener">https://github.com/googlevr/gvr-unity-sdk/trunk/GoogleVR</a></p>
 <p>命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">svn checkout https://github.com/googlevr/gvr-unity-sdk/trunk/GoogleVR</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn checkout https://github.com/googlevr/gvr-unity-sdk/trunk/GoogleVR</span><br></pre></td></tr></table></figure>
 
         
         </div>
@@ -385,7 +386,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
             
             <p>openwrt  框架结构</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">tools和toolchain目录：包含了一些通用命令, 用来生成固件, 编译器, 和C库.</div><div class="line"></div><div class="line">build_dir/host目录：是一个临时目录, 用来储存不依赖于目标平台的工具.</div><div class="line"></div><div class="line">build_dir/toolchain-目录：用来储存依赖于指定平台的编译链. 只是编译文件存放目录无需修改.</div><div class="line"></div><div class="line">build_dir/target-目录：用来储存依赖于指定平台的软件包的编译文件, 其中包括linux内核, u-boot, packages,</div><div class="line">只是编译文件存放目录无需修改.</div><div class="line"></div><div class="line">staging_dir目录：是编译目标的最终安装位置, 其中包括rootfs, package, toolchain.</div><div class="line"></div><div class="line">package目录：软件包的下载编译规则, 在OpenWrt固件中, 几乎所有东西都是.ipk, 这样就可以很方便的安装和卸载.</div><div class="line"></div><div class="line">target目录：目标系统指嵌入式设备, 针对不同的平台有不同的特性, 针对这些特性, &quot;target/linux&quot;目录下按照平台进行目录划分, 里面包括了针对标准内核的补丁, 特殊配置等.</div><div class="line"></div><div class="line">bin目录：编译完OpenWrt的二进制文件生成目录, 其中包括sdk, uImage, u-boot, dts, rootfs构建一个嵌入式系统完整的二进制文件.</div><div class="line"></div><div class="line">config目录：存放着整个系统的的配置文件.</div><div class="line"></div><div class="line">docs目录：里面包含了整个宿主机的文件源码的介绍, 里面还有Makefile为目标系统生成docs.</div><div class="line"></div><div class="line">include目录：里面包括了整个系统的编译需要的头文件, 但是是以Make进行连接的.</div><div class="line"></div><div class="line">feeds目录：扩展软件包索引目录.</div><div class="line"></div><div class="line">scripts目录：组织编译整个OpenWrt的规则.</div><div class="line"></div><div class="line">tmp目录：编译文件夹, 一般情况为空.</div><div class="line"></div><div class="line">dl目录：所有软件的下载目录, 包括u-boot, kernel.</div><div class="line"></div><div class="line">logs目录：如果编译出错, 可以在这里找到编译出错的log.</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">tools和toolchain目录：包含了一些通用命令, 用来生成固件, 编译器, 和C库.</span><br><span class="line"></span><br><span class="line">build_dir/host目录：是一个临时目录, 用来储存不依赖于目标平台的工具.</span><br><span class="line"></span><br><span class="line">build_dir/toolchain-目录：用来储存依赖于指定平台的编译链. 只是编译文件存放目录无需修改.</span><br><span class="line"></span><br><span class="line">build_dir/target-目录：用来储存依赖于指定平台的软件包的编译文件, 其中包括linux内核, u-boot, packages,</span><br><span class="line">只是编译文件存放目录无需修改.</span><br><span class="line"></span><br><span class="line">staging_dir目录：是编译目标的最终安装位置, 其中包括rootfs, package, toolchain.</span><br><span class="line"></span><br><span class="line">package目录：软件包的下载编译规则, 在OpenWrt固件中, 几乎所有东西都是.ipk, 这样就可以很方便的安装和卸载.</span><br><span class="line"></span><br><span class="line">target目录：目标系统指嵌入式设备, 针对不同的平台有不同的特性, 针对这些特性, &quot;target/linux&quot;目录下按照平台进行目录划分, 里面包括了针对标准内核的补丁, 特殊配置等.</span><br><span class="line"></span><br><span class="line">bin目录：编译完OpenWrt的二进制文件生成目录, 其中包括sdk, uImage, u-boot, dts, rootfs构建一个嵌入式系统完整的二进制文件.</span><br><span class="line"></span><br><span class="line">config目录：存放着整个系统的的配置文件.</span><br><span class="line"></span><br><span class="line">docs目录：里面包含了整个宿主机的文件源码的介绍, 里面还有Makefile为目标系统生成docs.</span><br><span class="line"></span><br><span class="line">include目录：里面包括了整个系统的编译需要的头文件, 但是是以Make进行连接的.</span><br><span class="line"></span><br><span class="line">feeds目录：扩展软件包索引目录.</span><br><span class="line"></span><br><span class="line">scripts目录：组织编译整个OpenWrt的规则.</span><br><span class="line"></span><br><span class="line">tmp目录：编译文件夹, 一般情况为空.</span><br><span class="line"></span><br><span class="line">dl目录：所有软件的下载目录, 包括u-boot, kernel.</span><br><span class="line"></span><br><span class="line">logs目录：如果编译出错, 可以在这里找到编译出错的log.</span><br></pre></td></tr></table></figure>
 <p>jshn : 一个 josn 对象转换库<br>ubus : 一个系统总线</p>
 
         
@@ -475,21 +476,21 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h1 id="vagrant-基础操作"><a href="#vagrant-基础操作" class="headerlink" title="vagrant 基础操作   "></a>vagrant 基础操作   </h1><p>下载安装 VirtualBox ：<a href="https://www.virtualbox.org/" target="_blank" rel="external">https://www.virtualbox.org/</a></p>
-<p>下载安装 Vagrant ：<a href="http://www.vagrantup.com/" target="_blank" rel="external">http://www.vagrantup.com/</a></p>
+            <h1 id="vagrant-基础操作"><a href="#vagrant-基础操作" class="headerlink" title="vagrant 基础操作   "></a>vagrant 基础操作   </h1><p>下载安装 VirtualBox ：<a href="https://www.virtualbox.org/" target="_blank" rel="noopener">https://www.virtualbox.org/</a></p>
+<p>下载安装 Vagrant ：<a href="http://www.vagrantup.com/" target="_blank" rel="noopener">http://www.vagrantup.com/</a></p>
 <p>假设你的电脑上已经安装了  VirtualBox 和 Vagrant 。请务必先安装 VirtualBox，因为 Vagrant 是依赖它的。</p>
 <h2 id="添加-box"><a href="#添加-box" class="headerlink" title="添加 box"></a>添加 box</h2><p>如果你已经将 wifi.box 这个 vagrant 的包下载到了你的电脑上，我们需要将这个包导入到 Vagrant.这个包大小有 5.4 G。请保证你的硬盘空间足够大。为它保留出25G的空间（5.4G 缓存包+ 17G 左右的虚拟机）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$vagrant box add openwrt  wifi.box # vagrant box add &lt;name&gt; &lt;path&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$vagrant box add openwrt  wifi.box # vagrant box add &lt;name&gt; &lt;path&gt;</span><br></pre></td></tr></table></figure>
 <p>执行了以上的命令后，你的 vagrant 里面已经包括了这个包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ vagrant box list</div><div class="line">openwrt (virtualbox, 0)  # 这个就是我们刚才导入的这个包</div></pre></td></tr></table></figure>
-<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境 "></a>开发环境 </h2><p>进入到自己的开发目录,假设是本地硬盘上的 <code>~/openwrt_build</code> 或者 <code>D:\openwrt_build</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">cd ~/openwrt_build # d:# cd  openwrt_build   # 进入指定目录</div><div class="line"> </div><div class="line">vagrant init  openwrt   # 执行后会在当前目录创建一个  Vagrantfile 的文件  </div><div class="line"></div><div class="line">vagrant up       # 启动，第一次创建目录 。等待命令完成后可以看到 VirtualBox 中虚拟机的状态是启动状态</div><div class="line"></div><div class="line">vagrant ssh      # 使用 ssh 登录到 虚拟机</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant box list</span><br><span class="line">openwrt (virtualbox, 0)  # 这个就是我们刚才导入的这个包</span><br></pre></td></tr></table></figure>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境 "></a>开发环境 </h2><p>进入到自己的开发目录,假设是本地硬盘上的 <code>~/openwrt_build</code> 或者 <code>D:\openwrt_build</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/openwrt_build # d:# cd  openwrt_build   # 进入指定目录</span><br><span class="line"> </span><br><span class="line">vagrant init  openwrt   # 执行后会在当前目录创建一个  Vagrantfile 的文件  </span><br><span class="line"></span><br><span class="line">vagrant up       # 启动，第一次创建目录 。等待命令完成后可以看到 VirtualBox 中虚拟机的状态是启动状态</span><br><span class="line"></span><br><span class="line">vagrant ssh      # 使用 ssh 登录到 虚拟机</span><br></pre></td></tr></table></figure></p>
 <h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><p>Vagrant的网络有三种模式</p>
-<p>1、较为常用是端口映射，就是将虚拟机中的端口映射到宿主机对应的端口直接使用 ，在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">config.vm.network :forwarded_port, guest: 80, host: 8080</div></pre></td></tr></table></figure></p>
+<p>1、较为常用是端口映射，就是将虚拟机中的端口映射到宿主机对应的端口直接使用 ，在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">config.vm.network :forwarded_port, guest: 80, host: 8080</span><br></pre></td></tr></table></figure></p>
 <p>guest: 80 表示虚拟机中的80端口， host: 8080 表示映射到宿主机的8080端口。</p>
 <pre><code>开启这个后，如果vagrant已经启动了，在命令行输入 vagrant reload 重启机器，就可以再宿主机伤使用 localhost:8080来访问虚拟机的localhost:80 。
 </code></pre><p>2、如果需要自己自由的访问虚拟机，但是别人不需要访问虚拟机，可以使用private_network，并为虚拟机设置IP ，在Vagrantfile中配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">config.vm.network :private_network, ip: &quot;192.168.1.104&quot;</div></pre></td></tr></table></figure>
-<p>192.168.1.104 表示虚拟机的IP，多台虚拟机的话需要互相访问的话，设置在相同网段即可<br>3、如果需要将虚拟机作为当前局域网中的一台计算机，由局域网进行DHCP，那么在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">config.vm.network :public_network</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network :private_network, ip: &quot;192.168.1.104&quot;</span><br></pre></td></tr></table></figure>
+<p>192.168.1.104 表示虚拟机的IP，多台虚拟机的话需要互相访问的话，设置在相同网段即可<br>3、如果需要将虚拟机作为当前局域网中的一台计算机，由局域网进行DHCP，那么在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network :public_network</span><br></pre></td></tr></table></figure></p>
 <h2 id="目录映射"><a href="#目录映射" class="headerlink" title="目录映射"></a>目录映射</h2><p>既然是开发环境，那么开发工作肯定还是需要在本地完成，而不是都要进到虚拟机中去完成，虚拟机就好好在后台运行服务就好了，不然就本末倒置了，所以这里就需要使用目录映射功能，将本地的目录映射到虚拟机的对应目录。</p>
 <p>默认情况下，当前的工作目录，会被映射到虚拟机的 /vagrant 目录，当前目录下的文件可以直接在 /vagrant 下进行访问，当然也可以在通过 ln 创建软连接，如</p>
 <p>ln -fs /vagrant/wwwroot /var/www</p>
@@ -497,7 +498,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 <p>config.vm.synced_folder “wwwroot/“, “/var/www”</p>
 <p>前面的参数 “wwwroot/” 表示的是本地的路径，这里使用对于工作目录的相对路径，这里也可以使用绝对路径，比如： “d:/www/”</p>
 <p>后面的参数 “/var/www” 表示虚拟机中对应映射的目录。</p>
-<p>一些命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">vagrant up （启动虚拟机）</div><div class="line">vagrant halt （关闭虚拟机——对应就是关机）</div><div class="line">vagrant suspend （暂停虚拟机——只是暂停，虚拟机内存等信息将以状态文件的方式保存在本地，可以执行恢复操作后继续使用）</div><div class="line">vagrant resume （恢复虚拟机 —— 与前面的暂停相对应）</div><div class="line">vagrant destroy （删除虚拟机，删除后在当前虚拟机所做进行的除开Vagrantfile中的配置都不会保留）</div><div class="line">vagrant reload  (重启)</div><div class="line"></div><div class="line">`</div></pre></td></tr></table></figure></p>
+<p>一些命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vagrant up （启动虚拟机）</span><br><span class="line">vagrant halt （关闭虚拟机——对应就是关机）</span><br><span class="line">vagrant suspend （暂停虚拟机——只是暂停，虚拟机内存等信息将以状态文件的方式保存在本地，可以执行恢复操作后继续使用）</span><br><span class="line">vagrant resume （恢复虚拟机 —— 与前面的暂停相对应）</span><br><span class="line">vagrant destroy （删除虚拟机，删除后在当前虚拟机所做进行的除开Vagrantfile中的配置都不会保留）</span><br><span class="line">vagrant reload  (重启)</span><br><span class="line"></span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
 <h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题 "></a>一些问题 </h2>
         
         </div>
@@ -593,22 +594,22 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             
             <p>越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。</p>
 <p>首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl  https://get.acme.sh | sh</div></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl  https://get.acme.sh | sh</span><br></pre></td></tr></table></figure>
 <p>安装完后 acme.sh 会被安装在~/.acme.sh 的目录下面.</p>
 <h2 id="dns认证"><a href="#dns认证" class="headerlink" title="dns认证"></a>dns认证</h2><p>在安装目录的 dnsapi 目录下面 README.md 有认证方式,我使用了 dnspod 作为 dns 服务。在 dnspod 控制台申请到 id 和key后，在当前目录执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export DP_Id=&quot;1111&quot;</div><div class="line">export DP_Key=&quot;111111111111111&quot;</div><div class="line">acme.sh   --issue   --dns dns_dp   -d aa.com  -d www.aa.com</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export DP_Id=&quot;1111&quot;</span><br><span class="line">export DP_Key=&quot;111111111111111&quot;</span><br><span class="line">acme.sh   --issue   --dns dns_dp   -d aa.com  -d www.aa.com</span><br></pre></td></tr></table></figure>
 <p>会在 .acme.sh  目录生成一个以域名为目录的证书目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.cer</div><div class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert key is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.key</div><div class="line">[Tue Mar 21 15:51:01 CST 2017] The intermediate CA cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/ca.cer</div><div class="line">[Tue Mar 21 15:51:01 CST 2017] And the full chain certs is there:  /home/pprt/.acme.sh/&lt;domain&gt;/fullchain.cer</div></pre></td></tr></table></figure>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>acme.sh 提供了一个接口用来部署证书，也就是我们需要将生成的证书拷贝到指定的服务器,实例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">acme.sh --deploy -d example.com --deploy-hook cpanel</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.cer</span><br><span class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert key is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.key</span><br><span class="line">[Tue Mar 21 15:51:01 CST 2017] The intermediate CA cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/ca.cer</span><br><span class="line">[Tue Mar 21 15:51:01 CST 2017] And the full chain certs is there:  /home/pprt/.acme.sh/&lt;domain&gt;/fullchain.cer</span><br></pre></td></tr></table></figure>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>acme.sh 提供了一个接口用来部署证书，也就是我们需要将生成的证书拷贝到指定的服务器,实例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --deploy -d example.com --deploy-hook cpanel</span><br></pre></td></tr></table></figure></p>
 <p>服务器上使用了 ansible 作为管理  所以需要将文件使用 ansible 复制到其他机器上指定的文件夹</p>
 <p>在 deploy 文件夹下面 创建一个 ansible.sh 的文件,里面添加如下代码，将文件拷贝到指定的服务器。<br>其中 _cert_dir 为服务器上保存证书的目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">ansible_deploy() &#123;</div><div class="line">  _cdomain=&quot;$1&quot;</div><div class="line">  _ckey=&quot;$2&quot;</div><div class="line">  _ccert=&quot;$3&quot;</div><div class="line">  _cca=&quot;$4&quot;</div><div class="line">  _cfullchain=&quot;$5&quot;</div><div class="line"></div><div class="line">  _debug _cdomain &quot;$_cdomain&quot;</div><div class="line">  _debug _ckey &quot;$_ckey&quot;</div><div class="line">  _debug _ccert &quot;$_ccert&quot;</div><div class="line">  _debug _cca &quot;$_cca&quot;</div><div class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</div><div class="line"></div><div class="line">  _cert_dir=/Code/sslCert/</div><div class="line"></div><div class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</div><div class="line">  ansible olweb -m copy -a &quot;src=$_cfullchain dest=$_cert_dir/$_cdomain/cert.cer&quot;</div><div class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</div><div class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</div><div class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</div><div class="line">  return 0</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在执行deploy后，会制动添加一个 crontab<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">33 0 * * * &quot;/home/pprt/.acme.sh&quot;/acme.sh --cron   --home &quot;/home/pprt/.acme.sh&quot; &gt; /dev/null</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">ansible_deploy() &#123;</span><br><span class="line">  _cdomain=&quot;$1&quot;</span><br><span class="line">  _ckey=&quot;$2&quot;</span><br><span class="line">  _ccert=&quot;$3&quot;</span><br><span class="line">  _cca=&quot;$4&quot;</span><br><span class="line">  _cfullchain=&quot;$5&quot;</span><br><span class="line"></span><br><span class="line">  _debug _cdomain &quot;$_cdomain&quot;</span><br><span class="line">  _debug _ckey &quot;$_ckey&quot;</span><br><span class="line">  _debug _ccert &quot;$_ccert&quot;</span><br><span class="line">  _debug _cca &quot;$_cca&quot;</span><br><span class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</span><br><span class="line"></span><br><span class="line">  _cert_dir=/Code/sslCert/</span><br><span class="line"></span><br><span class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</span><br><span class="line">  ansible olweb -m copy -a &quot;src=$_cfullchain dest=$_cert_dir/$_cdomain/cert.cer&quot;</span><br><span class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</span><br><span class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</span><br><span class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</span><br><span class="line">  return 0</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在执行deploy后，会制动添加一个 crontab<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">33 0 * * * &quot;/home/pprt/.acme.sh&quot;/acme.sh --cron   --home &quot;/home/pprt/.acme.sh&quot; &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
 <p>如果设置有多个域名，只会部署第一个，需要在crontab添加一个<code>-f</code>的参数</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="external">acme.sh github</a></p>
-<p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="external">acme.sh wiki</a></p>
-<p><a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md" target="_blank" rel="external">acme.sh dnsapi</a></p>
-<p><a href="https://github.com/Neilpang/acme.sh/blob/master/deploy/README.md" target="_blank" rel="external">acme.sh deploy</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="noopener">acme.sh github</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh wiki</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md" target="_blank" rel="noopener">acme.sh dnsapi</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/blob/master/deploy/README.md" target="_blank" rel="noopener">acme.sh deploy</a></p>
 
         
         </div>
@@ -700,9 +701,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             <p>最近需要写一个小的业务，业务部门提供的数据库是 SQLServer 。需要找一个在 Mac 上连接 SQLServer 的客户端。</p>
 <p>Oracle 开发了一个很好用的免费 SQL Developer 工具。需要稍微的配置一下。</p>
 <h2 id="下载-sql-developer"><a href="#下载-sql-developer" class="headerlink" title="下载 sql developer"></a>下载 sql developer</h2><p>下载SQL开发。 甲骨文公司有一个很好的免费的SQL开发工具, SQL Developer 这将允许您连接到该数据库服务器。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index-097090.html</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index-097090.html</span><br></pre></td></tr></table></figure>
 <h2 id="下载驱动"><a href="#下载驱动" class="headerlink" title="下载驱动"></a>下载驱动</h2><p>下载该软件的 JDBC 驱动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://sourceforge.net/projects/jtds/files/</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://sourceforge.net/projects/jtds/files/</span><br></pre></td></tr></table></figure>
 <p>将下载的文件解压后，得到一个 jtds-x.x.x.jar 的文件，将这个文件放到一个目录，比如 <code>/Library/Java/Extensions</code></p>
 <p>设置<br>—F<br>运行 Oracle SQL Developer ，主菜单 -&gt; Preferences -&gt; Database -&gt; Third Party JDBC Drivers-&gt;Add Entry</p>
 <p>将 jtds-x.x.x.jar 添加进来。</p>
@@ -807,7 +808,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 <li><p>kettle 导入的编码问题，需要在【数据库连接】-【选项】里面添加一条</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">characterEncoding:utf8</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">characterEncoding:utf8</span><br></pre></td></tr></table></figure>
 
         
         </div>
@@ -896,28 +897,28 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h2 id="petl"><a href="#petl" class="headerlink" title="petl"></a>petl</h2><p>文档地址： <a href="https://petl.readthedocs.io/en/latest/index.html" target="_blank" rel="external">https://petl.readthedocs.io/en/latest/index.html</a></p>
+            <h2 id="petl"><a href="#petl" class="headerlink" title="petl"></a>petl</h2><p>文档地址： <a href="https://petl.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">https://petl.readthedocs.io/en/latest/index.html</a></p>
 <h2 id="Extract-Load"><a href="#Extract-Load" class="headerlink" title="Extract/Load"></a>Extract/Load</h2><p>可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件</p>
 <h2 id="Transfrom-转换"><a href="#Transfrom-转换" class="headerlink" title="Transfrom   转换"></a>Transfrom   转换</h2><h4 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h4><p>petl.transform.basics.</p>
 <ol>
 <li>head(table, n=5)                 取开始的行</li>
 <li>tail(table, n=5)                 取尾部的行</li>
 <li>rowslice(table, *sliceargs)      对行做切片</li>
-<li>cut(table, <em>args, *</em>kwargs)      取指定列</li>
-<li>cutout(table, <em>args, *</em>kwargs)   排除指定列</li>
+<li>cut(table, *args, **kwargs)      取指定列</li>
+<li>cutout(table, *args, **kwargs)   排除指定列</li>
 <li>movefield(table, field, index)   移动列到新的位置</li>
-<li>cat(<em>tables, *</em>kwargs)           连接两个表</li>
-<li>stack(<em>tables, *</em>kwargs)         连接两个表，不匹配表头</li>
+<li>cat(*tables, **kwargs)           连接两个表</li>
+<li>stack(*tables, **kwargs)         连接两个表，不匹配表头</li>
 <li>skipcomments(table, prefix)      跳过包含指定前缀的行</li>
 <li>addfield(table, field, value=None, index=None, missing=None)    添加一个新的字段</li>
 <li>addcolumn(table, field, col, index=None, missing=None)          添加新的数据列(和addfield有些相似)</li>
 <li>addrownumbers(table, start=1, step=1, field=’row’)              添加行计数</li>
 <li>addfieldusingcontext(table, field, query)                       添加字段，query是一个回调，把相邻三行作为三个参数传入</li>
-<li>annex(<em>tables, *</em>kwargs)                                        join 两个或多个表，按行连接</li>
+<li>annex(*tables, **kwargs)                                        join 两个或多个表，按行连接</li>
 </ol>
 <h4 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h4><p>petl.transform.headers</p>
 <ol>
-<li>rename(table, <em>args, *</em>kwargs)   修改名称</li>
+<li>rename(table, *args, **kwargs)   修改名称</li>
 <li>setheader(table, header)         设置表头</li>
 <li>extendheader(table, fields)      扩展表头（可以用来补全表头信息）</li>
 <li>pushheader(table, header, *args) 设置表头（将第一行当中数据，而不是表头)</li>
@@ -928,8 +929,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 </ol>
 <h4 id="Converting"><a href="#Converting" class="headerlink" title="Converting"></a>Converting</h4><p>petl.transform.conversions</p>
 <ol>
-<li>convert(table, <em>args, *</em>kwargs) 转换（包括数据类型，格式，替换，lambda 等)</li>
-<li>convertall(table, <em>args, *</em>kwargs) 同convert</li>
+<li>convert(table, *args, **kwargs) 转换（包括数据类型，格式，替换，lambda 等)</li>
+<li>convertall(table, *args, **kwargs) 同convert</li>
 <li>convertnumbers(table, strict=False, **kwargs)   转换为数值</li>
 <li>replace(table, field, a, b, **kwargs)           替换</li>
 <li>replaceall(table, a, b, **kwargs)               替换全部</li>
@@ -941,16 +942,16 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 </ol>
 <h4 id="Selecting-rows"><a href="#Selecting-rows" class="headerlink" title="Selecting rows"></a>Selecting rows</h4><p>petl.transform.selects</p>
 <ol>
-<li>select(table, <em>args, <em>*kwargs)  根据条件选择行 （扩展出各种 select</em></em> 的快捷方法</li>
+<li>select(table, *args, <strong>kwargs)  根据条件选择行 （扩展出各种 select</strong> 的快捷方法</li>
 <li>selectusingcontext(table, query)  基于上一行和下一行来选择数据</li>
 <li>rowlenselect(table, n, complement=False)    选择长度为n的行</li>
 <li>facet(table, key)                           按指定的key分组，将返回值映射到字典</li>
-<li>biselect(table, <em>args, *</em>kwargs)            拆分成两个表，一个为选择的行，一个为抛弃的行</li>
+<li>biselect(table, *args, **kwargs)            拆分成两个表，一个为选择的行，一个为抛弃的行</li>
 </ol>
 <h4 id="Regular-expressions"><a href="#Regular-expressions" class="headerlink" title="Regular expressions"></a>Regular expressions</h4><p>petl.transform.regex</p>
 <ol>
-<li>search(table, <em>args, *</em>kwargs)                   查询返回匹配行</li>
-<li>searchcomplement(table, <em>args, *</em>kwargs)         查询返回不匹配的行</li>
+<li>search(table, *args, **kwargs)                   查询返回匹配行</li>
+<li>searchcomplement(table, *args, **kwargs)         查询返回不匹配的行</li>
 <li>sub(table, field, pattern, repl, count=0, flags=0) 替换</li>
 <li>split(table, field, pattern, newfields=None, include_original=False, maxsplit=0, flags=0)   分割指定fields</li>
 <li>capture(table, field, pattern, newfields=None, include_original=False, flags=0, fill=None)  分组，通过表达式分组来分割fields</li>

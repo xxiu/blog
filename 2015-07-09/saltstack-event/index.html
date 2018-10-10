@@ -6,11 +6,13 @@
     <title>saltstack-event | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="示例salt_event.py123456import salt.utils.event__opts__ = salt.config.client_config(&amp;apos;/etc/salt/master&amp;apos;)event = salt.utils.event.MasterEvent(__opts__[&amp;apos;sock_dir&amp;apos;])for eachevent in event">
+<meta name="keywords" content="saltstack">
 <meta property="og:type" content="article">
 <meta property="og:title" content="saltstack-event">
 <meta property="og:url" content="/2015-07-09/saltstack-event/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="示例salt_event.py123456import salt.utils.event__opts__ = salt.config.client_config(&amp;apos;/etc/salt/master&amp;apos;)event = salt.utils.event.MasterEvent(__opts__[&amp;apos;sock_dir&amp;apos;])for eachevent in event">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:38:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="saltstack-event">
@@ -73,7 +75,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -90,7 +92,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -185,10 +187,10 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h2 id="示例salt-event-py"><a href="#示例salt-event-py" class="headerlink" title="示例salt_event.py"></a>示例salt_event.py</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">import salt.utils.event</div><div class="line">__opts__ = salt.config.client_config(&apos;/etc/salt/master&apos;)</div><div class="line">event = salt.utils.event.MasterEvent(__opts__[&apos;sock_dir&apos;])</div><div class="line">for eachevent in event.iter_events(full=True):</div><div class="line">        print eachevent</div><div class="line">        print &apos;---------------&apos;</div></pre></td></tr></table></figure>
+            <h2 id="示例salt-event-py"><a href="#示例salt-event-py" class="headerlink" title="示例salt_event.py"></a>示例salt_event.py</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import salt.utils.event</span><br><span class="line">__opts__ = salt.config.client_config(&apos;/etc/salt/master&apos;)</span><br><span class="line">event = salt.utils.event.MasterEvent(__opts__[&apos;sock_dir&apos;])</span><br><span class="line">for eachevent in event.iter_events(full=True):</span><br><span class="line">        print eachevent</span><br><span class="line">        print &apos;---------------&apos;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>event 是在 master 端执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event = salt.utils.event.MasterEvent(__opts__[&apos;sock_dir&apos;])</div></pre></td></tr></table></figure></p>
-<p>运行event<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python salt_event.py</div></pre></td></tr></table></figure></p>
+<p>event 是在 master 端执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event = salt.utils.event.MasterEvent(__opts__[&apos;sock_dir&apos;])</span><br></pre></td></tr></table></figure></p>
+<p>运行event<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python salt_event.py</span><br></pre></td></tr></table></figure></p>
 <p>利用python命令行运行这个文件后，用来捕获执行的事件，例如执行命令 <code>salt ‘*’ test.ping</code></p>
 
         

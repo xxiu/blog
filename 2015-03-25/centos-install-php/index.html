@@ -6,11 +6,13 @@
     <title>centos下php编译安装 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="安装前准备123456789yum -y install gcc automake autoconf libtool makeyum -y install gcc gcc-c++ glibcyum -y install libmcrypt-devel mhash-devel libxslt-devel \libjpeg libjpeg-devel libpng libpng-devel freet">
+<meta name="keywords" content="php">
 <meta property="og:type" content="article">
 <meta property="og:title" content="centos下php编译安装">
 <meta property="og:url" content="/2015-03-25/centos-install-php/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="安装前准备123456789yum -y install gcc automake autoconf libtool makeyum -y install gcc gcc-c++ glibcyum -y install libmcrypt-devel mhash-devel libxslt-devel \libjpeg libjpeg-devel libpng libpng-devel freet">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:32:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos下php编译安装">
@@ -73,7 +75,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -90,7 +92,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -185,14 +187,14 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h1 id="安装前准备"><a href="#安装前准备" class="headerlink" title="安装前准备"></a>安装前准备</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">yum -y install gcc automake autoconf libtool make</div><div class="line"></div><div class="line">yum -y install gcc gcc-c++ glibc</div><div class="line"></div><div class="line">yum -y install libmcrypt-devel mhash-devel libxslt-devel \</div><div class="line">libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel \</div><div class="line">zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel \</div><div class="line">ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel \</div><div class="line">krb5 krb5-devel libidn libidn-devel openssl openssl-devel</div></pre></td></tr></table></figure>
+            <h1 id="安装前准备"><a href="#安装前准备" class="headerlink" title="安装前准备"></a>安装前准备</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc automake autoconf libtool make</span><br><span class="line"></span><br><span class="line">yum -y install gcc gcc-c++ glibc</span><br><span class="line"></span><br><span class="line">yum -y install libmcrypt-devel mhash-devel libxslt-devel \</span><br><span class="line">libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel \</span><br><span class="line">zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel \</span><br><span class="line">ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel \</span><br><span class="line">krb5 krb5-devel libidn libidn-devel openssl openssl-devel</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">tar zvxf php-5.4.7.tar.gz</div><div class="line">cd php-5.4.7</div><div class="line">./configure --prefix=/usr/local/php  --enable-fpm --with-mcrypt \</div><div class="line">--enable-mbstring --disable-pdo --with-curl --disable-debug  --disable-rpath \</div><div class="line">--enable-inline-optimization --with-bz2  --with-zlib --enable-sockets \</div><div class="line">--enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex \</div><div class="line">--with-mhash --enable-zip --with-pcre-regex --with-mysql --with-mysqli \</div><div class="line">--with-gd --with-jpeg-dir</div><div class="line"></div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
-<h1 id="no-package-libmcrypt-available"><a href="#no-package-libmcrypt-available" class="headerlink" title="no package libmcrypt available"></a>no package libmcrypt available</h1><p>centos官方默认不对mcrypt模块支持,需要安装epel扩展 .在<a href="http://mirrors.sohu.com/fedora-epel/6/i386/" target="_blank" rel="external">http://mirrors.sohu.com/fedora-epel/6/i386/</a> 使用 Ctrl+F 搜索关键词“epel-release” 找到当前最新的扩展包发现最新版本为：epel-release-6-7.noarch.rpm</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget http://mirrors.sohu.com/fedora-epel/6/i386/epel-release-6-7.noarch.rpm</div><div class="line">rpm -ivh epel-release-6-7.noarch.rpm</div></pre></td></tr></table></figure>
-<p>然后就可以安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libmcrypt-devle</div></pre></td></tr></table></figure></p>
-<p>安装后如果运行yum报错<br><code>vim /etc/yum.repos.d/epel.repo</code><br>将<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#baseurl</div><div class="line">mirrorlist</div></pre></td></tr></table></figure></p>
-<p>改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">baseurl</div><div class="line">#mirrorlist</div></pre></td></tr></table></figure></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tar zvxf php-5.4.7.tar.gz</span><br><span class="line">cd php-5.4.7</span><br><span class="line">./configure --prefix=/usr/local/php  --enable-fpm --with-mcrypt \</span><br><span class="line">--enable-mbstring --disable-pdo --with-curl --disable-debug  --disable-rpath \</span><br><span class="line">--enable-inline-optimization --with-bz2  --with-zlib --enable-sockets \</span><br><span class="line">--enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex \</span><br><span class="line">--with-mhash --enable-zip --with-pcre-regex --with-mysql --with-mysqli \</span><br><span class="line">--with-gd --with-jpeg-dir</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h1 id="no-package-libmcrypt-available"><a href="#no-package-libmcrypt-available" class="headerlink" title="no package libmcrypt available"></a>no package libmcrypt available</h1><p>centos官方默认不对mcrypt模块支持,需要安装epel扩展 .在<a href="http://mirrors.sohu.com/fedora-epel/6/i386/" target="_blank" rel="noopener">http://mirrors.sohu.com/fedora-epel/6/i386/</a> 使用 Ctrl+F 搜索关键词“epel-release” 找到当前最新的扩展包发现最新版本为：epel-release-6-7.noarch.rpm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.sohu.com/fedora-epel/6/i386/epel-release-6-7.noarch.rpm</span><br><span class="line">rpm -ivh epel-release-6-7.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>然后就可以安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install libmcrypt-devle</span><br></pre></td></tr></table></figure></p>
+<p>安装后如果运行yum报错<br><code>vim /etc/yum.repos.d/epel.repo</code><br>将<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#baseurl</span><br><span class="line">mirrorlist</span><br></pre></td></tr></table></figure></p>
+<p>改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">baseurl</span><br><span class="line">#mirrorlist</span><br></pre></td></tr></table></figure></p>
 
         
         </div>

@@ -6,11 +6,13 @@
     <title>使用magick.net将pdf转换为图片 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="现在手上有个需求是要将pdf转换为一页一页的image.最开始找到的是pdfbox来处理pdf的.在pdfbox.apache.org的官网首页写了一句’convert you pdfs to image files’.所以最开始就使用pdfbox来作为转换库.但是在后面却发现出现了一个问题.由于暂时解决不了,发现了magick这个东西.可以用来处理100多种图片格式,并且提供了各种语言的api.">
+<meta name="keywords" content="magick,pdf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用magick.net将pdf转换为图片">
 <meta property="og:url" content="/2014-11-28/pdf-convert-to-image-for-magick-net/index.html">
 <meta property="og:site_name" content="张巍的博客">
 <meta property="og:description" content="现在手上有个需求是要将pdf转换为一页一页的image.最开始找到的是pdfbox来处理pdf的.在pdfbox.apache.org的官网首页写了一句’convert you pdfs to image files’.所以最开始就使用pdfbox来作为转换库.但是在后面却发现出现了一个问题.由于暂时解决不了,发现了magick这个东西.可以用来处理100多种图片格式,并且提供了各种语言的api.">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:37:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用magick.net将pdf转换为图片">
@@ -73,7 +75,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -90,7 +92,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -189,38 +191,38 @@
 <a id="more"></a>
 <p>###下载magick.net</p>
 <blockquote>
-<p>ImageMagick   <a href="http://www.imagemagick.org/" target="_blank" rel="external">http://www.imagemagick.org/</a></p>
+<p>ImageMagick   <a href="http://www.imagemagick.org/" target="_blank" rel="noopener">http://www.imagemagick.org/</a></p>
 </blockquote>
 <p>.net上官网提供了两个类库 <code>magick.net</code> 和<code>imagemagickapp</code>.我选择了<code>magick.net</code>这个库.下载地址</p>
 <blockquote>
-<p><a href="http://magick.codeplex.com/releases/view/137513" target="_blank" rel="external">http://magick.codeplex.com/releases/view/137513</a><br>下载 Magick.NET-7.0.0.0007-Q16-AnyCPU-net40-client.zip</p>
+<p><a href="http://magick.codeplex.com/releases/view/137513" target="_blank" rel="noopener">http://magick.codeplex.com/releases/view/137513</a><br>下载 Magick.NET-7.0.0.0007-Q16-AnyCPU-net40-client.zip</p>
 </blockquote>
 <p>其中下载的时候最好选择AnyCPU的库,在vs编译的时候不需要考虑平台性的问题.Q8 Q16 q16-HDRI分别表示8位 16位和32位的.可以根据需要选择不同版本的库.</p>
 <p>###下载安装ghostscript</p>
 <p>根据自己的需要在ghostscript.com选择下载32位或64位的库.下载地址如下:</p>
 <blockquote>
-<p><a href="http://ghostscript.com/download/gsdnld.html" target="_blank" rel="external">http://ghostscript.com/download/gsdnld.html</a></p>
+<p><a href="http://ghostscript.com/download/gsdnld.html" target="_blank" rel="noopener">http://ghostscript.com/download/gsdnld.html</a></p>
 </blockquote>
 <p>如果不安装ghostscript,magick.net在执行Read函数读取pdf时会报如下错误.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iisexpress.exe: FailedToExecuteCommand `&quot;gswin32c.exe&quot; -q -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dAlignToPixels=0 -dGridFitTT=2 &quot;-sDEVICE=pngalpha&quot; -dTextAlphaBits=4 -dGraphicsAlphaBits=4 &quot;-r300x300&quot; &quot;-sOutputFile=C:/Users/ZHANGW~1/AppData/Local/Temp/magick-10612rmwPHf2ITKBB%d&quot; &quot;-fC:/Users/ZHANGW~1/AppData/Local/Temp/magick-10612_fb2bvFOsIGG&quot; &quot;-fC:/Users/ZHANGW~1/AppData/Local/Temp/magick-10612Pg1c2Td4S-bk&quot;&apos; (ϵͳ�Ҳ���ָ�����ļ��� ) @ error/delegate.c/ExternalDelegateCommand/459</div></pre></td></tr></table></figure>
-<h3 id="下载安装Visual-C-Redistributable-for-Visual-Studio"><a href="#下载安装Visual-C-Redistributable-for-Visual-Studio" class="headerlink" title="下载安装Visual C++ Redistributable for Visual Studio"></a>下载安装<code>Visual C++ Redistributable for Visual Studio</code></h3><p>   <a href="http://www.microsoft.com/en-us/download/details.aspx?id=30679" target="_blank" rel="external">.NET 4.0: Visual C++ Redistributable for Visual Studio 2012 </a><br>   .NET 2.0: Visual C++ Redistributable for Visual Studio 2008 <a href="http://www.microsoft.com/en-us/download/details.aspx?id=15336" target="_blank" rel="external">x64</a> ro <a href="http://www.microsoft.com/en-us/download/details.aspx?id=29" target="_blank" rel="external">x86</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iisexpress.exe: FailedToExecuteCommand `&quot;gswin32c.exe&quot; -q -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dAlignToPixels=0 -dGridFitTT=2 &quot;-sDEVICE=pngalpha&quot; -dTextAlphaBits=4 -dGraphicsAlphaBits=4 &quot;-r300x300&quot; &quot;-sOutputFile=C:/Users/ZHANGW~1/AppData/Local/Temp/magick-10612rmwPHf2ITKBB%d&quot; &quot;-fC:/Users/ZHANGW~1/AppData/Local/Temp/magick-10612_fb2bvFOsIGG&quot; &quot;-fC:/Users/ZHANGW~1/AppData/Local/Temp/magick-10612Pg1c2Td4S-bk&quot;&apos; (ϵͳ�Ҳ���ָ�����ļ��� ) @ error/delegate.c/ExternalDelegateCommand/459</span><br></pre></td></tr></table></figure>
+<h3 id="下载安装Visual-C-Redistributable-for-Visual-Studio"><a href="#下载安装Visual-C-Redistributable-for-Visual-Studio" class="headerlink" title="下载安装Visual C++ Redistributable for Visual Studio"></a>下载安装<code>Visual C++ Redistributable for Visual Studio</code></h3><p>   <a href="http://www.microsoft.com/en-us/download/details.aspx?id=30679" target="_blank" rel="noopener">.NET 4.0: Visual C++ Redistributable for Visual Studio 2012 </a><br>   .NET 2.0: Visual C++ Redistributable for Visual Studio 2008 <a href="http://www.microsoft.com/en-us/download/details.aspx?id=15336" target="_blank" rel="noopener">x64</a> ro <a href="http://www.microsoft.com/en-us/download/details.aspx?id=29" target="_blank" rel="noopener">x86</a></p>
 <p>由于开发是在vs的环境,所以不需要安装这步.在部署的时候忘了这步,导致程序一直报错找不到<code>magick-xxx.dll</code>.以为是环境的原因,错误的在编译环境上折腾了很久.</p>
 <h3 id="生成image"><a href="#生成image" class="headerlink" title="生成image"></a>生成image</h3><p>在工程中引用Magick.net.当然也可以使用nuget来引入.转换代码如下,filepath为pdf的路径.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">MagickReadSettings settings = new MagickReadSettings();</div><div class="line"></div><div class="line">settings.Density = new MagickGeometry(72, 72); //设置格式</div><div class="line"></div><div class="line">using (MagickImageCollection images = new MagickImageCollection())</div><div class="line">&#123;</div><div class="line">    images.Read(filepath, settings);</div><div class="line"></div><div class="line">    int pageCount = images.Count();</div><div class="line"></div><div class="line">    for (int i = 0; i &lt; page;i++ )</div><div class="line">    &#123;</div><div class="line">        MagickImage image = images[i];</div><div class="line">        image.Format = MagickFormat.Jpeg;</div><div class="line"></div><div class="line">        string path = string.Format(&quot;&#123;0&#125;/&#123;1&#125;.jpg&quot;, dir, i);//相对路径</div><div class="line"></div><div class="line">        string filename = &quot;d:/img/&quot; + path;</div><div class="line"></div><div class="line">        image.Write(filename);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">MagickReadSettings settings = new MagickReadSettings();</span><br><span class="line"></span><br><span class="line">settings.Density = new MagickGeometry(72, 72); //设置格式</span><br><span class="line"></span><br><span class="line">using (MagickImageCollection images = new MagickImageCollection())</span><br><span class="line">&#123;</span><br><span class="line">    images.Read(filepath, settings);</span><br><span class="line"></span><br><span class="line">    int pageCount = images.Count();</span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; page;i++ )</span><br><span class="line">    &#123;</span><br><span class="line">        MagickImage image = images[i];</span><br><span class="line">        image.Format = MagickFormat.Jpeg;</span><br><span class="line"></span><br><span class="line">        string path = string.Format(&quot;&#123;0&#125;/&#123;1&#125;.jpg&quot;, dir, i);//相对路径</span><br><span class="line"></span><br><span class="line">        string filename = &quot;d:/img/&quot; + path;</span><br><span class="line"></span><br><span class="line">        image.Write(filename);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里转换就完成了.</p>
 <p>###IKVM和pdfbox生成的问题</p>
 <p>最开始我是使用pdfbox来生成的.代码如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">PDDocument doc = PDDocument.load(this._path);</div><div class="line"></div><div class="line">int page= doc.getDocumentCatalog().getAllPages().size();//获取总的页数</div><div class="line"></div><div class="line">for (int i = 0; i &lt; page; i++)</div><div class="line">&#123;</div><div class="line">    PDPage pdfPage = allpages.get(i) as PDPage;</div><div class="line"></div><div class="line">    java.awt.image.BufferedImage image = pdfPage.convertToImage();</div><div class="line"></div><div class="line">    string path = string.Format(&quot;&#123;0&#125;/&#123;1&#125;.jpg&quot;, dir, i);//相对路径</div><div class="line"></div><div class="line">    string filename =&quot;d:\img&quot; + path;</div><div class="line"></div><div class="line">    ImageIO.write(image, &quot;jpg&quot;, new java.io.File(filename));</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">PDDocument doc = PDDocument.load(this._path);</span><br><span class="line"></span><br><span class="line">int page= doc.getDocumentCatalog().getAllPages().size();//获取总的页数</span><br><span class="line"></span><br><span class="line">for (int i = 0; i &lt; page; i++)</span><br><span class="line">&#123;</span><br><span class="line">    PDPage pdfPage = allpages.get(i) as PDPage;</span><br><span class="line"></span><br><span class="line">    java.awt.image.BufferedImage image = pdfPage.convertToImage();</span><br><span class="line"></span><br><span class="line">    string path = string.Format(&quot;&#123;0&#125;/&#123;1&#125;.jpg&quot;, dir, i);//相对路径</span><br><span class="line"></span><br><span class="line">    string filename =&quot;d:\img&quot; + path;</span><br><span class="line"></span><br><span class="line">    ImageIO.write(image, &quot;jpg&quot;, new java.io.File(filename));</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行的时候在下面这行代码中出错了.</p>
 <blockquote>
 <p>java.awt.image.BufferedImage image = pdfPage.convertToImage();</p>
 </blockquote>
 <p>原因是IKVM.GNU.Classpath对awt和Swing实现不完整.导致了错误.当然如果不需要使用awt和Swing的库.使用.net来调用java库IKVM还是能够解决一些问题的.</p>
 <p>###其他</p>
-<p>PDFsharp <a href="http://pdfsharp.net/wiki/PDFsharpFAQ.ashx" target="_blank" rel="external">http://pdfsharp.net/wiki/PDFsharpFAQ.ashx</a></p>
-<p>itextsharp  <a href="http://itextsharp.sourceforge.net/" target="_blank" rel="external">http://itextsharp.sourceforge.net/</a></p>
-<p>ImageMagick   <a href="http://www.imagemagick.org/" target="_blank" rel="external">http://www.imagemagick.org/</a><br><a href="http://magick.codeplex.com/" target="_blank" rel="external">http://magick.codeplex.com/</a><br><a href="http://magick.codeplex.com/releases/view/137513" target="_blank" rel="external">http://magick.codeplex.com/releases/view/137513</a></p>
-<p>imageMagick 的另一个.net api实现  <a href="http://sourceforge.net/projects/imagemagickapp/" target="_blank" rel="external">http://sourceforge.net/projects/imagemagickapp/</a></p>
+<p>PDFsharp <a href="http://pdfsharp.net/wiki/PDFsharpFAQ.ashx" target="_blank" rel="noopener">http://pdfsharp.net/wiki/PDFsharpFAQ.ashx</a></p>
+<p>itextsharp  <a href="http://itextsharp.sourceforge.net/" target="_blank" rel="noopener">http://itextsharp.sourceforge.net/</a></p>
+<p>ImageMagick   <a href="http://www.imagemagick.org/" target="_blank" rel="noopener">http://www.imagemagick.org/</a><br><a href="http://magick.codeplex.com/" target="_blank" rel="noopener">http://magick.codeplex.com/</a><br><a href="http://magick.codeplex.com/releases/view/137513" target="_blank" rel="noopener">http://magick.codeplex.com/releases/view/137513</a></p>
+<p>imageMagick 的另一个.net api实现  <a href="http://sourceforge.net/projects/imagemagickapp/" target="_blank" rel="noopener">http://sourceforge.net/projects/imagemagickapp/</a></p>
 
         
         </div>

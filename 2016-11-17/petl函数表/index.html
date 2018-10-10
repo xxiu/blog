@@ -5,28 +5,17 @@
     
     <title>petl函数表 | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="petl文档地址： https://petl.readthedocs.io/en/latest/index.html
-Extract/Load可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件
-Transfrom   转换Basicpetl.transform.basics.
-
-head(t">
+    <meta name="description" content="petl文档地址： https://petl.readthedocs.io/en/latest/index.html Extract/Load可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件 Transfrom   转换Basicpetl.transform.basics.  head(t">
 <meta property="og:type" content="article">
 <meta property="og:title" content="petl函数表">
 <meta property="og:url" content="/2016-11-17/petl函数表/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="petl文档地址： https://petl.readthedocs.io/en/latest/index.html
-Extract/Load可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件
-Transfrom   转换Basicpetl.transform.basics.
-
-head(t">
+<meta property="og:description" content="petl文档地址： https://petl.readthedocs.io/en/latest/index.html Extract/Load可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件 Transfrom   转换Basicpetl.transform.basics.  head(t">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-11-17T08:53:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="petl函数表">
-<meta name="twitter:description" content="petl文档地址： https://petl.readthedocs.io/en/latest/index.html
-Extract/Load可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件
-Transfrom   转换Basicpetl.transform.basics.
-
-head(t">
+<meta name="twitter:description" content="petl文档地址： https://petl.readthedocs.io/en/latest/index.html Extract/Load可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件 Transfrom   转换Basicpetl.transform.basics.  head(t">
     
 
     
@@ -85,7 +74,7 @@ head(t">
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -102,7 +91,7 @@ head(t">
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -192,28 +181,28 @@ head(t">
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h2 id="petl"><a href="#petl" class="headerlink" title="petl"></a>petl</h2><p>文档地址： <a href="https://petl.readthedocs.io/en/latest/index.html" target="_blank" rel="external">https://petl.readthedocs.io/en/latest/index.html</a></p>
+            <h2 id="petl"><a href="#petl" class="headerlink" title="petl"></a>petl</h2><p>文档地址： <a href="https://petl.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">https://petl.readthedocs.io/en/latest/index.html</a></p>
 <h2 id="Extract-Load"><a href="#Extract-Load" class="headerlink" title="Extract/Load"></a>Extract/Load</h2><p>可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件</p>
 <h2 id="Transfrom-转换"><a href="#Transfrom-转换" class="headerlink" title="Transfrom   转换"></a>Transfrom   转换</h2><h4 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h4><p>petl.transform.basics.</p>
 <ol>
 <li>head(table, n=5)                 取开始的行</li>
 <li>tail(table, n=5)                 取尾部的行</li>
 <li>rowslice(table, *sliceargs)      对行做切片</li>
-<li>cut(table, <em>args, *</em>kwargs)      取指定列</li>
-<li>cutout(table, <em>args, *</em>kwargs)   排除指定列</li>
+<li>cut(table, *args, **kwargs)      取指定列</li>
+<li>cutout(table, *args, **kwargs)   排除指定列</li>
 <li>movefield(table, field, index)   移动列到新的位置</li>
-<li>cat(<em>tables, *</em>kwargs)           连接两个表</li>
-<li>stack(<em>tables, *</em>kwargs)         连接两个表，不匹配表头</li>
+<li>cat(*tables, **kwargs)           连接两个表</li>
+<li>stack(*tables, **kwargs)         连接两个表，不匹配表头</li>
 <li>skipcomments(table, prefix)      跳过包含指定前缀的行</li>
 <li>addfield(table, field, value=None, index=None, missing=None)    添加一个新的字段</li>
 <li>addcolumn(table, field, col, index=None, missing=None)          添加新的数据列(和addfield有些相似)</li>
 <li>addrownumbers(table, start=1, step=1, field=’row’)              添加行计数</li>
 <li>addfieldusingcontext(table, field, query)                       添加字段，query是一个回调，把相邻三行作为三个参数传入</li>
-<li>annex(<em>tables, *</em>kwargs)                                        join 两个或多个表，按行连接</li>
+<li>annex(*tables, **kwargs)                                        join 两个或多个表，按行连接</li>
 </ol>
 <h4 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h4><p>petl.transform.headers</p>
 <ol>
-<li>rename(table, <em>args, *</em>kwargs)   修改名称</li>
+<li>rename(table, *args, **kwargs)   修改名称</li>
 <li>setheader(table, header)         设置表头</li>
 <li>extendheader(table, fields)      扩展表头（可以用来补全表头信息）</li>
 <li>pushheader(table, header, *args) 设置表头（将第一行当中数据，而不是表头)</li>
@@ -224,8 +213,8 @@ head(t">
 </ol>
 <h4 id="Converting"><a href="#Converting" class="headerlink" title="Converting"></a>Converting</h4><p>petl.transform.conversions</p>
 <ol>
-<li>convert(table, <em>args, *</em>kwargs) 转换（包括数据类型，格式，替换，lambda 等)</li>
-<li>convertall(table, <em>args, *</em>kwargs) 同convert</li>
+<li>convert(table, *args, **kwargs) 转换（包括数据类型，格式，替换，lambda 等)</li>
+<li>convertall(table, *args, **kwargs) 同convert</li>
 <li>convertnumbers(table, strict=False, **kwargs)   转换为数值</li>
 <li>replace(table, field, a, b, **kwargs)           替换</li>
 <li>replaceall(table, a, b, **kwargs)               替换全部</li>
@@ -237,16 +226,16 @@ head(t">
 </ol>
 <h4 id="Selecting-rows"><a href="#Selecting-rows" class="headerlink" title="Selecting rows"></a>Selecting rows</h4><p>petl.transform.selects</p>
 <ol>
-<li>select(table, <em>args, <em>*kwargs)  根据条件选择行 （扩展出各种 select</em></em> 的快捷方法</li>
+<li>select(table, *args, <strong>kwargs)  根据条件选择行 （扩展出各种 select</strong> 的快捷方法</li>
 <li>selectusingcontext(table, query)  基于上一行和下一行来选择数据</li>
 <li>rowlenselect(table, n, complement=False)    选择长度为n的行</li>
 <li>facet(table, key)                           按指定的key分组，将返回值映射到字典</li>
-<li>biselect(table, <em>args, *</em>kwargs)            拆分成两个表，一个为选择的行，一个为抛弃的行</li>
+<li>biselect(table, *args, **kwargs)            拆分成两个表，一个为选择的行，一个为抛弃的行</li>
 </ol>
 <h4 id="Regular-expressions"><a href="#Regular-expressions" class="headerlink" title="Regular expressions"></a>Regular expressions</h4><p>petl.transform.regex</p>
 <ol>
-<li>search(table, <em>args, *</em>kwargs)                   查询返回匹配行</li>
-<li>searchcomplement(table, <em>args, *</em>kwargs)         查询返回不匹配的行</li>
+<li>search(table, *args, **kwargs)                   查询返回匹配行</li>
+<li>searchcomplement(table, *args, **kwargs)         查询返回不匹配的行</li>
 <li>sub(table, field, pattern, repl, count=0, flags=0) 替换</li>
 <li>split(table, field, pattern, newfields=None, include_original=False, maxsplit=0, flags=0)   分割指定fields</li>
 <li>capture(table, field, pattern, newfields=None, include_original=False, flags=0, fill=None)  分组，通过表达式分组来分割fields</li>

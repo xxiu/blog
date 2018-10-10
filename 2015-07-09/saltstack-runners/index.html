@@ -5,19 +5,17 @@
     
     <title>saltstack-runners | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="创建目录mkdir -p /srv/salt/_runner  ; cd /srv/salt/_runner
-修改配置文件runner_dirs: [‘/srv/salt/_runner’]">
+    <meta name="description" content="创建目录mkdir -p /srv/salt/_runner  ; cd /srv/salt/_runner 修改配置文件runner_dirs: [‘/srv/salt/_runner’]">
 <meta property="og:type" content="article">
 <meta property="og:title" content="saltstack-runners">
 <meta property="og:url" content="/2015-07-09/saltstack-runners/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="创建目录mkdir -p /srv/salt/_runner  ; cd /srv/salt/_runner
-修改配置文件runner_dirs: [‘/srv/salt/_runner’]">
+<meta property="og:description" content="创建目录mkdir -p /srv/salt/_runner  ; cd /srv/salt/_runner 修改配置文件runner_dirs: [‘/srv/salt/_runner’]">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-27T02:49:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="saltstack-runners">
-<meta name="twitter:description" content="创建目录mkdir -p /srv/salt/_runner  ; cd /srv/salt/_runner
-修改配置文件runner_dirs: [‘/srv/salt/_runner’]">
+<meta name="twitter:description" content="创建目录mkdir -p /srv/salt/_runner  ; cd /srv/salt/_runner 修改配置文件runner_dirs: [‘/srv/salt/_runner’]">
     
 
     
@@ -76,7 +74,7 @@
             
             <div id="search-form-wrap">
 
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
 
 </div>
         </div>
@@ -93,7 +91,7 @@
                 
                 <td>
                     
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
 
                 </td>
             </tr>
@@ -186,7 +184,7 @@
             <h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><p>mkdir -p /srv/salt/_runner  ; cd /srv/salt/_runner</p>
 <h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>runner_dirs: [‘/srv/salt/_runner’]</p>
 <a id="more"></a>
-<h2 id="编写runner"><a href="#编写runner" class="headerlink" title="编写runner"></a>编写runner</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/evn python</div><div class="line">#coding=utf-8</div><div class="line">import sys</div><div class="line">import salt.client</div><div class="line">def push():</div><div class="line">	client = salt.client.LocalClient(__opts__[&apos;conf_file&apos;])</div><div class="line">	minions = client.cmd(&apos;*&apos;, &apos;test.ping&apos;, timeout=1)</div><div class="line">	for minion in sorted(minions):</div><div class="line">		print minion</div></pre></td></tr></table></figure>
+<h2 id="编写runner"><a href="#编写runner" class="headerlink" title="编写runner"></a>编写runner</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/evn python</span><br><span class="line">#coding=utf-8</span><br><span class="line">import sys</span><br><span class="line">import salt.client</span><br><span class="line">def push():</span><br><span class="line">	client = salt.client.LocalClient(__opts__[&apos;conf_file&apos;])</span><br><span class="line">	minions = client.cmd(&apos;*&apos;, &apos;test.ping&apos;, timeout=1)</span><br><span class="line">	for minion in sorted(minions):</span><br><span class="line">		print minion</span><br></pre></td></tr></table></figure>
 <h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><p>sudo salt-run public.push</p>
 
         
