@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2017-11-24T08:05:56.000Z</updated>
+  <updated>2018-10-10T10:03:51.324Z</updated>
   <id>/</id>
   
   <author>
@@ -14,6 +14,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker 安装</title>
+    <link href="/2018-10-10/docker-install/"/>
+    <id>/2018-10-10/docker-install/</id>
+    <published>2018-10-10T09:43:08.000Z</published>
+    <updated>2018-10-10T10:03:51.324Z</updated>
+    
+    <content type="html"><![CDATA[<p>docker docs : <a href="https://docs.docker.com" target="_blank" rel="external">https://docs.docker.com</a></p>
+<h1 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h1><p>下载地址：<a href="https://store.docker.com/editions/community/docker-ce-desktop-windows" target="_blank" rel="external">https://store.docker.com/editions/community/docker-ce-desktop-windows</a></p>
+<p>需要开启 Hyper-V</p>
+<p>直接安装</p>
+<h1 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h1><p>下载地址 <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" target="_blank" rel="external">https://store.docker.com/editions/community/docker-ce-desktop-mac</a></p>
+<p>直接安装 Docker.dmg .</p>
+<h1 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h1><p>如果是新安装的建议将<code>/etc/apt/source.list</code>内容替换为阿里源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</div><div class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</div><div class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</div><div class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</div><div class="line"></div><div class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</div><div class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</div><div class="line"></div><div class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</div><div class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</div></pre></td></tr></table></figure>
+<h2 id="用脚本安装"><a href="#用脚本安装" class="headerlink" title="用脚本安装"></a>用脚本安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl -fsSL https://get.docker.com -o get-docker.sh</div><div class="line">$ sudo sh get-docker.sh</div></pre></td></tr></table></figure>
+<h2 id="按步骤安装"><a href="#按步骤安装" class="headerlink" title="按步骤安装"></a>按步骤安装</h2><p>安装 Docker CE 需要 64 位的 Ubuntu</p>
+<h3 id="删除老版本的-Docker"><a href="#删除老版本的-Docker" class="headerlink" title="删除老版本的 Docker"></a>删除老版本的 Docker</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get remove docker docker-engine docker.io</div></pre></td></tr></table></figure>
+<h3 id="Docker-支持-aufs"><a href="#Docker-支持-aufs" class="headerlink" title="Docker 支持 aufs"></a>Docker 支持 aufs</h3><p>ubunut14.04 需要，16.04 不需要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line"></div><div class="line">$ sudo apt-get install \</div><div class="line">    linux-image-extra-$(uname -r) \</div><div class="line">    linux-image-extra-virtual</div></pre></td></tr></table></figure>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="update-apt-get"><a href="#update-apt-get" class="headerlink" title="update apt-get"></a>update apt-get</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div></pre></td></tr></table></figure>
+<h4 id="添加apt-https-支持"><a href="#添加apt-https-支持" class="headerlink" title="添加apt https 支持"></a>添加apt https 支持</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install \</div><div class="line">    apt-transport-https \</div><div class="line">    ca-certificates \</div><div class="line">    curl \</div><div class="line">    software-properties-common</div></pre></td></tr></table></figure>
+<h4 id="添加-Docker-GPG-key"><a href="#添加-Docker-GPG-key" class="headerlink" title="添加 Docker GPG key"></a>添加 Docker GPG key</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</div><div class="line">$ sudo apt-key fingerprint 0EBFCD88 #验证</div><div class="line">pub   4096R/0EBFCD88 2017-02-22</div><div class="line">      Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</div><div class="line">uid                  Docker Release (CE deb) &lt;docker@docker.com&gt;</div><div class="line">sub   4096R/F273FCD8 2017-02-22</div><div class="line"></div><div class="line">$ sudo add-apt-repository \</div><div class="line">   &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</div><div class="line">   $(lsb_release -cs) \</div><div class="line">   stable&quot;</div></pre></td></tr></table></figure>
+<h4 id="安装Docker-CE"><a href="#安装Docker-CE" class="headerlink" title="安装Docker-CE"></a>安装Docker-CE</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line">$ sudo apt-get install docker-ce #写文档时最新版本docker version 18.06.1-ce</div><div class="line"># $ sudo apt-get install docker-ce=&lt;VERSION&gt;  # 安装指定版本的docker</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;docker docs : &lt;a href=&quot;https://docs.docker.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.docker.com&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;windows&quot;&gt;&lt;a href=&quot;
+    
+    </summary>
+    
+    
+      <category term="Docker" scheme="/tags/Docker/"/>
+    
+  </entry>
   
   <entry>
     <title>github 下载指定文件夹或文件</title>
@@ -797,34 +835,6 @@ putRow(newRow);
     
     
       <category term="zabbix" scheme="/tags/zabbix/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>supervisor-python进程管理</title>
-    <link href="/2016-01-04/supervisor-python%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
-    <id>/2016-01-04/supervisor-python进程管理/</id>
-    <published>2016-01-04T08:14:40.000Z</published>
-    <updated>2016-09-27T02:39:40.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="supervisor官网"><a href="#supervisor官网" class="headerlink" title="supervisor官网"></a>supervisor官网</h2><p><a href="http://supervisord.org" target="_blank" rel="external">http://supervisord.org</a><br>文档 <a href="http://supervisord.org/installing.html" target="_blank" rel="external">http://supervisord.org/installing.html</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 使用 apt-get 会自动的在 /etc/supervisor 加入配置文件，推荐使用</div><div class="line">apt-get install supervisor #pip install supervisor</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>安装好后有两个可执行文件和一些配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/usr/bin/supervisord             --  supervisor服务守护进程</div><div class="line">/usr/bin/supervisorctl           --  supervisor服务控制程序，比如：status/start/stop/restart xx 等</div><div class="line">/etc/supervisor/supervisord.conf --  配置文件，定义服务名称以及接口等等</div></pre></td></tr></table></figure></p>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>示例，在/etc/supervisor/supervisord.conf 指定一个 getfile 的程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[program:getfile]</div><div class="line">command=python /home/zhangwei/ptest_service/app_getfile.py</div><div class="line">directory=/home/zhangwei/ptest_service</div><div class="line">autorstart=true</div><div class="line">stdout_logfile=/home/zhangwei/ptest_service/log/getfile.log</div><div class="line">stderr_logfile=/home/zhangwei/ptest_service/log/getfile_err.log</div></pre></td></tr></table></figure></p>
-<h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">supervisorctl status # 查看进程状态</div><div class="line">supervisorctl  status|stop|start  getfile #查看 停止 启动进程</div></pre></td></tr></table></figure>
-<p>supervisord.conf文件里会发现有一段[unix_http_server]的配置，默认是9001端口，配置后，重启supervisor服务，打开浏览器输入：<a href="http://localhost:9001" target="_blank" rel="external">http://localhost:9001</a> 可以查看相关的内容。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;supervisor官网&quot;&gt;&lt;a href=&quot;#supervisor官网&quot; class=&quot;headerlink&quot; title=&quot;supervisor官网&quot;&gt;&lt;/a&gt;supervisor官网&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://supervisord.org&quot;&gt;http://supervisord.org&lt;/a&gt;&lt;br&gt;文档 &lt;a href=&quot;http://supervisord.org/installing.html&quot;&gt;http://supervisord.org/installing.html&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;# 使用 apt-get 会自动的在 /etc/supervisor 加入配置文件，推荐使用&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;apt-get install supervisor #pip install supervisor&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="python" scheme="/tags/python/"/>
     
   </entry>
   
