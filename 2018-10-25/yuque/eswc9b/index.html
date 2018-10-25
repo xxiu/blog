@@ -3,19 +3,19 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Mac上制作Ubuntu USB启动盘 | 张巍的博客</title>
+    <title>hexo  test | 张巍的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，">
+    <meta name="description" content="testtesttestf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac上制作Ubuntu USB启动盘">
-<meta property="og:url" content="/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/index.html">
+<meta property="og:title" content="hexo  test">
+<meta property="og:url" content="/2018-10-25/yuque/eswc9b/index.html">
 <meta property="og:site_name" content="张巍的博客">
-<meta property="og:description" content="前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，">
+<meta property="og:description" content="testtesttestf">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2016-09-27T02:37:13.000Z">
+<meta property="og:updated_time" content="2018-10-25T02:26:40.569Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac上制作Ubuntu USB启动盘">
-<meta name="twitter:description" content="前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，">
+<meta name="twitter:title" content="hexo  test">
+<meta name="twitter:description" content="testtesttestf">
     
 
     
@@ -148,7 +148,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-making-ubuntu-usb-boot-disk-on-mac" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-yuque/eswc9b" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -156,7 +156,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            Mac上制作Ubuntu USB启动盘
+            hexo  test
         </h1>
     
 
@@ -165,8 +165,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/">
-            <time datetime="2016-03-25T02:59:14.000Z" itemprop="datePublished">2016-03-25</time>
+        <a href="/2018-10-25/yuque/eswc9b/">
+            <time datetime="2018-10-25T02:11:50.000Z" itemprop="datePublished">2018-10-25</time>
         </a>
     </div>
 
@@ -181,18 +181,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，</p>
-<a id="more"></a>
-<h2 id="一、下载ubuntu-iso镜像"><a href="#一、下载ubuntu-iso镜像" class="headerlink" title="一、下载ubuntu iso镜像"></a>一、下载ubuntu iso镜像</h2><p>去官网下，下载原版的，不要下xxx麒麟</p>
-<h2 id="二、将iso转换为img文件"><a href="#二、将iso转换为img文件" class="headerlink" title="二、将iso转换为img文件"></a>二、将iso转换为img文件</h2><p>生成一个ubuntu_server.img的磁盘镜像文件，mac osx会默认追加一个.dmg</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hdiutil convert -format UDRW -o./ubuntu_server ./ubuntu-14.04.4-server-amd64.iso</span><br></pre></td></tr></table></figure>
-<h2 id="三、查看USB的盘符"><a href="#三、查看USB的盘符" class="headerlink" title="三、查看USB的盘符"></a>三、查看USB的盘符</h2><p>查看当前系统上挂载的磁盘，其中/dev/disk3是我的USB磁盘。不同的系统disk后的数字可能不一样，但一般都是diskN的模式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ diskutil list</span><br><span class="line">/dev/disk0 (internal, physical):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:      GUID_partition_scheme                        *121.3 GB   disk0</span><br><span class="line">   1:                        EFI EFI                     209.7 MB   disk0s1</span><br><span class="line">   2:          Apple_CoreStorage Macintosh HD            120.5 GB   disk0s2</span><br><span class="line">   3:                 Apple_Boot Recovery HD             650.0 MB   disk0s3</span><br><span class="line">/dev/disk1 (internal, virtual):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:                  Apple_HFS Macintosh HD           +120.1 GB   disk1</span><br><span class="line">                                 Logical Volume on disk0s2</span><br><span class="line">                                 3F4EC944-D436-4957-A043-B0C1B211389F</span><br><span class="line">                                 Unencrypted</span><br><span class="line">/dev/disk2 (disk image):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:     Apple_partition_scheme                        +17.9 MB    disk2</span><br><span class="line">   1:        Apple_partition_map                         32.3 KB    disk2s1</span><br><span class="line">   2:                  Apple_HFS Flash Player            17.9 MB    disk2s2</span><br><span class="line">/dev/disk3 (external, physical):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:     FDisk_partition_scheme                        *7.8 GB     disk3</span><br><span class="line">   1:                 DOS_FAT_32 EXPO                    7.8 GB     disk3s1</span><br></pre></td></tr></table></figure>
-<h2 id="四、卸载USB磁盘"><a href="#四、卸载USB磁盘" class="headerlink" title="四、卸载USB磁盘"></a>四、卸载USB磁盘</h2><p>使用diskutil unmountDisk卸载USB磁盘，注意卸载（umount）与弹出(eject)的区别</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ diskutil unmountDisk /dev/disk3</span><br><span class="line">Unmount of all volumes on disk3 was successful</span><br></pre></td></tr></table></figure>
-<h2 id="五、将镜像写入USB"><a href="#五、将镜像写入USB" class="headerlink" title="五、将镜像写入USB"></a>五、将镜像写入USB</h2><p>将第二步生成的img文件写入到USB磁盘/dev/rdisk3,写入的时候稍微等待一会</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dd if=ubuntu_server.dmg of=/dev/rdisk3 bs=1m</span><br><span class="line">Password:</span><br><span class="line">Sorry, try again.</span><br><span class="line">Password:</span><br><span class="line">579+0 records in</span><br><span class="line">579+0 records out</span><br><span class="line">607125504 bytes transferred in 123.920251 secs (4899324 bytes/sec)</span><br></pre></td></tr></table></figure>
-<h2 id="六、弹出USB"><a href="#六、弹出USB" class="headerlink" title="六、弹出USB"></a>六、弹出USB</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ diskutil eject /dev/disk1</span><br></pre></td></tr></table></figure>
+            <p>test<br>test<br>testf</p>
 
         
         </div>
@@ -247,19 +236,19 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2016-04-06/memcacheq-berkeleydb-备份恢复/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2018-10-25/yuque/ztpr0v/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    memcacheq Berkeleydb 备份恢复
+                    普通测试
                 
             </div>
         </a>
     
     
-        <a href="/2016-03-04/hugo试用/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018-10-10/docker-install/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">hugo试用</div>
+            <div class="article-nav-title">Docker 安装</div>
         </a>
     
 </nav>
