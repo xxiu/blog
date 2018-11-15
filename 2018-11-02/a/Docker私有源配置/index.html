@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Docker私有源配置 | 张巍的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="基本命令123sudo docker run -d -p 5000:5000 --restart=always  --name registry \		-v /home/docker/registry:/var/lib/registry registry:2 # 加入restart=always 跟随docker启动时自启动 # 本地启动后镜像服务器的地址为 localhost:5000 运行后会">
+<meta name="keywords" content="Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker私有源配置">
+<meta property="og:url" content="/2018-11-02/a/Docker私有源配置/index.html">
+<meta property="og:site_name" content="张巍的博客">
+<meta property="og:description" content="基本命令123sudo docker run -d -p 5000:5000 --restart=always  --name registry \		-v /home/docker/registry:/var/lib/registry registry:2 # 加入restart=always 跟随docker启动时自启动 # 本地启动后镜像服务器的地址为 localhost:5000 运行后会">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-15T10:40:40.223Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker私有源配置">
+<meta name="twitter:description" content="基本命令123sudo docker run -d -p 5000:5000 --restart=always  --name registry \		-v /home/docker/registry:/var/lib/registry registry:2 # 加入restart=always 跟随docker启动时自启动 # 本地启动后镜像服务器的地址为 localhost:5000 运行后会">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="张巍的博客" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">张巍的博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value=""></form>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value=""></form>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">张巍</h2>
+            <h3 id="title">Python &amp; Php &amp; DotNet</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国, 北京</span>
+            <a id="follow" target="_blank" href="https://github.com/xxiu/">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                60
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                28
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/xxiu" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-a/Docker私有源配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Docker私有源配置
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018-11-02/a/Docker私有源配置/">
+            <time datetime="2018-11-02T09:22:08.000Z" itemprop="datePublished">2018-11-02</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Docker/">Docker</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Docker/">Docker</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a><a name="9ggegs"></a>基本命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d -p 5000:5000 --restart=always  --name registry \</span><br><span class="line">		-v /home/docker/registry:/var/lib/registry registry:2 # 加入restart=always 跟随docker启动时自启动 </span><br><span class="line"><span class="meta">#</span> 本地启动后镜像服务器的地址为 localhost:5000</span><br></pre></td></tr></table></figure>
+<p>运行后会自动到docker hub 上拉取</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry            2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br></pre></td></tr></table></figure>
+<h2 id="Docker-镜像命名规则"><a href="#Docker-镜像命名规则" class="headerlink" title="Docker 镜像命名规则"></a><a name="mk2kbn"></a>Docker 镜像命名规则</h2><p>完整的image名称：<code>registry.domain.com/name/base:latest</code></p>
+<ol>
+<li><code>registry.domain.com</code> image 所在服务器地址</li>
+<li><code>name</code> 命名空间</li>
+<li><code>base</code> 具体名字</li>
+<li><code>latest</code> 版本号</li>
+</ol>
+<h2 id="验证本地私有镜像"><a href="#验证本地私有镜像" class="headerlink" title="验证本地私有镜像"></a><a name="itqsig"></a>验证本地私有镜像</h2><ol>
+<li>本地存在一个ubuntu:16.04 的镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry            2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu              16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<ol>
+<li>添加一个新的tag<code>localhost:5000/ubuntu:16.04</code></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker tag ubuntu:16.04 localhost:5000/ubuntu:16.04</span><br><span class="line">root@pprt-s1:/home/docker# docker  images</span><br><span class="line">REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry                2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu                  16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br><span class="line">localhost:5000/ubuntu   16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<ol>
+<li>将镜像<code>localhost:5000/ubuntu:16.04</code> push 到私有源</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker push  localhost:5000/ubuntu:16.04</span><br><span class="line">The push refers to repository [localhost:5000/ubuntu]</span><br><span class="line">75b79e19929c: Pushed</span><br><span class="line">4775b2f378bb: Pushed</span><br><span class="line">883eafdbe580: Pushed</span><br><span class="line">19d043c86cbc: Pushed</span><br><span class="line">8823818c4748: Pushed</span><br><span class="line">16.04: digest: sha256:9b47044b1e79b965a8e1653e7f9c04b5f63e00b9161bedd5baef69bb8b4c4834 size: 1357</span><br></pre></td></tr></table></figure>
+<ol>
+<li>删除本地 localhost:5000/ubuntu:16.04</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker image rm localhost:5000/ubuntu:16.04</span><br><span class="line">Untagged: localhost:5000/ubuntu:16.04</span><br><span class="line">Untagged: localhost:5000/ubuntu@sha256:9b47044b1e79b965a8e1653e7f9c04b5f63e00b9161bedd5baef69bb8b4c4834</span><br><span class="line">root@pprt-s1:/home/docker# docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry            2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu              16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<ol>
+<li>从私有源拉取镜像，成功得到镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker  pull localhost:5000/ubuntu:16.04</span><br><span class="line">16.04: Pulling from ubuntu</span><br><span class="line">Digest: sha256:9b47044b1e79b965a8e1653e7f9c04b5f63e00b9161bedd5baef69bb8b4c4834</span><br><span class="line">Status: Downloaded newer image for localhost:5000/ubuntu:16.04</span><br><span class="line">root@pprt-s1:/home/docker# docker images</span><br><span class="line">REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry                2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu                  16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br><span class="line">localhost:5000/ubuntu   16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<h1 id="身份验证"><a href="#身份验证" class="headerlink" title="身份验证"></a><a name="afh6gl"></a>身份验证</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> mkdir auth</span><br><span class="line"><span class="meta">$</span> docker run \</span><br><span class="line">  --entrypoint htpasswd \</span><br><span class="line">  registry:2 -Bbn testuser testpassword &gt; auth/htpasswd</span><br></pre></td></tr></table></figure>
+<h2 id="为外网提供服务"><a href="#为外网提供服务" class="headerlink" title="为外网提供服务"></a><a name="r2g7hw"></a>为外网提供服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d -p 5000:5000 \</span><br><span class="line">	--restart=always  \</span><br><span class="line">	--name registry \</span><br><span class="line">	-e REGISTRY_HTTP_TLS_CERTIFICATE=/home/docker/cert_file/os.pprt.net/pprt.net.cer \</span><br><span class="line">    -e REGISTRY_HTTP_TLS_KEY=/home/docker/cert_file/os.pprt.net/pprt.net.key \</span><br><span class="line">	-v /home/docker/registry:/var/lib/registry \</span><br><span class="line">	-v `pwd`/auth:/auth \</span><br><span class="line">	-e "REGISTRY_AUTH=htpasswd" \</span><br><span class="line">    -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \</span><br><span class="line">    registry:2</span><br></pre></td></tr></table></figure>
+<h3 id="nginx代理"><a href="#nginx代理" class="headerlink" title="nginx代理"></a><a name="r61bbv"></a>nginx代理</h3><p><a href="https://github.com/docker/docker-registry/blob/master/contrib/nginx/nginx.conf" target="_blank" rel="noopener">https://github.com/docker/docker-registry/blob/master/contrib/nginx/nginx.conf</a></p>
+<p>nginx.conf</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># For nginx &lt; 1.3.9</span></span><br><span class="line"><span class="comment"># FYI: Chunking requires nginx-extras package on Debian Wheezy and some Ubuntu versions</span></span><br><span class="line"><span class="comment"># See chunking http://wiki.nginx.org/HttpChunkinModule</span></span><br><span class="line"><span class="comment"># Replace with appropriate values where necessary</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">upstream</span> docker-registry &#123;</span><br><span class="line">  <span class="attribute">server</span> localhost:<span class="number">5000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># uncomment if you want a 301 redirect for users attempting to connect</span></span><br><span class="line"><span class="comment"># on port 80</span></span><br><span class="line"><span class="comment"># <span class="doctag">NOTE:</span> docker client will still fail. This is just for convenience</span></span><br><span class="line"><span class="comment"># server &#123;</span></span><br><span class="line"><span class="comment">#   listen *:80;</span></span><br><span class="line"><span class="comment">#   server_name my.docker.registry.com;</span></span><br><span class="line"><span class="comment">#   return 301 https://$server_name$request_uri;</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span>;</span><br><span class="line">  <span class="attribute">server_name</span> docker.os.pprt.net;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">ssl</span> <span class="literal">on</span>;</span><br><span class="line">  <span class="attribute">ssl_certificate</span> /home/docker/cert_file/fullchain.cer;</span><br><span class="line">  <span class="attribute">ssl_certificate_key</span> /home/docker/cert_file/pprt.net.key;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">client_max_body_size</span> <span class="number">0</span>; <span class="comment"># disable any limits to avoid HTTP 413 for large image uploads</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># required to avoid HTTP 411: see Issue #1486 (https://github.com/dotcloud/docker/issues/1486)</span></span><br><span class="line">  <span class="attribute">chunkin</span> <span class="literal">on</span>;</span><br><span class="line">  <span class="attribute">error_page</span> <span class="number">411</span> = <span class="variable">@my_411_error</span>;</span><br><span class="line">  <span class="attribute">location</span> <span class="variable">@my_411_error</span> &#123;</span><br><span class="line">    chunkin_resume;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">auth_basic</span>            <span class="string">"Restricted"</span>;</span><br><span class="line">    <span class="attribute">auth_basic_user_file</span>  docker-registry.htpasswd;</span><br><span class="line">    <span class="attribute">include</span>               docker-registry.conf;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> /_ping &#123;</span><br><span class="line">    <span class="attribute">auth_basic</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">include</span>               docker-registry.conf;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> /v1/_ping &#123;</span><br><span class="line">    <span class="attribute">auth_basic</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">include</span>               docker-registry.conf;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>docker-registry.conf</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_pass</span>                       http://docker-registry;</span><br><span class="line"><span class="attribute">proxy_set_header</span>  Host           <span class="variable">$http_host</span>;   <span class="comment"># required for docker client's sake</span></span><br><span class="line"><span class="attribute">proxy_set_header</span>  X-Real-IP      <span class="variable">$remote_addr</span>; <span class="comment"># pass on real client's IP</span></span><br><span class="line"><span class="attribute">proxy_set_header</span>  Authorization  <span class="string">""</span>; <span class="comment"># see https://github.com/dotcloud/docker-registry/issues/170</span></span><br><span class="line"><span class="attribute">proxy_read_timeout</span>               <span class="number">900</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a><a name="kfmfny"></a>查询</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> curl http://domain.com/v2/_catalog</span><br><span class="line">&#123;"repositories":["ubuntu"]&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="停止并删除容器"><a href="#停止并删除容器" class="headerlink" title="停止并删除容器"></a><a name="506hdq"></a>停止并删除容器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container stop registry &amp;&amp; docker container rm -v registry</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018-11-02/a/Harbor配置-DockerRegistry私有镜像仓库/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Harbor配置-DockerRegistry私有镜像仓库
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018-10-30/a/使用语雀写hexo/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">使用语雀写hexo</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018-11-15/a/jenkins git 配置大意错误/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018-11-15/a/jenkins git 配置大意错误/" class="title">jenkins git 配置大意错误</a></p>
+                            <p class="item-date"><time datetime="2018-11-15T10:27:10.000Z" itemprop="datePublished">2018-11-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018-11-02/a/Harbor配置-DockerRegistry私有镜像仓库/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Docker/">Docker</a></p>
+                            <p class="item-title"><a href="/2018-11-02/a/Harbor配置-DockerRegistry私有镜像仓库/" class="title">Harbor配置-DockerRegistry私有镜像仓库</a></p>
+                            <p class="item-date"><time datetime="2018-11-02T09:24:17.000Z" itemprop="datePublished">2018-11-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018-11-02/a/Docker私有源配置/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Docker/">Docker</a></p>
+                            <p class="item-title"><a href="/2018-11-02/a/Docker私有源配置/" class="title">Docker私有源配置</a></p>
+                            <p class="item-date"><time datetime="2018-11-02T09:22:08.000Z" itemprop="datePublished">2018-11-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018-10-30/a/使用语雀写hexo/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/教程/">教程</a></p>
+                            <p class="item-title"><a href="/2018-10-30/a/使用语雀写hexo/" class="title">使用语雀写hexo</a></p>
+                            <p class="item-date"><time datetime="2018-10-30T15:05:37.000Z" itemprop="datePublished">2018-10-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018-10-30/a/安装Docker/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/docker/">docker</a></p>
+                            <p class="item-title"><a href="/2018-10-30/a/安装Docker/" class="title">安装Docker</a></p>
+                            <p class="item-date"><time datetime="2018-10-30T14:08:19.000Z" itemprop="datePublished">2018-10-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教程/">教程</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ci/">ci</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fastDFS/">fastDFS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ikvm/">ikvm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/">jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kettle/">kettle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/letsencrypt/">letsencrypt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magick/">magick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx-php/">nginx php</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pdf/">pdf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/saltstack/">saltstack</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smarty/">smarty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/">solr</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tesseract-ocr/">tesseract-ocr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thrift/">thrift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/">zabbix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/词库/">词库</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Docker/" style="font-size: 14px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/ci/" style="font-size: 10px;">ci</a> <a href="/tags/fastDFS/" style="font-size: 16px;">fastDFS</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/letsencrypt/" style="font-size: 10px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx-php/" style="font-size: 10px;">nginx php</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/php/" style="font-size: 12px;">php</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18px;">solr</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/zabbix/" style="font-size: 10px;">zabbix</a> <a href="/tags/工具/" style="font-size: 12px;">工具</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 xxiu<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

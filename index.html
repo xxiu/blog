@@ -113,11 +113,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                57
+                60
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                27
+                28
                 <span>标签</span>
             </div>
         </div>
@@ -148,6 +148,364 @@
 
             
             <section id="main">
+    <article id="post-a/jenkins git 配置大意错误" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018-11-15/a/jenkins git 配置大意错误/">jenkins git 配置大意错误</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018-11-15/a/jenkins git 配置大意错误/">
+            <time datetime="2018-11-15T10:27:10.000Z" itemprop="datePublished">2018-11-15</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/jenkins/">jenkins</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>Jenkins新建项目中源码管理使用Git时遇到如下问题：</p>
+<p>Failed to connect to repository : Error performing command: git ls-remote -h <a href="mailto:git@192.168.199.89" target="_blank" rel="noopener">git@192.168.199.89</a>:zhangwei/jenkins-test.git HEAD</p>
+<p>解决：</p>
+<p>1.Jenkins服务器上查看git是否已安装及安装位置</p>
+<p>git version</p>
+<p>whereis git</p>
+<p>打开Jenkins的 主页面 &gt; 系统管理 &gt; Global Tool Configuration</p>
+<p>可以看到错误提示：There’s no such executable git in PATH: /sbin, /usr/sbin, /bin, /usr/bin.</p>
+<p>在出错的地方填入系统上git的地址： 一般默认填入 <code>git</code></p>
+<p>问题是很简单的问题，由于git的路径没有配置正确，导致了错误，而jenkins并没有将命令执行的错误消息给出来，只是给出了</p>
+<p><code>git ls-remote -h git@192.168.199.89:zhangwei/jenkins-test.git HEAD</code> 执行错误，误导了问题源。 </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-a/Harbor配置-DockerRegistry私有镜像仓库" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018-11-02/a/Harbor配置-DockerRegistry私有镜像仓库/">Harbor配置-DockerRegistry私有镜像仓库</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018-11-02/a/Harbor配置-DockerRegistry私有镜像仓库/">
+            <time datetime="2018-11-02T09:24:17.000Z" itemprop="datePublished">2018-11-02</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Docker/">Docker</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Docker/">Docker</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="Harbor简介"><a href="#Harbor简介" class="headerlink" title="Harbor简介"></a><a name="hrk3bg"></a>Harbor简介</h1><p>Harbor<code>是</code>VMware<code>公司开源的企业级</code>Docker Registry<code>项目，其目标是帮助用户迅速搭建一个企业级的</code>Docker registry`服务。</p>
+<p>它以<code>Docker</code>公司开源的<code>registry</code>为基础，提供了管理<code>UI</code>，基于角色的访问控制(<code>Role Based AccessControl</code>)，<code>AD/LDAP</code>集成、以及审计日志(<code>Auditlogging</code>) 等企业用户需求的功能，通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源 <code>Docker Distribution</code>。</p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a><a name="9eq0tf"></a>环境准备</h1><ul>
+<li>Ubuntu 14.04</li>
+<li>Docker and Docker Compose</li>
+</ul>
+<h4 id="Docker-Compose-安装"><a href="#Docker-Compose-安装" class="headerlink" title="Docker Compose 安装"></a><a name="0g0sth"></a>Docker Compose 安装</h4><pre><code><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line">sudo chmod +x /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> docker-compose --version</span><br><span class="line">docker-compose version 1.22.0, build f46880fe</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>python</li>
+</ul>
+<h1 id="Harbor下载"><a href="#Harbor下载" class="headerlink" title="Harbor下载"></a><a name="9qd2rr"></a>Harbor下载</h1><p>下载Harbour版本的二进制文件 <a href="https://github.com/vmware/harbor/releases" target="_blank" rel="noopener">https://github.com/vmware/harbor/releases</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://storage.googleapis.com/harbor-releases/release-1.6.0/harbor-offline-installer-v1.6.0.tgz</span><br><span class="line">tar -zxvf harbor-offline-installer-v1.6.0.tgz</span><br></pre></td></tr></table></figure>
+<p>官方的链接正常无法下载，感谢戴亚同学帮忙。</p>
+<p>下载解压后进入解压的文件夹</p>
+<h1 id="Harbor配置"><a href="#Harbor配置" class="headerlink" title="Harbor配置"></a><a name="y016pk"></a>Harbor配置</h1><p>解压后目录下生成 harbor.conf  文件，根据需要修改配置文件。</p>
+<h1 id="Harbor启动"><a href="#Harbor启动" class="headerlink" title="Harbor启动"></a><a name="2ec0rk"></a>Harbor启动</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/home/zhangwei# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS                PORTS                                                                NAMES</span><br><span class="line">136373bd5377        goharbor/harbor-jobservice:v1.6.0        "/harbor/start.sh"       2 days ago          Up 2 days                                                                                  harbor-jobservice</span><br><span class="line">e593d2a724de        goharbor/nginx-photon:v1.6.0             "nginx -g 'daemon of…"   2 days ago          Up 2 days (healthy)   0.0.0.0:443-&gt;443/tcp, 0.0.0.0:4443-&gt;4443/tcp, 0.0.0.0:1080-&gt;80/tcp   nginx</span><br><span class="line">f29c2341d237        goharbor/harbor-ui:v1.6.0                "/harbor/start.sh"       2 days ago          Up 2 days (healthy)                                                                        harbor-ui</span><br><span class="line">a03a1bab796f        goharbor/harbor-adminserver:v1.6.0       "/harbor/start.sh"       2 days ago          Up 2 days (healthy)                                                                        harbor-adminserver</span><br><span class="line">c11b5b108311        goharbor/redis-photon:v1.6.0             "docker-entrypoint.s…"   2 days ago          Up 2 days             6379/tcp                                                             redis</span><br><span class="line">6d95f6c0aaf3        goharbor/harbor-db:v1.6.0                "/entrypoint.sh post…"   2 days ago          Up 2 days (healthy)   5432/tcp                                                             harbor-db</span><br><span class="line">2fa99bb3d06c        goharbor/registry-photon:v2.6.2-v1.6.0   "/entrypoint.sh /etc…"   2 days ago          Up 2 days (healthy)   5000/tcp                                                             registry</span><br><span class="line">da21879d2dd1        goharbor/harbor-log:v1.6.0               "/bin/sh -c /usr/loc…"   2 days ago          Up 2 days (healthy)   127.0.0.1:1514-&gt;10514/tcp                                            harbor-log</span><br></pre></td></tr></table></figure>
+<p>根据需要修改docker-compose.yml 文件的端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">proxy:</span><br><span class="line">  image: goharbor/nginx-photon:v1.6.0</span><br><span class="line">  container_name: nginx</span><br><span class="line">  restart: always</span><br><span class="line">  volumes:</span><br><span class="line">    - ./common/config/nginx:/etc/nginx:z</span><br><span class="line">  networks:</span><br><span class="line">    - harbor</span><br><span class="line">  ports:</span><br><span class="line">    - 1080:80</span><br><span class="line">    - 443:443</span><br><span class="line">    - 4443:4443</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-a/Docker私有源配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018-11-02/a/Docker私有源配置/">Docker私有源配置</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018-11-02/a/Docker私有源配置/">
+            <time datetime="2018-11-02T09:22:08.000Z" itemprop="datePublished">2018-11-02</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Docker/">Docker</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Docker/">Docker</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a><a name="9ggegs"></a>基本命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d -p 5000:5000 --restart=always  --name registry \</span><br><span class="line">		-v /home/docker/registry:/var/lib/registry registry:2 # 加入restart=always 跟随docker启动时自启动 </span><br><span class="line"><span class="meta">#</span> 本地启动后镜像服务器的地址为 localhost:5000</span><br></pre></td></tr></table></figure>
+<p>运行后会自动到docker hub 上拉取</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry            2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br></pre></td></tr></table></figure>
+<h2 id="Docker-镜像命名规则"><a href="#Docker-镜像命名规则" class="headerlink" title="Docker 镜像命名规则"></a><a name="mk2kbn"></a>Docker 镜像命名规则</h2><p>完整的image名称：<code>registry.domain.com/name/base:latest</code></p>
+<ol>
+<li><code>registry.domain.com</code> image 所在服务器地址</li>
+<li><code>name</code> 命名空间</li>
+<li><code>base</code> 具体名字</li>
+<li><code>latest</code> 版本号</li>
+</ol>
+<h2 id="验证本地私有镜像"><a href="#验证本地私有镜像" class="headerlink" title="验证本地私有镜像"></a><a name="itqsig"></a>验证本地私有镜像</h2><ol>
+<li>本地存在一个ubuntu:16.04 的镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry            2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu              16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<ol>
+<li>添加一个新的tag<code>localhost:5000/ubuntu:16.04</code></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker tag ubuntu:16.04 localhost:5000/ubuntu:16.04</span><br><span class="line">root@pprt-s1:/home/docker# docker  images</span><br><span class="line">REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry                2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu                  16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br><span class="line">localhost:5000/ubuntu   16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<ol>
+<li>将镜像<code>localhost:5000/ubuntu:16.04</code> push 到私有源</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker push  localhost:5000/ubuntu:16.04</span><br><span class="line">The push refers to repository [localhost:5000/ubuntu]</span><br><span class="line">75b79e19929c: Pushed</span><br><span class="line">4775b2f378bb: Pushed</span><br><span class="line">883eafdbe580: Pushed</span><br><span class="line">19d043c86cbc: Pushed</span><br><span class="line">8823818c4748: Pushed</span><br><span class="line">16.04: digest: sha256:9b47044b1e79b965a8e1653e7f9c04b5f63e00b9161bedd5baef69bb8b4c4834 size: 1357</span><br></pre></td></tr></table></figure>
+<ol>
+<li>删除本地 localhost:5000/ubuntu:16.04</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker image rm localhost:5000/ubuntu:16.04</span><br><span class="line">Untagged: localhost:5000/ubuntu:16.04</span><br><span class="line">Untagged: localhost:5000/ubuntu@sha256:9b47044b1e79b965a8e1653e7f9c04b5f63e00b9161bedd5baef69bb8b4c4834</span><br><span class="line">root@pprt-s1:/home/docker# docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry            2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu              16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<ol>
+<li>从私有源拉取镜像，成功得到镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker  pull localhost:5000/ubuntu:16.04</span><br><span class="line">16.04: Pulling from ubuntu</span><br><span class="line">Digest: sha256:9b47044b1e79b965a8e1653e7f9c04b5f63e00b9161bedd5baef69bb8b4c4834</span><br><span class="line">Status: Downloaded newer image for localhost:5000/ubuntu:16.04</span><br><span class="line">root@pprt-s1:/home/docker# docker images</span><br><span class="line">REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry                2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu                  16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br><span class="line">localhost:5000/ubuntu   16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<h1 id="身份验证"><a href="#身份验证" class="headerlink" title="身份验证"></a><a name="afh6gl"></a>身份验证</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> mkdir auth</span><br><span class="line"><span class="meta">$</span> docker run \</span><br><span class="line">  --entrypoint htpasswd \</span><br><span class="line">  registry:2 -Bbn testuser testpassword &gt; auth/htpasswd</span><br></pre></td></tr></table></figure>
+<h2 id="为外网提供服务"><a href="#为外网提供服务" class="headerlink" title="为外网提供服务"></a><a name="r2g7hw"></a>为外网提供服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d -p 5000:5000 \</span><br><span class="line">	--restart=always  \</span><br><span class="line">	--name registry \</span><br><span class="line">	-e REGISTRY_HTTP_TLS_CERTIFICATE=/home/docker/cert_file/os.pprt.net/pprt.net.cer \</span><br><span class="line">    -e REGISTRY_HTTP_TLS_KEY=/home/docker/cert_file/os.pprt.net/pprt.net.key \</span><br><span class="line">	-v /home/docker/registry:/var/lib/registry \</span><br><span class="line">	-v `pwd`/auth:/auth \</span><br><span class="line">	-e "REGISTRY_AUTH=htpasswd" \</span><br><span class="line">    -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \</span><br><span class="line">    registry:2</span><br></pre></td></tr></table></figure>
+<h3 id="nginx代理"><a href="#nginx代理" class="headerlink" title="nginx代理"></a><a name="r61bbv"></a>nginx代理</h3><p><a href="https://github.com/docker/docker-registry/blob/master/contrib/nginx/nginx.conf" target="_blank" rel="noopener">https://github.com/docker/docker-registry/blob/master/contrib/nginx/nginx.conf</a></p>
+<p>nginx.conf</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># For nginx &lt; 1.3.9</span></span><br><span class="line"><span class="comment"># FYI: Chunking requires nginx-extras package on Debian Wheezy and some Ubuntu versions</span></span><br><span class="line"><span class="comment"># See chunking http://wiki.nginx.org/HttpChunkinModule</span></span><br><span class="line"><span class="comment"># Replace with appropriate values where necessary</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">upstream</span> docker-registry &#123;</span><br><span class="line">  <span class="attribute">server</span> localhost:<span class="number">5000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># uncomment if you want a 301 redirect for users attempting to connect</span></span><br><span class="line"><span class="comment"># on port 80</span></span><br><span class="line"><span class="comment"># <span class="doctag">NOTE:</span> docker client will still fail. This is just for convenience</span></span><br><span class="line"><span class="comment"># server &#123;</span></span><br><span class="line"><span class="comment">#   listen *:80;</span></span><br><span class="line"><span class="comment">#   server_name my.docker.registry.com;</span></span><br><span class="line"><span class="comment">#   return 301 https://$server_name$request_uri;</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span>;</span><br><span class="line">  <span class="attribute">server_name</span> docker.os.pprt.net;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">ssl</span> <span class="literal">on</span>;</span><br><span class="line">  <span class="attribute">ssl_certificate</span> /home/docker/cert_file/fullchain.cer;</span><br><span class="line">  <span class="attribute">ssl_certificate_key</span> /home/docker/cert_file/pprt.net.key;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">client_max_body_size</span> <span class="number">0</span>; <span class="comment"># disable any limits to avoid HTTP 413 for large image uploads</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># required to avoid HTTP 411: see Issue #1486 (https://github.com/dotcloud/docker/issues/1486)</span></span><br><span class="line">  <span class="attribute">chunkin</span> <span class="literal">on</span>;</span><br><span class="line">  <span class="attribute">error_page</span> <span class="number">411</span> = <span class="variable">@my_411_error</span>;</span><br><span class="line">  <span class="attribute">location</span> <span class="variable">@my_411_error</span> &#123;</span><br><span class="line">    chunkin_resume;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">auth_basic</span>            <span class="string">"Restricted"</span>;</span><br><span class="line">    <span class="attribute">auth_basic_user_file</span>  docker-registry.htpasswd;</span><br><span class="line">    <span class="attribute">include</span>               docker-registry.conf;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> /_ping &#123;</span><br><span class="line">    <span class="attribute">auth_basic</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">include</span>               docker-registry.conf;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> /v1/_ping &#123;</span><br><span class="line">    <span class="attribute">auth_basic</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">include</span>               docker-registry.conf;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>docker-registry.conf</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_pass</span>                       http://docker-registry;</span><br><span class="line"><span class="attribute">proxy_set_header</span>  Host           <span class="variable">$http_host</span>;   <span class="comment"># required for docker client's sake</span></span><br><span class="line"><span class="attribute">proxy_set_header</span>  X-Real-IP      <span class="variable">$remote_addr</span>; <span class="comment"># pass on real client's IP</span></span><br><span class="line"><span class="attribute">proxy_set_header</span>  Authorization  <span class="string">""</span>; <span class="comment"># see https://github.com/dotcloud/docker-registry/issues/170</span></span><br><span class="line"><span class="attribute">proxy_read_timeout</span>               <span class="number">900</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a><a name="kfmfny"></a>查询</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> curl http://domain.com/v2/_catalog</span><br><span class="line">&#123;"repositories":["ubuntu"]&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="停止并删除容器"><a href="#停止并删除容器" class="headerlink" title="停止并删除容器"></a><a name="506hdq"></a>停止并删除容器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container stop registry &amp;&amp; docker container rm -v registry</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-a/使用语雀写hexo" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -879,407 +1237,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-kettle-characterEncoding" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017-01-05/kettle-characterEncoding/">kettle 数据导入乱码.md</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017-01-05/kettle-characterEncoding/">
-            <time datetime="2017-01-05T02:22:17.000Z" itemprop="datePublished">2017-01-05</time>
-        </a>
-    </div>
-
-
-                        
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/kettle/">kettle</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>在使用 kettle 处理数据，导入到 mysql 时出现了中文乱码的问题，有两种情况：</p>
-<ol>
-<li><p>mysql 编码问题，这个直接修改表编码即可</p>
-</li>
-<li><p>kettle 导入的编码问题，需要在【数据库连接】-【选项】里面添加一条</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">characterEncoding:utf8</span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-petl函数表" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016-11-17/petl函数表/">petl函数表</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016-11-17/petl函数表/">
-            <time datetime="2016-11-17T08:52:31.000Z" itemprop="datePublished">2016-11-17</time>
-        </a>
-    </div>
-
-
-                        
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="petl"><a href="#petl" class="headerlink" title="petl"></a>petl</h2><p>文档地址： <a href="https://petl.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">https://petl.readthedocs.io/en/latest/index.html</a></p>
-<h2 id="Extract-Load"><a href="#Extract-Load" class="headerlink" title="Extract/Load"></a>Extract/Load</h2><p>可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件</p>
-<h2 id="Transfrom-转换"><a href="#Transfrom-转换" class="headerlink" title="Transfrom   转换"></a>Transfrom   转换</h2><h4 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h4><p>petl.transform.basics.</p>
-<ol>
-<li>head(table, n=5)                 取开始的行</li>
-<li>tail(table, n=5)                 取尾部的行</li>
-<li>rowslice(table, *sliceargs)      对行做切片</li>
-<li>cut(table, *args, **kwargs)      取指定列</li>
-<li>cutout(table, *args, **kwargs)   排除指定列</li>
-<li>movefield(table, field, index)   移动列到新的位置</li>
-<li>cat(*tables, **kwargs)           连接两个表</li>
-<li>stack(*tables, **kwargs)         连接两个表，不匹配表头</li>
-<li>skipcomments(table, prefix)      跳过包含指定前缀的行</li>
-<li>addfield(table, field, value=None, index=None, missing=None)    添加一个新的字段</li>
-<li>addcolumn(table, field, col, index=None, missing=None)          添加新的数据列(和addfield有些相似)</li>
-<li>addrownumbers(table, start=1, step=1, field=’row’)              添加行计数</li>
-<li>addfieldusingcontext(table, field, query)                       添加字段，query是一个回调，把相邻三行作为三个参数传入</li>
-<li>annex(*tables, **kwargs)                                        join 两个或多个表，按行连接</li>
-</ol>
-<h4 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h4><p>petl.transform.headers</p>
-<ol>
-<li>rename(table, *args, **kwargs)   修改名称</li>
-<li>setheader(table, header)         设置表头</li>
-<li>extendheader(table, fields)      扩展表头（可以用来补全表头信息）</li>
-<li>pushheader(table, header, *args) 设置表头（将第一行当中数据，而不是表头)</li>
-<li>prefixheader(table, prefix)      为表头添加前缀</li>
-<li>suffixheader(table, suffix)      为表头添加后缀</li>
-<li>sortheader(table, reverse=False, missing=None)  排序</li>
-<li>skip(table, n)                   跳过行的项不为 n 的行</li>
-</ol>
-<h4 id="Converting"><a href="#Converting" class="headerlink" title="Converting"></a>Converting</h4><p>petl.transform.conversions</p>
-<ol>
-<li>convert(table, *args, **kwargs) 转换（包括数据类型，格式，替换，lambda 等)</li>
-<li>convertall(table, *args, **kwargs) 同convert</li>
-<li>convertnumbers(table, strict=False, **kwargs)   转换为数值</li>
-<li>replace(table, field, a, b, **kwargs)           替换</li>
-<li>replaceall(table, a, b, **kwargs)               替换全部</li>
-<li>format(table, field, fmt, **kwargs)             格式化</li>
-<li>formatall(table, fmt, **kwargs)                 格式化全部</li>
-<li>interpolate(table, field, fmt, **kwargs)        插入</li>
-<li>interpolateall(table, fmt, **kwargs)</li>
-<li>update(table, field, value, **kwargs)          更新</li>
-</ol>
-<h4 id="Selecting-rows"><a href="#Selecting-rows" class="headerlink" title="Selecting rows"></a>Selecting rows</h4><p>petl.transform.selects</p>
-<ol>
-<li>select(table, *args, <strong>kwargs)  根据条件选择行 （扩展出各种 select</strong> 的快捷方法</li>
-<li>selectusingcontext(table, query)  基于上一行和下一行来选择数据</li>
-<li>rowlenselect(table, n, complement=False)    选择长度为n的行</li>
-<li>facet(table, key)                           按指定的key分组，将返回值映射到字典</li>
-<li>biselect(table, *args, **kwargs)            拆分成两个表，一个为选择的行，一个为抛弃的行</li>
-</ol>
-<h4 id="Regular-expressions"><a href="#Regular-expressions" class="headerlink" title="Regular expressions"></a>Regular expressions</h4><p>petl.transform.regex</p>
-<ol>
-<li>search(table, *args, **kwargs)                   查询返回匹配行</li>
-<li>searchcomplement(table, *args, **kwargs)         查询返回不匹配的行</li>
-<li>sub(table, field, pattern, repl, count=0, flags=0) 替换</li>
-<li>split(table, field, pattern, newfields=None, include_original=False, maxsplit=0, flags=0)   分割指定fields</li>
-<li>capture(table, field, pattern, newfields=None, include_original=False, flags=0, fill=None)  分组，通过表达式分组来分割fields</li>
-</ol>
-<h4 id="Unpacking-compound-values"><a href="#Unpacking-compound-values" class="headerlink" title="Unpacking compound values"></a>Unpacking compound values</h4><p>petl.transform.unpacks</p>
-<ol>
-<li>unpack(table, field, newfields=None, include_original=False, missing=None)         拆分 list 或 tuples</li>
-<li>unpackdict(table, field, keys=None, includeoriginal=False, samplesize=1000, missing=None)   拆分 dictionary</li>
-</ol>
-<h4 id="Transforming-rows"><a href="#Transforming-rows" class="headerlink" title="Transforming rows"></a>Transforming rows</h4><p>petl.transform.maps</p>
-<ol>
-<li>fieldmap(table, mappings=None, failonerror=False, errorvalue=None)   转换表，在输入与输出之间映射</li>
-<li>rowmap(table, rowmapper, header, failonerror=False)                  转换表，函数</li>
-<li>rowmapmany(table, rowgenerator, header, failonerror=False)           转换表，将行映射到任意行</li>
-<li>rowgroupmap(table, key, mapper, header=None, presorted=False, buffersize=None, tempdir=None, cache=True)</li>
-</ol>
-<h4 id="Sorting"><a href="#Sorting" class="headerlink" title="Sorting"></a>Sorting</h4><p>petl.transform.sorts</p>
-<ol>
-<li>sort             排序</li>
-<li>mergesort        多个表排序，输出一个表</li>
-<li>issorted         判断是否为排序表</li>
-</ol>
-<h4 id="Joins"><a href="#Joins" class="headerlink" title="Joins"></a>Joins</h4><p>petl.transform.joins</p>
-<ol>
-<li>join             根据指定的键连接表</li>
-<li>leftjoin         左连接</li>
-<li>lookupjoin       左连接，如果右表多，任意选择行</li>
-<li>rightjoin        右连接</li>
-<li>outerjoin        完全连接，保留所有，为空填充None</li>
-<li>crossjoin        笛卡尔连接</li>
-<li>antijoin         返回左表中没有在右表出现的行</li>
-<li>unjoin           将一个表拆成两个表</li>
-<li>hashjoin</li>
-<li>hashleftjoin</li>
-<li>hashlookupjoin</li>
-<li>hashrightjoin</li>
-<li>hashantijoin</li>
-</ol>
-<h4 id="Set-operations"><a href="#Set-operations" class="headerlink" title="Set operations"></a>Set operations</h4><p>petl.transform.setops</p>
-<ol>
-<li>complement   返回a中不在b中的行</li>
-<li>diff         查找两个表之间的差异，返回两个表，分别为b表不在a中的，a表不在b中的</li>
-<li>recordcomplement     查找不在b中的记录</li>
-<li>recorddiff           查找两个表之间的差异</li>
-<li>intersection         返回a也在b中的数据</li>
-<li>hashcomplement</li>
-<li>hashintersection</li>
-</ol>
-<h4 id="Deduplicating-rows"><a href="#Deduplicating-rows" class="headerlink" title="Deduplicating rows"></a>Deduplicating rows</h4><p>petl.transform.dedup</p>
-<ol>
-<li>duplicates  选出给定键具有重复的行</li>
-<li>unique      选出给定键唯一行</li>
-<li>conflicts   选出相同键值，但其他行不同的</li>
-<li>distinct    返回表中不同行</li>
-<li>isunique    判断是否唯一</li>
-</ol>
-<h4 id="Reducing-rows-aggregation"><a href="#Reducing-rows-aggregation" class="headerlink" title="Reducing rows (aggregation)"></a>Reducing rows (aggregation)</h4><p>petl.transform.reductions</p>
-<ol>
-<li>aggregate    聚集，对指定键做聚合</li>
-<li>rowreduce    对行根据指定键做reduce</li>
-<li>mergeduplicates 合并给定键下的重复行</li>
-<li>merge            根据指定键合并表</li>
-<li>fold             python reduce 操作</li>
-<li>groupcountdistinctvalues</li>
-<li>groupselectfirst</li>
-</ol>
-<p>‘’’<br>还有很多，不想写了。。。<br>‘’’</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-用单例和动态类在sqlalchemy中做动态表绑定" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/">用单例和动态类在sqlalchemy中做动态表绑定</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/">
-            <time datetime="2016-07-28T09:30:44.000Z" itemprop="datePublished">2016-07-28</time>
-        </a>
-    </div>
-
-
-                        
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>当我们的数据表需要分库的时候，如果使用了 sqlalchemy 来做 ORM，在做数据表和类关联的时候就很痛苦了，一个类只能和一个表关联。<br>当然还有一种方法就是修改 model.<strong>tablename</strong>.name 来解决，但是这个有个问题是只能绑定一次，实例化后修改就无效了。所以我们就需要使用 type 来动态的创建一个类，到这里问题又来了，如果在不同的时候创建了两个相同的类名的时候，程序就会抛出异常。所以类名必须是单例的。整个的实现如下：</p></p>
-            <p class="article-more-link">
-                <a href="/2016-07-28/用单例和动态类在sqlalchemy中做动态表绑定/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
     </nav>
@@ -1292,6 +1249,63 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018-11-15/a/jenkins git 配置大意错误/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018-11-15/a/jenkins git 配置大意错误/" class="title">jenkins git 配置大意错误</a></p>
+                            <p class="item-date"><time datetime="2018-11-15T10:27:10.000Z" itemprop="datePublished">2018-11-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018-11-02/a/Harbor配置-DockerRegistry私有镜像仓库/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Docker/">Docker</a></p>
+                            <p class="item-title"><a href="/2018-11-02/a/Harbor配置-DockerRegistry私有镜像仓库/" class="title">Harbor配置-DockerRegistry私有镜像仓库</a></p>
+                            <p class="item-date"><time datetime="2018-11-02T09:24:17.000Z" itemprop="datePublished">2018-11-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018-11-02/a/Docker私有源配置/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Docker/">Docker</a></p>
+                            <p class="item-title"><a href="/2018-11-02/a/Docker私有源配置/" class="title">Docker私有源配置</a></p>
+                            <p class="item-date"><time datetime="2018-11-02T09:22:08.000Z" itemprop="datePublished">2018-11-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1331,63 +1345,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2017-11-24/github-checkout-file-or-dir/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017-11-24/github-checkout-file-or-dir/" class="title">github 下载指定文件夹或文件</a></p>
-                            <p class="item-date"><time datetime="2017-11-24T08:03:15.000Z" itemprop="datePublished">2017-11-24</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2017-09-11/openwrt/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017-09-11/openwrt/" class="title">openwrt</a></p>
-                            <p class="item-date"><time datetime="2017-09-11T08:19:57.000Z" itemprop="datePublished">2017-09-11</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2017-09-04/vagrant-init/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017-09-04/vagrant-init/" class="title">vagrant_init</a></p>
-                            <p class="item-date"><time datetime="2017-09-04T06:56:28.000Z" itemprop="datePublished">2017-09-04</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1397,7 +1354,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教程/">教程</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教程/">教程</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1406,7 +1363,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">7</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -1415,7 +1372,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ci/">ci</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fastDFS/">fastDFS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ikvm/">ikvm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kettle/">kettle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/letsencrypt/">letsencrypt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magick/">magick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx-php/">nginx php</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pdf/">pdf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/saltstack/">saltstack</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smarty/">smarty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/">solr</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tesseract-ocr/">tesseract-ocr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thrift/">thrift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/">zabbix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/词库/">词库</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ci/">ci</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fastDFS/">fastDFS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ikvm/">ikvm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/">jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kettle/">kettle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/letsencrypt/">letsencrypt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magick/">magick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx-php/">nginx php</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pdf/">pdf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/saltstack/">saltstack</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smarty/">smarty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solr/">solr</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tesseract-ocr/">tesseract-ocr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/thrift/">thrift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/">zabbix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/词库/">词库</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1424,7 +1381,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/ci/" style="font-size: 10px;">ci</a> <a href="/tags/fastDFS/" style="font-size: 16px;">fastDFS</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/letsencrypt/" style="font-size: 10px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx-php/" style="font-size: 10px;">nginx php</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/php/" style="font-size: 12px;">php</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18px;">solr</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/zabbix/" style="font-size: 10px;">zabbix</a> <a href="/tags/工具/" style="font-size: 12px;">工具</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+            <a href="/tags/Docker/" style="font-size: 14px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/ci/" style="font-size: 10px;">ci</a> <a href="/tags/fastDFS/" style="font-size: 16px;">fastDFS</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/letsencrypt/" style="font-size: 10px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx-php/" style="font-size: 10px;">nginx php</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/php/" style="font-size: 12px;">php</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18px;">solr</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/zabbix/" style="font-size: 10px;">zabbix</a> <a href="/tags/工具/" style="font-size: 12px;">工具</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
         </div>
     </div>
 
