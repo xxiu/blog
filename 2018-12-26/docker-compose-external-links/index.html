@@ -3,19 +3,22 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Mac上制作Ubuntu USB启动盘 | Hello Zhang</title>
+    <title>docker-compose 中的 external-links | Hello Zhang</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，">
+    <meta name="description" content="在使用服务时使用同一台服务器的 mysql 的 docker 服务。想到 external-links 这个配置。 按照文档的配置添加了如下配置 12external_links: - mysql_mysql_1:mysql 但是配置无论如何都不成功。 https://docs.docker.com/compose/compose-file/#external_links 官方文档相关的描述，">
+<meta name="keywords" content="docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac上制作Ubuntu USB启动盘">
-<meta property="og:url" content="/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/index.html">
+<meta property="og:title" content="docker-compose 中的 external-links">
+<meta property="og:url" content="/2018-12-26/docker-compose-external-links/index.html">
 <meta property="og:site_name" content="Hello Zhang">
-<meta property="og:description" content="前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，">
+<meta property="og:description" content="在使用服务时使用同一台服务器的 mysql 的 docker 服务。想到 external-links 这个配置。 按照文档的配置添加了如下配置 12external_links: - mysql_mysql_1:mysql 但是配置无论如何都不成功。 https://docs.docker.com/compose/compose-file/#external_links 官方文档相关的描述，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2016-09-27T02:37:13.000Z">
+<meta property="og:image" content="/assets/docker.jpeg">
+<meta property="og:updated_time" content="2018-12-26T09:45:02.890Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac上制作Ubuntu USB启动盘">
-<meta name="twitter:description" content="前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，">
+<meta name="twitter:title" content="docker-compose 中的 external-links">
+<meta name="twitter:description" content="在使用服务时使用同一台服务器的 mysql 的 docker 服务。想到 external-links 这个配置。 按照文档的配置添加了如下配置 12external_links: - mysql_mysql_1:mysql 但是配置无论如何都不成功。 https://docs.docker.com/compose/compose-file/#external_links 官方文档相关的描述，">
+<meta name="twitter:image" content="/assets/docker.jpeg">
     
 
     
@@ -148,7 +151,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-making-ubuntu-usb-boot-disk-on-mac" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-docker-compose-external-links" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -156,7 +159,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            Mac上制作Ubuntu USB启动盘
+            docker-compose 中的 external-links
         </h1>
     
 
@@ -165,14 +168,24 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016-03-25/making-ubuntu-usb-boot-disk-on-mac/">
-            <time datetime="2016-03-25T02:59:14.000Z" itemprop="datePublished">2016-03-25</time>
+        <a href="/2018-12-26/docker-compose-external-links/">
+            <time datetime="2018-12-26T09:08:45.000Z" itemprop="datePublished">2018-12-26</time>
         </a>
     </div>
 
 
                         
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/docker/">docker</a>
+    </div>
+
                         
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/docker/">docker</a>
+    </div>
+
                     </div>
                 
             </header>
@@ -181,18 +194,29 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>前几天，小伙伴终于把测试服务器玩坏了，openssl 尝试了很久始终都不能正常的工作，不管是编译还是apt-get。最后还是决定重新装一下系统。记录一下其中做 ubuntu 启动盘的命令,一下部分内容来自网络，</p>
-<a id="more"></a>
-<h2 id="一、下载ubuntu-iso镜像"><a href="#一、下载ubuntu-iso镜像" class="headerlink" title="一、下载ubuntu iso镜像"></a>一、下载ubuntu iso镜像</h2><p>去官网下，下载原版的，不要下xxx麒麟</p>
-<h2 id="二、将iso转换为img文件"><a href="#二、将iso转换为img文件" class="headerlink" title="二、将iso转换为img文件"></a>二、将iso转换为img文件</h2><p>生成一个ubuntu_server.img的磁盘镜像文件，mac osx会默认追加一个.dmg</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hdiutil convert -format UDRW -o./ubuntu_server ./ubuntu-14.04.4-server-amd64.iso</span><br></pre></td></tr></table></figure>
-<h2 id="三、查看USB的盘符"><a href="#三、查看USB的盘符" class="headerlink" title="三、查看USB的盘符"></a>三、查看USB的盘符</h2><p>查看当前系统上挂载的磁盘，其中/dev/disk3是我的USB磁盘。不同的系统disk后的数字可能不一样，但一般都是diskN的模式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ diskutil list</span><br><span class="line">/dev/disk0 (internal, physical):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:      GUID_partition_scheme                        *121.3 GB   disk0</span><br><span class="line">   1:                        EFI EFI                     209.7 MB   disk0s1</span><br><span class="line">   2:          Apple_CoreStorage Macintosh HD            120.5 GB   disk0s2</span><br><span class="line">   3:                 Apple_Boot Recovery HD             650.0 MB   disk0s3</span><br><span class="line">/dev/disk1 (internal, virtual):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:                  Apple_HFS Macintosh HD           +120.1 GB   disk1</span><br><span class="line">                                 Logical Volume on disk0s2</span><br><span class="line">                                 3F4EC944-D436-4957-A043-B0C1B211389F</span><br><span class="line">                                 Unencrypted</span><br><span class="line">/dev/disk2 (disk image):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:     Apple_partition_scheme                        +17.9 MB    disk2</span><br><span class="line">   1:        Apple_partition_map                         32.3 KB    disk2s1</span><br><span class="line">   2:                  Apple_HFS Flash Player            17.9 MB    disk2s2</span><br><span class="line">/dev/disk3 (external, physical):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:     FDisk_partition_scheme                        *7.8 GB     disk3</span><br><span class="line">   1:                 DOS_FAT_32 EXPO                    7.8 GB     disk3s1</span><br></pre></td></tr></table></figure>
-<h2 id="四、卸载USB磁盘"><a href="#四、卸载USB磁盘" class="headerlink" title="四、卸载USB磁盘"></a>四、卸载USB磁盘</h2><p>使用diskutil unmountDisk卸载USB磁盘，注意卸载（umount）与弹出(eject)的区别</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ diskutil unmountDisk /dev/disk3</span><br><span class="line">Unmount of all volumes on disk3 was successful</span><br></pre></td></tr></table></figure>
-<h2 id="五、将镜像写入USB"><a href="#五、将镜像写入USB" class="headerlink" title="五、将镜像写入USB"></a>五、将镜像写入USB</h2><p>将第二步生成的img文件写入到USB磁盘/dev/rdisk3,写入的时候稍微等待一会</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dd if=ubuntu_server.dmg of=/dev/rdisk3 bs=1m</span><br><span class="line">Password:</span><br><span class="line">Sorry, try again.</span><br><span class="line">Password:</span><br><span class="line">579+0 records in</span><br><span class="line">579+0 records out</span><br><span class="line">607125504 bytes transferred in 123.920251 secs (4899324 bytes/sec)</span><br></pre></td></tr></table></figure>
-<h2 id="六、弹出USB"><a href="#六、弹出USB" class="headerlink" title="六、弹出USB"></a>六、弹出USB</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ diskutil eject /dev/disk1</span><br></pre></td></tr></table></figure>
+            <p>在使用服务时使用同一台服务器的 mysql 的 docker 服务。想到 external-links 这个配置。</p>
+<p>按照文档的配置添加了如下配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">external_links:</span><br><span class="line"> - mysql_mysql_1:mysql</span><br></pre></td></tr></table></figure>
+<p>但是配置无论如何都不成功。</p>
+<p><a href="https://docs.docker.com/compose/compose-file/#external_links" target="_blank" rel="noopener">https://docs.docker.com/compose/compose-file/#external_links</a></p>
+<p>官方文档相关的描述，</p>
+<blockquote>
+<p>If you’re using the <a href="https://docs.docker.com/compose/compose-file/compose-versioning/#version-2" target="_blank" rel="noopener">version 2 or above file format</a>, the externally-created containers must be connected to at least one of the same networks as the service that is linking to them.</p>
+</blockquote>
+<p>也就是说想要使用 external_links 是需要两个服务在<strong>同一个网络段</strong>，这里只提了一句，对第一次写配置文件的开发者非常的不友好。</p>
+<ol>
+<li><p>创建网络</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create -d bridge my_default</span><br><span class="line">cb1e8d02683ad3dc0bff2881dccb2d3b05cab855b1d463d2cb45685a97dd196b</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>给mysql 服务添加网络</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'2'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  mysql:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">mysql:5.7</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">my_default</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  my_default:</span></span><br><span class="line"><span class="attr">    external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>主要是最后一段</p>
+</li>
+<li><p>给服务添加网络</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  project:</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">my_default</span></span><br><span class="line"><span class="attr">    external_links:</span></span><br><span class="line"><span class="attr">      - mysql_mysql_1:</span><span class="string">mysql</span></span><br><span class="line"><span class="attr">      - redis_redis_1:</span><span class="string">redis</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  my_default:</span></span><br><span class="line"><span class="attr">    external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>以上的配置中删除了和网络配置不相关的配置。</p>
 
         
         </div>
@@ -247,19 +271,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2016-04-06/memcacheq-berkeleydb-备份恢复/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    memcacheq Berkeleydb 备份恢复
-                
-            </div>
-        </a>
     
-    
-        <a href="/2016-03-04/hugo试用/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018-12-19/minikube/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">hugo试用</div>
+            <div class="article-nav-title">minikube</div>
         </a>
     
 </nav>
