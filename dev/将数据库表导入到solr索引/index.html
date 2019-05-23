@@ -169,19 +169,19 @@
             <ol>
 <li>编辑solrcofnig.xml添加处理器</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;requestHandler name=&quot;/dataimport&quot; class=&quot;org.apache.solr.handler.dataimport.DataImportHandler&quot;&gt;</span><br><span class="line">	&lt;lst name=&quot;defaults&quot;&gt;</span><br><span class="line">	  &lt;str name=&quot;config&quot;&gt;data-config.xml&lt;/str&gt;</span><br><span class="line">	&lt;/lst&gt;</span><br><span class="line">&lt;/requestHandler&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;requestHandler name=&quot;/dataimport&quot; class=&quot;org.apache.solr.handler.dataimport.DataImportHandler&quot;&gt;</span><br><span class="line">	&lt;lst name=&quot;defaults&quot;&gt;</span><br><span class="line">	  &lt;str name=&quot;config&quot;&gt;data-config.xml&lt;/str&gt;</span><br><span class="line">	&lt;/lst&gt;</span><br><span class="line">&lt;/requestHandler&gt;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <ol start="2">
 <li>创建一个名为data-config.xml的文件并保存如下内容到conf目录(也就是solrconfig.xml的目录)</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</span><br><span class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</span><br><span class="line">              user=&quot;user-name&quot;</span><br><span class="line">              password=&quot;password&quot;/&gt;</span><br><span class="line">  &lt;document&gt;</span><br><span class="line">    &lt;entity name=&quot;id&quot;</span><br><span class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</span><br><span class="line">    &lt;/entity&gt;</span><br><span class="line">  &lt;/document&gt;</span><br><span class="line"></span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</span><br><span class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</span><br><span class="line">              user=&quot;user-name&quot;</span><br><span class="line">              password=&quot;password&quot;/&gt;</span><br><span class="line">  &lt;document&gt;</span><br><span class="line">    &lt;entity name=&quot;id&quot;</span><br><span class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</span><br><span class="line">    &lt;/entity&gt;</span><br><span class="line">  &lt;/document&gt;</span><br><span class="line"></span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
 <ol start="3">
 <li><p>编辑schema.xml文件，保证文件中有’id’,’name’,’desc’等fields。并更改data-config.xml的详细信息。</p>
 </li>
 <li><p>将JDBC的jar驱动文件放到<solr-home>/lib文件夹中（tomcat/webapps/solr/WEB-INF/lib）</solr-home></p>
 </li>
 <li><p>在<code>solr-4.10.1/dist</code>目录拷贝<code>solr-dataimporthandler</code>开头的jar包到<code>solr/WEB-INF/lib/</code>目录.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp solr-dataimporthandler-* /usr/local/tomcat/webapps/solr/WEB-INF/lib/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp solr-dataimporthandler-* /usr/local/tomcat/webapps/solr/WEB-INF/lib/</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>运行命令<code>http://solr-host:port/solr/dataimport?command=full-import</code>进行全量索引，每次进行全量索引时，会将数据清空，如果不想清空需要添加clean=false。例如<code>http://solr-host:port/solr/dataimport?command=full-import&amp;clean=false</code></p>
 </li>
@@ -189,7 +189,7 @@
 <p>####在字段名和field明不同的时候添加索引</p>
 <ol>
 <li><p>修改data-config.xml,如下所示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</span><br><span class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</span><br><span class="line">              user=&quot;user-name&quot;</span><br><span class="line">              password=&quot;password&quot;/&gt;</span><br><span class="line">  &lt;document&gt;</span><br><span class="line">    &lt;entity name=&quot;id&quot;</span><br><span class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</span><br><span class="line">       &lt;field column=&quot;id&quot; name=&quot;solr_id&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;name&quot; name=&quot;solr_name&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;desc&quot; name=&quot;solr_desc&quot;/&gt;</span><br><span class="line">    &lt;/entity&gt;</span><br><span class="line">  &lt;/document&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</span><br><span class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</span><br><span class="line">              user=&quot;user-name&quot;</span><br><span class="line">              password=&quot;password&quot;/&gt;</span><br><span class="line">  &lt;document&gt;</span><br><span class="line">    &lt;entity name=&quot;id&quot;</span><br><span class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</span><br><span class="line">       &lt;field column=&quot;id&quot; name=&quot;solr_id&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;name&quot; name=&quot;solr_name&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;desc&quot; name=&quot;solr_desc&quot;/&gt;</span><br><span class="line">    &lt;/entity&gt;</span><br><span class="line">  &lt;/document&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>写入solr的字段为’solr_id’, ‘solr_name’, solr_desc’。所以schema.xml中必须要要这几个field。</p>
 </li>
@@ -198,7 +198,7 @@
 </ol>
 <h4 id="配置多个表建立索引"><a href="#配置多个表建立索引" class="headerlink" title="配置多个表建立索引"></a>配置多个表建立索引</h4><ol>
 <li><p>修改data-config如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</span><br><span class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</span><br><span class="line">              user=&quot;user-name&quot;</span><br><span class="line">              password=&quot;password&quot;/&gt;</span><br><span class="line">  &lt;document&gt;</span><br><span class="line">    &lt;entity name=&quot;outer&quot;</span><br><span class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</span><br><span class="line">       &lt;field column=&quot;id&quot; name=&quot;solr_id&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;name&quot; name=&quot;solr_name&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;desc&quot; name=&quot;solr_desc&quot;/&gt;</span><br><span class="line">       &lt;entity name=&quot;inner&quot;</span><br><span class="line">               query=&quot;select details from another_table where id =&apos;$&#123;outer.id&#125;&apos;&quot;&gt;</span><br><span class="line">              &lt;field column=&quot;details&quot; name=&quot;solr_details&quot;/&gt;</span><br><span class="line">       &lt;/entity&gt;</span><br><span class="line">    &lt;/entity&gt;</span><br><span class="line">  &lt;/document&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">  &lt;dataSource type=&quot;JdbcDataSource&quot;</span><br><span class="line">              driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">              url=&quot;jdbc:mysql://localhost/dbname&quot;</span><br><span class="line">              user=&quot;user-name&quot;</span><br><span class="line">              password=&quot;password&quot;/&gt;</span><br><span class="line">  &lt;document&gt;</span><br><span class="line">    &lt;entity name=&quot;outer&quot;</span><br><span class="line">            query=&quot;select id,name,desc from mytable&quot;&gt;</span><br><span class="line">       &lt;field column=&quot;id&quot; name=&quot;solr_id&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;name&quot; name=&quot;solr_name&quot;/&gt;</span><br><span class="line">       &lt;field column=&quot;desc&quot; name=&quot;solr_desc&quot;/&gt;</span><br><span class="line">       &lt;entity name=&quot;inner&quot;</span><br><span class="line">               query=&quot;select details from another_table where id =&apos;$&#123;outer.id&#125;&apos;&quot;&gt;</span><br><span class="line">              &lt;field column=&quot;details&quot; name=&quot;solr_details&quot;/&gt;</span><br><span class="line">       &lt;/entity&gt;</span><br><span class="line">    &lt;/entity&gt;</span><br><span class="line">  &lt;/document&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>schema.xml应该包含solr_details的字段</p>
 </li>
@@ -209,7 +209,7 @@
 <li><p>下载mysql的JDBC的jar，并拷贝到<solr-home>/lib的文件夹</solr-home></p>
 </li>
 <li><p>修改data-config为如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">&lt;dataSource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">   url=&quot;jdbc:mysql://ip:3306/dbname&quot;</span><br><span class="line">   user=&quot;username&quot;</span><br><span class="line">   password=&quot;password&quot;/&gt;</span><br><span class="line">    &lt;document name=&quot;products&quot;&gt;</span><br><span class="line">        &lt;entity</span><br><span class="line">            ......</span><br><span class="line">        &lt;/entity&gt;</span><br><span class="line">    &lt;/document&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">&lt;dataSource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">   url=&quot;jdbc:mysql://ip:3306/dbname&quot;</span><br><span class="line">   user=&quot;username&quot;</span><br><span class="line">   password=&quot;password&quot;/&gt;</span><br><span class="line">    &lt;document name=&quot;products&quot;&gt;</span><br><span class="line">        &lt;entity</span><br><span class="line">            ......</span><br><span class="line">        &lt;/entity&gt;</span><br><span class="line">    &lt;/document&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 
@@ -325,7 +325,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        73
+                        74
                     </p>
                 </div>
             </div>
@@ -345,7 +345,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        51
+                        53
                     </p>
                 </div>
             </div>
@@ -379,7 +379,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">66</span>
+                <span class="level-item tag">67</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -409,7 +409,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 18.33px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 18.33px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -423,6 +423,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/nsq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
+                    <a href="/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -500,25 +519,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-build/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="docker build openwrt 遇到的小问题">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-04T09:15:54.000Z">2019-01-04</time></div>
-                    <a href="/dev/docker-build/" class="has-link-black-ter is-size-6">docker build openwrt 遇到的小问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -530,6 +530,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/04/">
@@ -1007,6 +1018,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/golang/">
+                        <span class="level-start">
+                            <span class="level-item">golang</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/gzip/">
                         <span class="level-start">
                             <span class="level-item">gzip</span>
@@ -1200,6 +1222,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/nsq/">
+                        <span class="level-start">
+                            <span class="level-item">nsq</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
@@ -1416,6 +1449,25 @@
         
         <article class="media">
             
+            <a href="/nsq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
+                    <a href="/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/Kong随记/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Kong 随记">
@@ -1490,25 +1542,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-build/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="docker build openwrt 遇到的小问题">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-04T09:15:54.000Z">2019-01-04</time></div>
-                    <a href="/dev/docker-build/" class="has-link-black-ter is-size-6">docker build openwrt 遇到的小问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1520,6 +1553,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/04/">
@@ -1997,6 +2041,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/golang/">
+                        <span class="level-start">
+                            <span class="level-item">golang</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/gzip/">
                         <span class="level-start">
                             <span class="level-item">gzip</span>
@@ -2190,6 +2245,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/nsq/">
+                        <span class="level-start">
+                            <span class="level-item">nsq</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>

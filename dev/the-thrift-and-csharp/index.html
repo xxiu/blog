@@ -170,7 +170,7 @@
 <a id="more"></a>
 <h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>wget <a href="http://apache.fayea.com/thrift/0.9.2/thrift-0.9.2.tar.gz" target="_blank" rel="noopener">http://apache.fayea.com/thrift/0.9.2/thrift-0.9.2.tar.gz</a></p>
 <p>tar -zxvf thrift-0.9.2.tar.gz</p>
-<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 <p><a href="http://thrift.apache.org/docs/BuildingFromSource" target="_blank" rel="noopener">http://thrift.apache.org/docs/BuildingFromSource</a></p>
 <h3 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h3><ul>
 <li>bool  布尔型</li>
@@ -209,14 +209,14 @@
 <p>###.net示例</p>
 <p>####创建.thrift清单文件</p>
 <p>当thrift安装好后,创建一个test.thrift文件,内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct SharedStruct &#123;</span><br><span class="line">  1: i32 key</span><br><span class="line">  2: string value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">service SharedService &#123;</span><br><span class="line">  SharedStruct getStruct(1: i32 key)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct SharedStruct &#123;</span><br><span class="line">  1: i32 key</span><br><span class="line">  2: string value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">service SharedService &#123;</span><br><span class="line">  SharedStruct getStruct(1: i32 key)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>####生成文件</p>
-<p>运行下面的命令生成.net的库,将得到两个文件<code>SharedService.cs</code> <code>ShardStruct.cs</code>.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thrift -r --gen csharp test.thrift</span><br></pre></td></tr></table></figure></p>
+<p>运行下面的命令生成.net的库,将得到两个文件<code>SharedService.cs</code> <code>ShardStruct.cs</code>.<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thrift -r --gen csharp test.thrift</span><br></pre></td></tr></table></figure></p>
 <p>####服务端</p>
 <p>创建一个测试的工程,并引入Thrift.dll.位置<code>thrift-0.9.2/lib/csharp</code>.并将生成的两个文件添加到工程中.</p>
-<p>首先需要实现一个<code>SharedService.Iface</code>的接口,里面实现了一个<code>getStruct</code>的方法,用来给客户端返回数据.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class SharedServiceTest : SharedService.Iface</span><br><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">      public SharedStruct getStruct(int key)</span><br><span class="line">      &#123;</span><br><span class="line">          if (key &lt; 10)</span><br><span class="line">          &#123;</span><br><span class="line">              return new SharedStruct &#123; Key = key, Value = &quot;小于10&quot; &#125;;</span><br><span class="line">          &#125;</span><br><span class="line">          if (key &gt;= 10 &amp;&amp; key &lt; 100)</span><br><span class="line">          &#123;</span><br><span class="line">              return new SharedStruct &#123; Key = key, Value = &quot;10到100之间&quot; &#125;;</span><br><span class="line">          &#125;</span><br><span class="line">          if (key &gt;= 100)</span><br><span class="line">          &#123;</span><br><span class="line">              return new SharedStruct &#123; Key = key, Value = &quot;100及以上&quot; &#125;;</span><br><span class="line">          &#125;</span><br><span class="line">          return null;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>服务端启动代码,监听9090的端口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> SharedServiceTest service = new SharedServiceTest();</span><br><span class="line"></span><br><span class="line">SharedService.Processor processsor = new SharedService.Processor(service);</span><br><span class="line"></span><br><span class="line">TServerTransport serverTransport = new TServerSocket(9090);</span><br><span class="line"></span><br><span class="line">TServer server = new TSimpleServer(processsor, serverTransport);</span><br><span class="line"></span><br><span class="line">server.Serve();</span><br></pre></td></tr></table></figure></p>
-<p>####客户端<br>创建一个客户端工程,同服务端一样引入dll和两个生成的文件.其中test为一个输入值.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">TTransport transport = new TSocket(&quot;10.8.64.109&quot;, 9090);</span><br><span class="line">TProtocol protocal = new TBinaryProtocol(transport);</span><br><span class="line">SharedService.Client client = new SharedService.Client(protocal);</span><br><span class="line"></span><br><span class="line">transport.Open();</span><br><span class="line">try</span><br><span class="line">&#123;</span><br><span class="line">    SharedStruct ss = client.getStruct(test);</span><br><span class="line">    Console.WriteLine(ss.Key + &quot;|&quot; + ss.Value);</span><br><span class="line">&#125;</span><br><span class="line">finally</span><br><span class="line">&#123;</span><br><span class="line">    transport.Close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先需要实现一个<code>SharedService.Iface</code>的接口,里面实现了一个<code>getStruct</code>的方法,用来给客户端返回数据.<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class SharedServiceTest : SharedService.Iface</span><br><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">      public SharedStruct getStruct(int key)</span><br><span class="line">      &#123;</span><br><span class="line">          if (key &lt; 10)</span><br><span class="line">          &#123;</span><br><span class="line">              return new SharedStruct &#123; Key = key, Value = &quot;小于10&quot; &#125;;</span><br><span class="line">          &#125;</span><br><span class="line">          if (key &gt;= 10 &amp;&amp; key &lt; 100)</span><br><span class="line">          &#123;</span><br><span class="line">              return new SharedStruct &#123; Key = key, Value = &quot;10到100之间&quot; &#125;;</span><br><span class="line">          &#125;</span><br><span class="line">          if (key &gt;= 100)</span><br><span class="line">          &#123;</span><br><span class="line">              return new SharedStruct &#123; Key = key, Value = &quot;100及以上&quot; &#125;;</span><br><span class="line">          &#125;</span><br><span class="line">          return null;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>服务端启动代码,监听9090的端口<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> SharedServiceTest service = new SharedServiceTest();</span><br><span class="line"></span><br><span class="line">SharedService.Processor processsor = new SharedService.Processor(service);</span><br><span class="line"></span><br><span class="line">TServerTransport serverTransport = new TServerSocket(9090);</span><br><span class="line"></span><br><span class="line">TServer server = new TSimpleServer(processsor, serverTransport);</span><br><span class="line"></span><br><span class="line">server.Serve();</span><br></pre></td></tr></table></figure></p>
+<p>####客户端<br>创建一个客户端工程,同服务端一样引入dll和两个生成的文件.其中test为一个输入值.<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">TTransport transport = new TSocket(&quot;10.8.64.109&quot;, 9090);</span><br><span class="line">TProtocol protocal = new TBinaryProtocol(transport);</span><br><span class="line">SharedService.Client client = new SharedService.Client(protocal);</span><br><span class="line"></span><br><span class="line">transport.Open();</span><br><span class="line">try</span><br><span class="line">&#123;</span><br><span class="line">    SharedStruct ss = client.getStruct(test);</span><br><span class="line">    Console.WriteLine(ss.Key + &quot;|&quot; + ss.Value);</span><br><span class="line">&#125;</span><br><span class="line">finally</span><br><span class="line">&#123;</span><br><span class="line">    transport.Close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
         </div>
         
@@ -330,7 +330,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        73
+                        74
                     </p>
                 </div>
             </div>
@@ -350,7 +350,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        51
+                        53
                     </p>
                 </div>
             </div>
@@ -384,7 +384,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">66</span>
+                <span class="level-item tag">67</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -414,7 +414,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 18.33px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 18.33px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -428,6 +428,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/nsq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
+                    <a href="/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -505,25 +524,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-build/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="docker build openwrt 遇到的小问题">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-04T09:15:54.000Z">2019-01-04</time></div>
-                    <a href="/dev/docker-build/" class="has-link-black-ter is-size-6">docker build openwrt 遇到的小问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -535,6 +535,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/04/">
@@ -1012,6 +1023,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/golang/">
+                        <span class="level-start">
+                            <span class="level-item">golang</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/gzip/">
                         <span class="level-start">
                             <span class="level-item">gzip</span>
@@ -1205,6 +1227,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/nsq/">
+                        <span class="level-start">
+                            <span class="level-item">nsq</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
@@ -1421,6 +1454,25 @@
         
         <article class="media">
             
+            <a href="/nsq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
+                    <a href="/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/Kong随记/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Kong 随记">
@@ -1495,25 +1547,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-build/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="docker build openwrt 遇到的小问题">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-04T09:15:54.000Z">2019-01-04</time></div>
-                    <a href="/dev/docker-build/" class="has-link-black-ter is-size-6">docker build openwrt 遇到的小问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1525,6 +1558,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/04/">
@@ -2002,6 +2046,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/golang/">
+                        <span class="level-start">
+                            <span class="level-item">golang</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/gzip/">
                         <span class="level-start">
                             <span class="level-item">gzip</span>
@@ -2195,6 +2250,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/nsq/">
+                        <span class="level-start">
+                            <span class="level-item">nsq</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>

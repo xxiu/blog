@@ -143,6 +143,52 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-11T08:19:57.000Z">2017-09-11</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 506 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/openwrt/">openwrt</a>
+            
+        </h1>
+        <div class="content">
+            <p>openwrt  框架结构</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">tools和toolchain目录：包含了一些通用命令, 用来生成固件, 编译器, 和C库.</span><br><span class="line"></span><br><span class="line">build_dir/host目录：是一个临时目录, 用来储存不依赖于目标平台的工具.</span><br><span class="line"></span><br><span class="line">build_dir/toolchain-目录：用来储存依赖于指定平台的编译链. 只是编译文件存放目录无需修改.</span><br><span class="line"></span><br><span class="line">build_dir/target-目录：用来储存依赖于指定平台的软件包的编译文件, 其中包括linux内核, u-boot, packages,</span><br><span class="line">只是编译文件存放目录无需修改.</span><br><span class="line"></span><br><span class="line">staging_dir目录：是编译目标的最终安装位置, 其中包括rootfs, package, toolchain.</span><br><span class="line"></span><br><span class="line">package目录：软件包的下载编译规则, 在OpenWrt固件中, 几乎所有东西都是.ipk, 这样就可以很方便的安装和卸载.</span><br><span class="line"></span><br><span class="line">target目录：目标系统指嵌入式设备, 针对不同的平台有不同的特性, 针对这些特性, &quot;target/linux&quot;目录下按照平台进行目录划分, 里面包括了针对标准内核的补丁, 特殊配置等.</span><br><span class="line"></span><br><span class="line">bin目录：编译完OpenWrt的二进制文件生成目录, 其中包括sdk, uImage, u-boot, dts, rootfs构建一个嵌入式系统完整的二进制文件.</span><br><span class="line"></span><br><span class="line">config目录：存放着整个系统的的配置文件.</span><br><span class="line"></span><br><span class="line">docs目录：里面包含了整个宿主机的文件源码的介绍, 里面还有Makefile为目标系统生成docs.</span><br><span class="line"></span><br><span class="line">include目录：里面包括了整个系统的编译需要的头文件, 但是是以Make进行连接的.</span><br><span class="line"></span><br><span class="line">feeds目录：扩展软件包索引目录.</span><br><span class="line"></span><br><span class="line">scripts目录：组织编译整个OpenWrt的规则.</span><br><span class="line"></span><br><span class="line">tmp目录：编译文件夹, 一般情况为空.</span><br><span class="line"></span><br><span class="line">dl目录：所有软件的下载目录, 包括u-boot, kernel.</span><br><span class="line"></span><br><span class="line">logs目录：如果编译出错, 可以在这里找到编译出错的log.</span><br></pre></td></tr></table></figure>
+<p>jshn : 一个 josn 对象转换库<br>ubus : 一个系统总线</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-09-04T06:56:28.000Z">2017-09-04</time>
                 
                 <div class="level-item">
@@ -169,17 +215,17 @@
 <p>下载安装 Vagrant ：<a href="http://www.vagrantup.com/" target="_blank" rel="noopener">http://www.vagrantup.com/</a></p>
 <p>假设你的电脑上已经安装了  VirtualBox 和 Vagrant 。请务必先安装 VirtualBox，因为 Vagrant 是依赖它的。</p>
 <h2 id="添加-box"><a href="#添加-box" class="headerlink" title="添加 box"></a>添加 box</h2><p>如果你已经将 wifi.box 这个 vagrant 的包下载到了你的电脑上，我们需要将这个包导入到 Vagrant.这个包大小有 5.4 G。请保证你的硬盘空间足够大。为它保留出25G的空间（5.4G 缓存包+ 17G 左右的虚拟机）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$vagrant box add openwrt  wifi.box # vagrant box add &lt;name&gt; &lt;path&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$vagrant box add openwrt  wifi.box # vagrant box add &lt;name&gt; &lt;path&gt;</span><br></pre></td></tr></table></figure>
 <p>执行了以上的命令后，你的 vagrant 里面已经包括了这个包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant box list</span><br><span class="line">openwrt (virtualbox, 0)  # 这个就是我们刚才导入的这个包</span><br></pre></td></tr></table></figure>
-<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>进入到自己的开发目录,假设是本地硬盘上的 <code>~/openwrt_build</code> 或者 <code>D:\openwrt_build</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/openwrt_build # d:# cd  openwrt_build   # 进入指定目录</span><br><span class="line"></span><br><span class="line">vagrant init  openwrt   # 执行后会在当前目录创建一个  Vagrantfile 的文件</span><br><span class="line"></span><br><span class="line">vagrant up       # 启动，第一次创建目录 。等待命令完成后可以看到 VirtualBox 中虚拟机的状态是启动状态</span><br><span class="line"></span><br><span class="line">vagrant ssh      # 使用 ssh 登录到 虚拟机</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant box list</span><br><span class="line">openwrt (virtualbox, 0)  # 这个就是我们刚才导入的这个包</span><br></pre></td></tr></table></figure>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>进入到自己的开发目录,假设是本地硬盘上的 <code>~/openwrt_build</code> 或者 <code>D:\openwrt_build</code><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/openwrt_build # d:# cd  openwrt_build   # 进入指定目录</span><br><span class="line"></span><br><span class="line">vagrant init  openwrt   # 执行后会在当前目录创建一个  Vagrantfile 的文件</span><br><span class="line"></span><br><span class="line">vagrant up       # 启动，第一次创建目录 。等待命令完成后可以看到 VirtualBox 中虚拟机的状态是启动状态</span><br><span class="line"></span><br><span class="line">vagrant ssh      # 使用 ssh 登录到 虚拟机</span><br></pre></td></tr></table></figure></p>
 <h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><p>Vagrant的网络有三种模式</p>
-<p>1、较为常用是端口映射，就是将虚拟机中的端口映射到宿主机对应的端口直接使用 ，在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">config.vm.network :forwarded_port, guest: 80, host: 8080</span><br></pre></td></tr></table></figure></p>
+<p>1、较为常用是端口映射，就是将虚拟机中的端口映射到宿主机对应的端口直接使用 ，在Vagrantfile中配置：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">config.vm.network :forwarded_port, guest: 80, host: 8080</span><br></pre></td></tr></table></figure></p>
 <p>guest: 80 表示虚拟机中的80端口， host: 8080 表示映射到宿主机的8080端口。</p>
 <pre><code>开启这个后，如果vagrant已经启动了，在命令行输入 vagrant reload 重启机器，就可以再宿主机伤使用 localhost:8080来访问虚拟机的localhost:80 。
 </code></pre><p>2、如果需要自己自由的访问虚拟机，但是别人不需要访问虚拟机，可以使用private_network，并为虚拟机设置IP ，在Vagrantfile中配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network :private_network, ip: &quot;192.168.1.104&quot;</span><br></pre></td></tr></table></figure>
-<p>192.168.1.104 表示虚拟机的IP，多台虚拟机的话需要互相访问的话，设置在相同网段即可<br>3、如果需要将虚拟机作为当前局域网中的一台计算机，由局域网进行DHCP，那么在Vagrantfile中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network :public_network</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network :private_network, ip: &quot;192.168.1.104&quot;</span><br></pre></td></tr></table></figure>
+<p>192.168.1.104 表示虚拟机的IP，多台虚拟机的话需要互相访问的话，设置在相同网段即可<br>3、如果需要将虚拟机作为当前局域网中的一台计算机，由局域网进行DHCP，那么在Vagrantfile中配置：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network :public_network</span><br></pre></td></tr></table></figure></p>
 <h2 id="目录映射"><a href="#目录映射" class="headerlink" title="目录映射"></a>目录映射</h2><p>既然是开发环境，那么开发工作肯定还是需要在本地完成，而不是都要进到虚拟机中去完成，虚拟机就好好在后台运行服务就好了，不然就本末倒置了，所以这里就需要使用目录映射功能，将本地的目录映射到虚拟机的对应目录。</p>
 <p>默认情况下，当前的工作目录，会被映射到虚拟机的 /vagrant 目录，当前目录下的文件可以直接在 /vagrant 下进行访问，当然也可以在通过 ln 创建软连接，如</p>
 <p>ln -fs /vagrant/wwwroot /var/www</p>
@@ -187,7 +233,7 @@
 <p>config.vm.synced_folder “wwwroot/“, “/var/www”</p>
 <p>前面的参数 “wwwroot/” 表示的是本地的路径，这里使用对于工作目录的相对路径，这里也可以使用绝对路径，比如： “d:/www/”</p>
 <p>后面的参数 “/var/www” 表示虚拟机中对应映射的目录。</p>
-<p>一些命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vagrant up （启动虚拟机）</span><br><span class="line">vagrant halt （关闭虚拟机——对应就是关机）</span><br><span class="line">vagrant suspend （暂停虚拟机——只是暂停，虚拟机内存等信息将以状态文件的方式保存在本地，可以执行恢复操作后继续使用）</span><br><span class="line">vagrant resume （恢复虚拟机 —— 与前面的暂停相对应）</span><br><span class="line">vagrant destroy （删除虚拟机，删除后在当前虚拟机所做进行的除开Vagrantfile中的配置都不会保留）</span><br><span class="line">vagrant reload  (重启)</span><br><span class="line"></span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
+<p>一些命令<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vagrant up （启动虚拟机）</span><br><span class="line">vagrant halt （关闭虚拟机——对应就是关机）</span><br><span class="line">vagrant suspend （暂停虚拟机——只是暂停，虚拟机内存等信息将以状态文件的方式保存在本地，可以执行恢复操作后继续使用）</span><br><span class="line">vagrant resume （恢复虚拟机 —— 与前面的暂停相对应）</span><br><span class="line">vagrant destroy （删除虚拟机，删除后在当前虚拟机所做进行的除开Vagrantfile中的配置都不会保留）</span><br><span class="line">vagrant reload  (重启)</span><br><span class="line"></span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
 <h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h2>
         </div>
         
@@ -233,17 +279,17 @@
         <div class="content">
             <p>越来越多的人开始意识到 https 的重要性了，letsencrypt 证书免费而且兼容性好。在一般情况下都足够用。如果需要更高级别的证书可以考虑付费的。</p>
 <p>首先，我这里的需求是前端有两台 web 服务器，前端有一台作为均衡负载。所以常规的使用域名作为验证的方法是不可行的，在看 acme.sh 时发现了它支持使用 DNS  作为验证。满足了我的要求。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl  https://get.acme.sh | sh</span><br></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl  https://get.acme.sh | sh</span><br></pre></td></tr></table></figure>
 <p>安装完后 acme.sh 会被安装在~/.acme.sh 的目录下面.</p>
 <h2 id="dns认证"><a href="#dns认证" class="headerlink" title="dns认证"></a>dns认证</h2><p>在安装目录的 dnsapi 目录下面 README.md 有认证方式,我使用了 dnspod 作为 dns 服务。在 dnspod 控制台申请到 id 和key后，在当前目录执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export DP_Id=&quot;1111&quot;</span><br><span class="line">export DP_Key=&quot;111111111111111&quot;</span><br><span class="line">acme.sh   --issue   --dns dns_dp   -d aa.com  -d www.aa.com</span><br><span class="line"></span><br><span class="line">acme.sh --issue --dns dns_dp -d aaa.net  -d *.aaa.net   #泛域名支持</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export DP_Id=&quot;1111&quot;</span><br><span class="line">export DP_Key=&quot;111111111111111&quot;</span><br><span class="line">acme.sh   --issue   --dns dns_dp   -d aa.com  -d www.aa.com</span><br><span class="line"></span><br><span class="line">acme.sh --issue --dns dns_dp -d aaa.net  -d *.aaa.net   #泛域名支持</span><br></pre></td></tr></table></figure>
 <p>会在 .acme.sh  目录生成一个以域名为目录的证书目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.cer</span><br><span class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert key is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.key</span><br><span class="line">[Tue Mar 21 15:51:01 CST 2017] The intermediate CA cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/ca.cer</span><br><span class="line">[Tue Mar 21 15:51:01 CST 2017] And the full chain certs is there:  /home/pprt/.acme.sh/&lt;domain&gt;/fullchain.cer</span><br></pre></td></tr></table></figure>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>acme.sh 提供了一个接口用来部署证书，也就是我们需要将生成的证书拷贝到指定的服务器,实例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --deploy -d example.com --deploy-hook cpanel</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.cer</span><br><span class="line">[Tue Mar 21 15:51:00 CST 2017] Your cert key is in  /home/pprt/.acme.sh/&lt;domain&gt;/&lt;domain&gt;.key</span><br><span class="line">[Tue Mar 21 15:51:01 CST 2017] The intermediate CA cert is in  /home/pprt/.acme.sh/&lt;domain&gt;/ca.cer</span><br><span class="line">[Tue Mar 21 15:51:01 CST 2017] And the full chain certs is there:  /home/pprt/.acme.sh/&lt;domain&gt;/fullchain.cer</span><br></pre></td></tr></table></figure>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>acme.sh 提供了一个接口用来部署证书，也就是我们需要将生成的证书拷贝到指定的服务器,实例如下<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --deploy -d example.com --deploy-hook cpanel</span><br></pre></td></tr></table></figure></p>
 <p>服务器上使用了 ansible 作为管理  所以需要将文件使用 ansible 复制到其他机器上指定的文件夹</p>
 <p>在 deploy 文件夹下面 创建一个 ansible.sh 的文件,里面添加如下代码，将文件拷贝到指定的服务器。<br>其中 _cert_dir 为服务器上保存证书的目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">ansible_deploy() &#123;</span><br><span class="line">  _cdomain=&quot;$1&quot;</span><br><span class="line">  _ckey=&quot;$2&quot;</span><br><span class="line">  _ccert=&quot;$3&quot;</span><br><span class="line">  _cca=&quot;$4&quot;</span><br><span class="line">  _cfullchain=&quot;$5&quot;</span><br><span class="line"></span><br><span class="line">  _debug _cdomain &quot;$_cdomain&quot;</span><br><span class="line">  _debug _ckey &quot;$_ckey&quot;</span><br><span class="line">  _debug _ccert &quot;$_ccert&quot;</span><br><span class="line">  _debug _cca &quot;$_cca&quot;</span><br><span class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</span><br><span class="line"></span><br><span class="line">  _cert_dir=/Code/sslCert/</span><br><span class="line"></span><br><span class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</span><br><span class="line">  ansible olweb -m copy -a &quot;src=$_cfullchain dest=$_cert_dir/$_cdomain/cert.cer&quot;</span><br><span class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</span><br><span class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</span><br><span class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</span><br><span class="line">  return 0</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在执行deploy后，会制动添加一个 crontab<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">33 0 * * * &quot;/home/pprt/.acme.sh&quot;/acme.sh --cron   --home &quot;/home/pprt/.acme.sh&quot; &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">ansible_deploy() &#123;</span><br><span class="line">  _cdomain=&quot;$1&quot;</span><br><span class="line">  _ckey=&quot;$2&quot;</span><br><span class="line">  _ccert=&quot;$3&quot;</span><br><span class="line">  _cca=&quot;$4&quot;</span><br><span class="line">  _cfullchain=&quot;$5&quot;</span><br><span class="line"></span><br><span class="line">  _debug _cdomain &quot;$_cdomain&quot;</span><br><span class="line">  _debug _ckey &quot;$_ckey&quot;</span><br><span class="line">  _debug _ccert &quot;$_ccert&quot;</span><br><span class="line">  _debug _cca &quot;$_cca&quot;</span><br><span class="line">  _debug _cfullchain &quot;$_cfullchain&quot;</span><br><span class="line"></span><br><span class="line">  _cert_dir=/Code/sslCert/</span><br><span class="line"></span><br><span class="line">  ansible olweb -m file -a &quot;path=$_cert_dir/$c_domain state=directory &quot; --become</span><br><span class="line">  ansible olweb -m copy -a &quot;src=$_cfullchain dest=$_cert_dir/$_cdomain/cert.cer&quot;</span><br><span class="line">  ansible olweb -m copy -a &quot;src=$_ckey dest=$_cert_dir/$_cdomain/cert.key&quot;</span><br><span class="line">  ansible olweb -m command -a &quot;service openresty force-reload&quot;  --become</span><br><span class="line">  # _err &quot;deploy cert to nginx server, Not implemented yet&quot;</span><br><span class="line">  return 0</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在执行deploy后，会制动添加一个 crontab<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">33 0 * * * &quot;/home/pprt/.acme.sh&quot;/acme.sh --cron   --home &quot;/home/pprt/.acme.sh&quot; &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
 <p>如果设置有多个域名，只会部署第一个，需要在crontab添加一个<code>-f</code>的参数</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="noopener">acme.sh github</a></p>
 <p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh wiki</a></p>
@@ -295,9 +341,9 @@
             <p>最近需要写一个小的业务，业务部门提供的数据库是 SQLServer 。需要找一个在 Mac 上连接 SQLServer 的客户端。</p>
 <p>Oracle 开发了一个很好用的免费 SQL Developer 工具。需要稍微的配置一下。</p>
 <h2 id="下载-sql-developer"><a href="#下载-sql-developer" class="headerlink" title="下载 sql developer"></a>下载 sql developer</h2><p>下载SQL开发。 甲骨文公司有一个很好的免费的SQL开发工具, SQL Developer 这将允许您连接到该数据库服务器。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index-097090.html</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index-097090.html</span><br></pre></td></tr></table></figure>
 <h2 id="下载驱动"><a href="#下载驱动" class="headerlink" title="下载驱动"></a>下载驱动</h2><p>下载该软件的 JDBC 驱动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://sourceforge.net/projects/jtds/files/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://sourceforge.net/projects/jtds/files/</span><br></pre></td></tr></table></figure>
 <p>将下载的文件解压后，得到一个 jtds-x.x.x.jar 的文件，将这个文件放到一个目录，比如 <code>/Library/Java/Extensions</code></p>
 <p>设置<br>—F<br>运行 Oracle SQL Developer ，主菜单 -&gt; Preferences -&gt; Database -&gt; Third Party JDBC Drivers-&gt;Add Entry</p>
 <p>将 jtds-x.x.x.jar 添加进来。</p>
@@ -352,7 +398,7 @@
 <li><p>kettle 导入的编码问题，需要在【数据库连接】-【选项】里面添加一条</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">characterEncoding:utf8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">characterEncoding:utf8</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -742,57 +788,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2016-04-06T07:29:44.000Z">2016-04-06</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 260 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/memcacheq-berkeleydb-备份恢复/">memcacheq Berkeleydb 备份恢复</a>
-            
-        </h1>
-        <div class="content">
-            <p>这是很久以前碰到的问题，一直躺在笔记里，没有整理出来。在 memecacheq 运行一段时间后会出现以下的问题,原因是 Berkeleydb 存储出问题了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[memcacheq] [Wed Jun  3 17:02:11 2015] &quot;BDB1546 unable to join the environment&quot;</span><br></pre></td></tr></table></figure></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/dev/memcacheq-berkeleydb-备份恢复/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -861,7 +856,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        73
+                        74
                     </p>
                 </div>
             </div>
@@ -881,7 +876,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        51
+                        53
                     </p>
                 </div>
             </div>
@@ -915,7 +910,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">66</span>
+                <span class="level-item tag">67</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -945,7 +940,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 18.33px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 18.33px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -959,6 +954,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/nsq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
+                    <a href="/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1036,25 +1050,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-build/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="docker build openwrt 遇到的小问题">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-04T09:15:54.000Z">2019-01-04</time></div>
-                    <a href="/dev/docker-build/" class="has-link-black-ter is-size-6">docker build openwrt 遇到的小问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1066,6 +1061,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/04/">
@@ -1543,6 +1549,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/golang/">
+                        <span class="level-start">
+                            <span class="level-item">golang</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/gzip/">
                         <span class="level-start">
                             <span class="level-item">gzip</span>
@@ -1736,6 +1753,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/nsq/">
+                        <span class="level-start">
+                            <span class="level-item">nsq</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
@@ -1952,6 +1980,25 @@
         
         <article class="media">
             
+            <a href="/nsq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
+                    <a href="/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/Kong随记/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Kong 随记">
@@ -2026,25 +2073,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-build/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="docker build openwrt 遇到的小问题">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-04T09:15:54.000Z">2019-01-04</time></div>
-                    <a href="/dev/docker-build/" class="has-link-black-ter is-size-6">docker build openwrt 遇到的小问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2056,6 +2084,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/04/">
@@ -2533,6 +2572,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/golang/">
+                        <span class="level-start">
+                            <span class="level-item">golang</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/gzip/">
                         <span class="level-start">
                             <span class="level-item">gzip</span>
@@ -2726,6 +2776,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/nsq/">
+                        <span class="level-start">
+                            <span class="level-item">nsq</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
