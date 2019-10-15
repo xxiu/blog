@@ -2,20 +2,20 @@
 <html  lang="zh">
 <head>
     <meta charset="utf-8">
-<title>分类: dev - 张巍的博客</title>
+<title>分类: dev - 北嗅的博客</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
 
 
     <meta name="description" content="记录&amp;发现">
 <meta property="og:type" content="website">
-<meta property="og:title" content="张巍的博客">
-<meta property="og:url" content="/./dev/index.html">
-<meta property="og:site_name" content="张巍的博客">
+<meta property="og:title" content="北嗅的博客">
+<meta property="og:url" content="https://beixiu.net/./dev/index.html">
+<meta property="og:site_name" content="北嗅的博客">
 <meta property="og:description" content="记录&amp;发现">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="张巍的博客">
+<meta name="twitter:title" content="北嗅的博客">
 <meta name="twitter:description" content="记录&amp;发现">
 
 
@@ -86,7 +86,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/avatar.png" alt="张巍的博客" height="28">
+                <img src="/images/avatar.png" alt="北嗅的博客" height="28">
             
             </a>
         </div>
@@ -95,19 +95,19 @@
             <div class="navbar-start">
                 
                 <a class="navbar-item"
-                href="/">Home</a>
+                href="/">首页</a>
                 
                 <a class="navbar-item"
-                href="/archives">Archives</a>
+                href="/archives">归档</a>
                 
                 <a class="navbar-item"
-                href="/categories">Categories</a>
+                href="/categories">分类</a>
                 
                 <a class="navbar-item"
-                href="/tags">Tags</a>
+                href="/tags">标签</a>
                 
                 <a class="navbar-item"
-                href="/about">About</a>
+                href="/about">关于</a>
                 
             </div>
             
@@ -147,6 +147,159 @@
         </nav>
     </div>
 </div>
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/dev/Dockerfile编写实践/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 884 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/Dockerfile编写实践/">Dockerfile编写实践</a>
+            
+        </h1>
+        <div class="content">
+            <p>Docker 镜像是由 Layers 组成，Dockerfile 中每一条指令都会创建一个层，层数最多 127 层。</p>
+<ol>
+<li><p>选择更小的基础镜像</p>
+<p>通常我们使用的镜像有 Ubuntu 、CentOs、 debian 、Alpine 。其中推荐使用 Alpine ，Alpine 的基础镜像只有 4.4M 左右，</p>
+<p>1.1 scratch 镜像</p>
+<p>​     scratch 镜像是空镜像。如果要运行一个包含所有依赖的二进制文件，可以直接使用 scratch 作为基础镜像。</p>
+<p>1.2 busybox 镜像</p>
+<p>​        scratch是个空镜像，如果希望镜像里可以包含一些常用的Linux工具，busybox镜像是个不错选择，镜像本身只有1.16M，非常便于构建小镜像。</p>
+</li>
+<li><p>减少镜像层数</p>
+<p>将多条指令写成一条。如果有太多的 RUN,会导致镜像臃肿，使用时通过 <code>&amp;&amp;</code> 和 <code>/</code> 来实现。每个 RUN执行完后记得清理不需要的缓存文件等。降低镜像体积。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/lib/apt/lists/*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多阶段构建</p>
+<p>Dockerfile中每条指令都会为镜像增加一个镜像层，并且你需要在移动到下一个镜像层之前清理不需要的组件。实际上，有一个Dockerfile用于开发（其中包含构建应用程序所需的所有内容）以及一个用于生产的瘦客户端，它只包含你的应用程序以及运行它所需的内容。这被称为“建造者模式”。<strong>Docker 17.05.0-ce</strong> 版本以后支持多阶段构建。使用多阶段构建，你可以在Dockerfile中使用多个<code>FROM</code>语句，每条<code>FROM</code>指令可以使用不同的基础镜像，这样您可以选择性地将服务组件从一个阶段<code>COPY</code>到另一个阶段，在最终镜像中只保留需要的内容。</p>
+</li>
+</ol>
+<p>下面是一个使用<code>COPY --from</code> 和 <code>FROM ... AS ...</code> 的Dockerfile：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># Compile</span><br><span class="line">FROM golang:1.9.0 AS builder</span><br><span class="line">WORKDIR /go/src/v9.git...com/.../k8s-monitor</span><br><span class="line">COPY . .</span><br><span class="line">WORKDIR /go/src/v9.git...com/.../k8s-monitor</span><br><span class="line">RUN make build</span><br><span class="line">RUN mv k8s-monitor /root</span><br><span class="line"></span><br><span class="line"># Package</span><br><span class="line"># Use scratch image</span><br><span class="line">FROM scratch</span><br><span class="line">WORKDIR /root/</span><br><span class="line">COPY --from=builder /root .</span><br><span class="line">EXPOSE 8080</span><br><span class="line">CMD [&quot;/root/k8s-monitor&quot;]</span><br></pre></td></tr></table></figure>
+<p>构建镜像，你会发现生成的镜像只有上面<code>COPY</code> 指令指定的内容，镜像大小只有2M。这样在以前使用两个Dockerfile，现在使用多阶段构建就可以搞定。</p>
+<ol start="4">
+<li><p>将不变的内容尽量提前</p>
+<p>如果层没有变化，Docker build 的时候会利用缓存，在开发的时候，比如 npm 、pip 之类的包管理工具，可以将配置文件提前到代码之前，然后 copy 代码后将缓存目录软连到目录，避免每次代码都需要npm 。</p>
+<p>在实际处理过程中，可能会出现一些依赖无法处理，导致不能够提前。build 时可以采用多阶段构建。</p>
+<p>或者直接 -v 本地代码目录，直接使用缓存。</p>
+</li>
+</ol>
+<ol start="5">
+<li><p>提前配置国内源</p>
+<p>由于网络原因。系统源，代码包管理源速度都会慢，或者无法访问。需要将源信息提前配置到 dockerfile 中。</p>
+<p>阿里源  <a href="https://opsx.alibaba.com/mirror" target="_blank" rel="noopener">https://opsx.alibaba.com/mirror</a></p>
+<p>腾讯源 <a href="https://mirrors.cloud.tencent.com/" target="_blank" rel="noopener">https://mirrors.cloud.tencent.com/</a></p>
+<p>清华大学源  <a href="https://mirrors.tuna.tsinghua.edu.cn/" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/</a></p>
+</li>
+<li><p>设置时区</p>
+<p>不同的镜像默认的时区可能不同，导致运行时获取的时间不一致。</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/dev/Docker配置TLS认证开启远程访问/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 552 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/Docker配置TLS认证开启远程访问/">Docker配置TLS认证开启远程访问</a>
+            
+        </h1>
+        <div class="content">
+            <p>默认情况下，Docker 通过监听本地的  unix socket 运行，同时还可以通过 TCP  进行通信，方便对 Docker 集群 管理。Docker 官方提供了通过 TLS 加密，来保证只有信任的客户端才能远程访问 Docker 服务。</p>
+<p>采用私有 CA 签名证书。客户端只能够连接到该  CA 签名的证书和服务器。</p>
+<h2 id="使用-OpenSSL-创建-CA-、server-和-client"><a href="#使用-OpenSSL-创建-CA-、server-和-client" class="headerlink" title="使用 OpenSSL 创建 CA  、server 和 client"></a>使用 OpenSSL 创建 CA  、server 和 client</h2><p>使用过程中涉及到三个方面</p>
+<ol>
+<li>创建私有 CA 证书</li>
+<li>使用 CA 证书对 Server 证书签名</li>
+<li>使用 CA 证书对 client 证书签名</li>
+</ol>
+<h3 id="生成-CA-公钥和私钥。"><a href="#生成-CA-公钥和私钥。" class="headerlink" title="生成 CA 公钥和私钥。"></a>生成 CA 公钥和私钥。</h3><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1. 生成 ca key  需要设置一个密码</span><br><span class="line"><span class="hljs-meta">#</span> openssl genrsa -aes256 -out ca-key.pem 4096</span><br><span class="line"></span><br><span class="line">// 2. 创建 ca 公钥</span><br><span class="line"><span class="hljs-meta">#</span> openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem</span><br></pre></td></tr></table></figure>
+<h3 id="创建-Server-端证书"><a href="#创建-Server-端证书" class="headerlink" title="创建  Server 端证书"></a>创建  Server 端证书</h3><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//创建 server key</span><br><span class="line"><span class="hljs-meta">#</span> openssl genrsa -out server-key.pem 4096</span><br><span class="line"></span><br><span class="line">//证书签名请求文件 /CN后的填使用正式的ip或者域名</span><br><span class="line"><span class="hljs-meta">#</span> openssl req -subj "/CN=192.168.1.123" -sha256 -new -key server-key.pem -out server.csr</span><br><span class="line"></span><br><span class="line">//使用 CA 证书签名文件</span><br><span class="line"></span><br><span class="line">// extfile.cnf IP:XXXX 允许访问的ip</span><br><span class="line"><span class="hljs-meta">#</span> echo subjectAltName = DNS:$HOST,IP:10.10.10.20,IP:127.0.0.1 &gt;&gt; extfile.cnf</span><br><span class="line"><span class="hljs-meta">#</span> echo extendedKeyUsage = serverAuth &gt;&gt; extfile.cnf</span><br><span class="line"></span><br><span class="line">//生成签名证书</span><br><span class="line"><span class="hljs-meta">#</span> openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem  -CAcreateserial -out server-cert.pem -extfile extfile.cnf</span><br></pre></td></tr></table></figure>
+<h3 id="创建-client-证书"><a href="#创建-client-证书" class="headerlink" title="创建 client 证书"></a>创建 client 证书</h3><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 客户端证书</span><br><span class="line"><span class="hljs-meta">#</span> openssl genrsa -out key.pem 4096</span><br><span class="line">// 客户端签名请求文件</span><br><span class="line"><span class="hljs-meta">#</span> openssl req -subj '/CN=client' -new -key key.pem -out client.csr</span><br><span class="line"><span class="hljs-meta">#</span> echo extendedKeyUsage = clientAuth &gt; extfile-client.cnf</span><br><span class="line">// CA 签名</span><br><span class="line"><span class="hljs-meta">#</span> openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf</span><br></pre></td></tr></table></figure>
+<h2 id="server-端配置"><a href="#server-端配置" class="headerlink" title="server 端配置"></a>server 端配置</h2><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//1. 停止 docker 服务</span><br><span class="line"><span class="hljs-meta">$</span> service docker stop</span><br><span class="line"></span><br><span class="line">//2.1  修改文件/etc/default/docker 添加变量 Docker_OPTS</span><br><span class="line"><span class="hljs-meta">#</span> Use DOCKER_OPTS to modify the daemon startup options.</span><br><span class="line"><span class="hljs-meta">#</span>DOCKER_OPTS=""</span><br><span class="line">DOCKER_OPTS=" -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --tls  --tlscacert /root/.docker/openssl/ca.pem --tlscert /root/.docker/openssl/server-cert.pem  --tlskey /root/.docker/openssl/server-key.pem"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 2.2 修改文件: /lib/systemd/system/docker.service 添加变量 $DOCKER_OPTS</span><br><span class="line"><span class="hljs-meta">#</span># Add EnviromentFile + add "$DOCKER_OPTS" at end of ExecStart</span><br><span class="line"><span class="hljs-meta">#</span># After change exec "systemctl daemon-reload"</span><br><span class="line"></span><br><span class="line">EnvironmentFile=/etc/default/docker</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// $DOCKER_OPTS</span><br><span class="line"></span><br><span class="line">//  重启 docker 服务</span><br><span class="line"><span class="hljs-meta">$</span> service docker start</span><br></pre></td></tr></table></figure>
+<h2 id="Client-端访问"><a href="#Client-端访问" class="headerlink" title="Client 端访问"></a>Client 端访问</h2><p>$HOST 为服务端地址</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem \</span><br><span class="line">  -H=$HOST:2375 version</span><br></pre></td></tr></table></figure>
+<h2 id="portainer-添加-Endpoint"><a href="#portainer-添加-Endpoint" class="headerlink" title="portainer 添加 Endpoint"></a>portainer 添加 Endpoint</h2><p><img src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628151918.png" alt=""></p>
+<h2 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h2><p><a href="https://docs.docker.com/engine/security/https/" target="_blank" rel="noopener">https://docs.docker.com/engine/security/https/</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
 
     <div class="card">
     
@@ -502,6 +655,12 @@
 
     <div class="card">
     
+    <div class="card-image">
+        <a href="/dev/docker-build/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="docker build openwrt 遇到的小问题">
+        </a>
+    </div>
+    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
@@ -570,6 +729,12 @@
 
 
     <div class="card">
+    
+    <div class="card-image">
+        <a href="/dev/docker-compose-external-links/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="docker-compose 中的 external-links">
+        </a>
+    </div>
     
     <div class="card-content article ">
         
@@ -709,154 +874,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-14T08:51:16.000Z">2018-12-14</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 387 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/letsencrypt证书同步管理/">用 git 来 对letsencrypt 证书管理</a>
-            
-        </h1>
-        <div class="content">
-            <p>在做 https 的时候，使用了 letsencrypt 的证书，letsencrypt 的证书 90 天更新一次，正常情况下，只有一个域名就很方便处理，写一个 crontab 就搞定了。</p>
-<p>letsencrypt 出了泛域名后，泛域名只支持 1 级的匹配。当有多个子域名使用的时候，管理起来就很难受。</p>
-<p>所幸的是，acme.sh 支持 deploy_hook 来自行调用一个 shell 脚本。所以用不到10行的代码，做了一个利用 git 来管理域名证书。</p>
-<ol>
-<li><p>首先在acme.sh里面配置一个 git 的地址。</p>
-</li>
-<li><p>申请泛域名时同时申请泛域名的主域名</p>
-</li>
-<li>hook 提交按照域名提交到不同的分支</li>
-<li>线上对应的域名只需要配置一个 crontab 来定时拉 git ，重启服务。</li>
-</ol>
-<p>思路虽然简单粗暴，这样做的好处是可以很清楚的在git上面看到证书的更新，同时更新也可以利用 gitlab 的 hook 通知到 钉钉。</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">git_deploy() &#123;</span><br><span class="line">  _cdomain="$1"</span><br><span class="line">  _ckey="$2"</span><br><span class="line">  _ccert="$3"</span><br><span class="line">  _cca="$4"</span><br><span class="line">  _cfullchain="$5"</span><br><span class="line"></span><br><span class="line">  _debug _cdomain "$_cdomain"</span><br><span class="line">  _debug _ckey "$_ckey"</span><br><span class="line">  _debug _ccert "$_ccert"</span><br><span class="line">  _debug _cca "$_cca"</span><br><span class="line">  _debug _cfullchain "$_cfullchain"</span><br><span class="line"></span><br><span class="line">  GIT_REMOTE="$&#123;GIT_REMOTE:-$(_readaccountconf_mutable GIT_REMOTE)&#125;"</span><br><span class="line"></span><br><span class="line">  if [ -z $GIT_REMOTE ];then</span><br><span class="line">    _err "Git remote is enpty! please add GIT_REMOTE to the account.conf file"</span><br><span class="line">  fi</span><br><span class="line"></span><br><span class="line">  cd $DOMAIN_PATH</span><br><span class="line"><span class="hljs-meta">  #</span> 判断是否有git源</span><br><span class="line">  if [ ! -f ".git" ];then</span><br><span class="line">    git init</span><br><span class="line">    git remote add origin $GIT_REMOTE</span><br><span class="line">    git add --all</span><br><span class="line">  fi</span><br><span class="line"></span><br><span class="line">  export GIT_DIR=$DOMAIN_PATH/.git</span><br><span class="line">  DATE=$(date +%Y%m%d)</span><br><span class="line"><span class="hljs-meta">#</span>   echo "$DATE $_cdomain  update time" &gt;&gt;$DOMAIN_PATH/update_data.txt</span><br><span class="line">  git add --all</span><br><span class="line">  git commit -m "update $DATE"</span><br><span class="line">  git push --force origin master:$_cdomain</span><br><span class="line">  unset GIT_DIR</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span>   _err "Not implemented yet"</span><br><span class="line"></span><br><span class="line">  return 1</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-05T06:24:51.000Z">2018-12-05</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 862 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/Jenkins-docker-ansible自动化上线/">Jenkins-docker-ansible自动化上线</a>
-            
-        </h1>
-        <div class="content">
-            <p>从11月开始到现在，项目开始从 php 转换到 nodejs  + 后端服务，相应的部署环境转换到docker。</p>
-<p>在使用纯php环境，上线比较简单，主要是代码拉取，拷贝和软链切换。 运行环境使用docker后相应的需要引入一个打包的过程，所以前面所依靠的上线部署系统无法满足当前的需求。</p>
-<p>目前来说，Jenkins 作为自动化的流水线工具，几乎是不二的选择。</p>
-<p>将 Jenkins 作为流水线工具，在打包阶段依赖 docker-compose。 上线阶段依赖 ansible 。</p>
-<h1 id="jenkins-流程"><a href="#jenkins-流程" class="headerlink" title="jenkins 流程"></a>jenkins 流程</h1><ul>
-<li><p>Git 拉取代码</p>
-</li>
-<li><p>Jenkins 根据不同的上线配置不同的脚本</p>
-</li>
-<li><p>docker-compose 打包代码</p>
-<p>指定-f 参数来决定不同的镜像</p>
-<p>项目下:</p>
-<p>​ docker-compose.yml  对应正式环境 ，Jenkins 绑定到 master 分支</p>
-<p>​ docker-compose.dev.yml 对应测试环境， Jenkins 绑定到 develop 分支</p>
-<p>​ 由于打包过程使用的 dockerfile 都一样。 在自行的测试环境上可以自行编辑个人的docker-compose文件来作为开发环境。在 .gitignore 里面讲个人配置文件过滤掉。</p>
-</li>
-<li><p>docker-compose 上传代码</p>
-<p>同打包代码一样，使用 -f 参数来指定 docker-compose 文件来上传。</p>
-</li>
-<li><p>执行ansible 的 playbook 来完成上线</p>
-</li>
-</ul>
-<p>整个过程相对来说比较简单，总结下来：1）jenkins负责docker打包和发布，2）ansible 负责线上部署脚本。</p>
-<p>整个部署过程全部都是脚本化</p>
-<ol>
-<li>jenkins 脚本由 Jenkinsfile 负责</li>
-<li>docker 编译发布 由 docker-compose.yml 负责</li>
-<li>线上发布有 ansible playbook.yml 负责。</li>
-</ol>
-<p>所有的脚本全部都放下项目目录的deploy里面。涉及到私密信息，保存在 Jenkins 或者 ansible 的配置中，脚本中使用变量来替换。</p>
-<h1 id="ansible-流程"><a href="#ansible-流程" class="headerlink" title="ansible 流程"></a>ansible 流程</h1><p>ansible 在整个流程中负责与线上的机器交互，交互过程脚本话，全部都在一个名为 playbook.yml 的脚本中</p>
-<p>在 Jenkins 中调用只需要一行</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ansiblePlaybook credentialsId: '2495416d-79bb-4c43-9759-76102a166b3d',</span><br><span class="line">                                   playbook: 'playbook.yml',</span><br><span class="line">                                   extraVars: [</span><br><span class="line">                                           workspace: "$&#123;WORKSPACE&#125;"</span><br><span class="line">                                           ]</span><br></pre></td></tr></table></figure>
-<p>playbook 负责</p>
-<ol>
-<li>copy 配置文件</li>
-<li>根据配置文件，拉取docker image</li>
-<li>更新现有配置文件</li>
-<li>重新启动docker</li>
-<li>重新加载 nginx 配置</li>
-</ol>
-<h1 id="docker-打包"><a href="#docker-打包" class="headerlink" title="docker 打包"></a>docker 打包</h1><p>部署上线，涉及到nodejs项目需要使用 <code>npm install</code> 或者 php 项目需要使用 <code>compose install</code>的，按照正常的项目配置，每次在 docker build 的过程，由于源码变化，导致了每次执行初始化的过程都需要重新安装。</p>
-<p>我希望在自动化部署上线中，docker build 的过程时间越短越好。所以就需要利用到 docker images 的缓存。如果当前层没有发生变化，那么 docker 在打包过程中会自动使用缓存。</p>
-<p>所以，将 nodejs 项目中的 package.json 或者 php 项目中的 composer.json 实现负责到指定文件夹做初始化。这样就可以让这段耗时 install 过程在第一次编译完成后充分的利用 docker cache。</p>
-<p>比如：</p>
-<p>常规流程</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ADD . /var/www/source</span><br><span class="line">WORKDIR /var/www/source</span><br><span class="line">RUN npm install \</span><br><span class="line">    &amp;&amp; npm run build</span><br></pre></td></tr></table></figure>
-<p>修改后流程</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ADD  ./package*.json /var/www/node/</span><br><span class="line">WORKDIR /var/www/node</span><br><span class="line">RUN npm install</span><br><span class="line"></span><br><span class="line">ADD . /var/www/source</span><br><span class="line">WORKDIR /var/www/source</span><br><span class="line">RUN ln -sf ../node/node_modules ./node_modules \</span><br><span class="line">    &amp;&amp; npm run build</span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -894,10 +911,10 @@
         <nav class="level">
             <div class="level-item has-text-centered">
                 <div>
-                    <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="ZhangWei">
+                    <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="北嗅">
                     
                     <p class="is-size-4 is-block">
-                        ZhangWei
+                        北嗅
                     </p>
                     
                     
@@ -921,7 +938,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        76
+                        78
                     </p>
                 </div>
             </div>
@@ -941,7 +958,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        55
+                        57
                     </p>
                 </div>
             </div>
@@ -975,7 +992,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">67</span>
+                <span class="level-item tag">69</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -1005,7 +1022,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 18.33px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -1019,6 +1036,44 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/dev/Dockerfile编写实践/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
+                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
+                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1077,44 +1132,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Kong随记/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Kong 随记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-24T03:00:00.000Z">2019-04-24</time></div>
-                    <a href="/dev/Kong随记/" class="has-link-black-ter is-size-6">Kong 随记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/理解zabbix配置/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="理解 zabbix 配置">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-05T02:10:10.000Z">2019-03-05</time></div>
-                    <a href="/dev/理解zabbix配置/" class="has-link-black-ter is-size-6">理解 zabbix 配置</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1128,12 +1145,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/06/">
                 <span class="level-start">
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1471,6 +1499,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Docker/">
+                        <span class="level-start">
+                            <span class="level-item">Docker</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Portainer/">
+                        <span class="level-start">
+                            <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/android/">
                         <span class="level-start">
                             <span class="level-item">android</span>
@@ -1564,7 +1614,7 @@
                             <span class="level-item">docker</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">7</span>
+                            <span class="level-item tag">8</span>
                         </span>
                     </a>
                 </li>
@@ -2078,6 +2128,44 @@
         
         <article class="media">
             
+            <a href="/dev/Dockerfile编写实践/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
+                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
+                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/note/5G会带来什么/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190619174740.jpg" alt="5G会带来什么">
@@ -2133,44 +2221,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Kong随记/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Kong 随记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-24T03:00:00.000Z">2019-04-24</time></div>
-                    <a href="/dev/Kong随记/" class="has-link-black-ter is-size-6">Kong 随记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/理解zabbix配置/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="理解 zabbix 配置">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-05T02:10:10.000Z">2019-03-05</time></div>
-                    <a href="/dev/理解zabbix配置/" class="has-link-black-ter is-size-6">理解 zabbix 配置</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2184,12 +2234,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/06/">
                 <span class="level-start">
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -2527,6 +2588,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Docker/">
+                        <span class="level-start">
+                            <span class="level-item">Docker</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Portainer/">
+                        <span class="level-start">
+                            <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/android/">
                         <span class="level-start">
                             <span class="level-item">android</span>
@@ -2620,7 +2703,7 @@
                             <span class="level-item">docker</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">7</span>
+                            <span class="level-item tag">8</span>
                         </span>
                     </a>
                 </li>
@@ -3126,11 +3209,11 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/avatar.png" alt="张巍的博客" height="28">
+                    <img src="/images/avatar.png" alt="北嗅的博客" height="28">
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 张巍&nbsp;
+                &copy; 2019 北嗅&nbsp;
                 Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
                         href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
                 </p>

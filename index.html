@@ -2,20 +2,20 @@
 <html  lang="zh">
 <head>
     <meta charset="utf-8">
-<title>张巍的博客</title>
+<title>北嗅的博客</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
 
 
     <meta name="description" content="记录&amp;发现">
 <meta property="og:type" content="website">
-<meta property="og:title" content="张巍的博客">
-<meta property="og:url" content="/index.html">
-<meta property="og:site_name" content="张巍的博客">
+<meta property="og:title" content="北嗅的博客">
+<meta property="og:url" content="https://beixiu.net/index.html">
+<meta property="og:site_name" content="北嗅的博客">
 <meta property="og:description" content="记录&amp;发现">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="张巍的博客">
+<meta name="twitter:title" content="北嗅的博客">
 <meta name="twitter:description" content="记录&amp;发现">
 
 
@@ -86,7 +86,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/avatar.png" alt="张巍的博客" height="28">
+                <img src="/images/avatar.png" alt="北嗅的博客" height="28">
             
             </a>
         </div>
@@ -95,19 +95,19 @@
             <div class="navbar-start">
                 
                 <a class="navbar-item is-active"
-                href="/">Home</a>
+                href="/">首页</a>
                 
                 <a class="navbar-item"
-                href="/archives">Archives</a>
+                href="/archives">归档</a>
                 
                 <a class="navbar-item"
-                href="/categories">Categories</a>
+                href="/categories">分类</a>
                 
                 <a class="navbar-item"
-                href="/tags">Tags</a>
+                href="/tags">标签</a>
                 
                 <a class="navbar-item"
-                href="/about">About</a>
+                href="/about">关于</a>
                 
             </div>
             
@@ -137,6 +137,159 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/dev/Dockerfile编写实践/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 884 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/Dockerfile编写实践/">Dockerfile编写实践</a>
+            
+        </h1>
+        <div class="content">
+            <p>Docker 镜像是由 Layers 组成，Dockerfile 中每一条指令都会创建一个层，层数最多 127 层。</p>
+<ol>
+<li><p>选择更小的基础镜像</p>
+<p>通常我们使用的镜像有 Ubuntu 、CentOs、 debian 、Alpine 。其中推荐使用 Alpine ，Alpine 的基础镜像只有 4.4M 左右，</p>
+<p>1.1 scratch 镜像</p>
+<p>​     scratch 镜像是空镜像。如果要运行一个包含所有依赖的二进制文件，可以直接使用 scratch 作为基础镜像。</p>
+<p>1.2 busybox 镜像</p>
+<p>​        scratch是个空镜像，如果希望镜像里可以包含一些常用的Linux工具，busybox镜像是个不错选择，镜像本身只有1.16M，非常便于构建小镜像。</p>
+</li>
+<li><p>减少镜像层数</p>
+<p>将多条指令写成一条。如果有太多的 RUN,会导致镜像臃肿，使用时通过 <code>&amp;&amp;</code> 和 <code>/</code> 来实现。每个 RUN执行完后记得清理不需要的缓存文件等。降低镜像体积。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/lib/apt/lists/*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多阶段构建</p>
+<p>Dockerfile中每条指令都会为镜像增加一个镜像层，并且你需要在移动到下一个镜像层之前清理不需要的组件。实际上，有一个Dockerfile用于开发（其中包含构建应用程序所需的所有内容）以及一个用于生产的瘦客户端，它只包含你的应用程序以及运行它所需的内容。这被称为“建造者模式”。<strong>Docker 17.05.0-ce</strong> 版本以后支持多阶段构建。使用多阶段构建，你可以在Dockerfile中使用多个<code>FROM</code>语句，每条<code>FROM</code>指令可以使用不同的基础镜像，这样您可以选择性地将服务组件从一个阶段<code>COPY</code>到另一个阶段，在最终镜像中只保留需要的内容。</p>
+</li>
+</ol>
+<p>下面是一个使用<code>COPY --from</code> 和 <code>FROM ... AS ...</code> 的Dockerfile：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># Compile</span><br><span class="line">FROM golang:1.9.0 AS builder</span><br><span class="line">WORKDIR /go/src/v9.git...com/.../k8s-monitor</span><br><span class="line">COPY . .</span><br><span class="line">WORKDIR /go/src/v9.git...com/.../k8s-monitor</span><br><span class="line">RUN make build</span><br><span class="line">RUN mv k8s-monitor /root</span><br><span class="line"></span><br><span class="line"># Package</span><br><span class="line"># Use scratch image</span><br><span class="line">FROM scratch</span><br><span class="line">WORKDIR /root/</span><br><span class="line">COPY --from=builder /root .</span><br><span class="line">EXPOSE 8080</span><br><span class="line">CMD [&quot;/root/k8s-monitor&quot;]</span><br></pre></td></tr></table></figure>
+<p>构建镜像，你会发现生成的镜像只有上面<code>COPY</code> 指令指定的内容，镜像大小只有2M。这样在以前使用两个Dockerfile，现在使用多阶段构建就可以搞定。</p>
+<ol start="4">
+<li><p>将不变的内容尽量提前</p>
+<p>如果层没有变化，Docker build 的时候会利用缓存，在开发的时候，比如 npm 、pip 之类的包管理工具，可以将配置文件提前到代码之前，然后 copy 代码后将缓存目录软连到目录，避免每次代码都需要npm 。</p>
+<p>在实际处理过程中，可能会出现一些依赖无法处理，导致不能够提前。build 时可以采用多阶段构建。</p>
+<p>或者直接 -v 本地代码目录，直接使用缓存。</p>
+</li>
+</ol>
+<ol start="5">
+<li><p>提前配置国内源</p>
+<p>由于网络原因。系统源，代码包管理源速度都会慢，或者无法访问。需要将源信息提前配置到 dockerfile 中。</p>
+<p>阿里源  <a href="https://opsx.alibaba.com/mirror" target="_blank" rel="noopener">https://opsx.alibaba.com/mirror</a></p>
+<p>腾讯源 <a href="https://mirrors.cloud.tencent.com/" target="_blank" rel="noopener">https://mirrors.cloud.tencent.com/</a></p>
+<p>清华大学源  <a href="https://mirrors.tuna.tsinghua.edu.cn/" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/</a></p>
+</li>
+<li><p>设置时区</p>
+<p>不同的镜像默认的时区可能不同，导致运行时获取的时间不一致。</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/dev/Docker配置TLS认证开启远程访问/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 552 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/Docker配置TLS认证开启远程访问/">Docker配置TLS认证开启远程访问</a>
+            
+        </h1>
+        <div class="content">
+            <p>默认情况下，Docker 通过监听本地的  unix socket 运行，同时还可以通过 TCP  进行通信，方便对 Docker 集群 管理。Docker 官方提供了通过 TLS 加密，来保证只有信任的客户端才能远程访问 Docker 服务。</p>
+<p>采用私有 CA 签名证书。客户端只能够连接到该  CA 签名的证书和服务器。</p>
+<h2 id="使用-OpenSSL-创建-CA-、server-和-client"><a href="#使用-OpenSSL-创建-CA-、server-和-client" class="headerlink" title="使用 OpenSSL 创建 CA  、server 和 client"></a>使用 OpenSSL 创建 CA  、server 和 client</h2><p>使用过程中涉及到三个方面</p>
+<ol>
+<li>创建私有 CA 证书</li>
+<li>使用 CA 证书对 Server 证书签名</li>
+<li>使用 CA 证书对 client 证书签名</li>
+</ol>
+<h3 id="生成-CA-公钥和私钥。"><a href="#生成-CA-公钥和私钥。" class="headerlink" title="生成 CA 公钥和私钥。"></a>生成 CA 公钥和私钥。</h3><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1. 生成 ca key  需要设置一个密码</span><br><span class="line"><span class="hljs-meta">#</span> openssl genrsa -aes256 -out ca-key.pem 4096</span><br><span class="line"></span><br><span class="line">// 2. 创建 ca 公钥</span><br><span class="line"><span class="hljs-meta">#</span> openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem</span><br></pre></td></tr></table></figure>
+<h3 id="创建-Server-端证书"><a href="#创建-Server-端证书" class="headerlink" title="创建  Server 端证书"></a>创建  Server 端证书</h3><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//创建 server key</span><br><span class="line"><span class="hljs-meta">#</span> openssl genrsa -out server-key.pem 4096</span><br><span class="line"></span><br><span class="line">//证书签名请求文件 /CN后的填使用正式的ip或者域名</span><br><span class="line"><span class="hljs-meta">#</span> openssl req -subj "/CN=192.168.1.123" -sha256 -new -key server-key.pem -out server.csr</span><br><span class="line"></span><br><span class="line">//使用 CA 证书签名文件</span><br><span class="line"></span><br><span class="line">// extfile.cnf IP:XXXX 允许访问的ip</span><br><span class="line"><span class="hljs-meta">#</span> echo subjectAltName = DNS:$HOST,IP:10.10.10.20,IP:127.0.0.1 &gt;&gt; extfile.cnf</span><br><span class="line"><span class="hljs-meta">#</span> echo extendedKeyUsage = serverAuth &gt;&gt; extfile.cnf</span><br><span class="line"></span><br><span class="line">//生成签名证书</span><br><span class="line"><span class="hljs-meta">#</span> openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem  -CAcreateserial -out server-cert.pem -extfile extfile.cnf</span><br></pre></td></tr></table></figure>
+<h3 id="创建-client-证书"><a href="#创建-client-证书" class="headerlink" title="创建 client 证书"></a>创建 client 证书</h3><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 客户端证书</span><br><span class="line"><span class="hljs-meta">#</span> openssl genrsa -out key.pem 4096</span><br><span class="line">// 客户端签名请求文件</span><br><span class="line"><span class="hljs-meta">#</span> openssl req -subj '/CN=client' -new -key key.pem -out client.csr</span><br><span class="line"><span class="hljs-meta">#</span> echo extendedKeyUsage = clientAuth &gt; extfile-client.cnf</span><br><span class="line">// CA 签名</span><br><span class="line"><span class="hljs-meta">#</span> openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf</span><br></pre></td></tr></table></figure>
+<h2 id="server-端配置"><a href="#server-端配置" class="headerlink" title="server 端配置"></a>server 端配置</h2><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//1. 停止 docker 服务</span><br><span class="line"><span class="hljs-meta">$</span> service docker stop</span><br><span class="line"></span><br><span class="line">//2.1  修改文件/etc/default/docker 添加变量 Docker_OPTS</span><br><span class="line"><span class="hljs-meta">#</span> Use DOCKER_OPTS to modify the daemon startup options.</span><br><span class="line"><span class="hljs-meta">#</span>DOCKER_OPTS=""</span><br><span class="line">DOCKER_OPTS=" -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --tls  --tlscacert /root/.docker/openssl/ca.pem --tlscert /root/.docker/openssl/server-cert.pem  --tlskey /root/.docker/openssl/server-key.pem"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 2.2 修改文件: /lib/systemd/system/docker.service 添加变量 $DOCKER_OPTS</span><br><span class="line"><span class="hljs-meta">#</span># Add EnviromentFile + add "$DOCKER_OPTS" at end of ExecStart</span><br><span class="line"><span class="hljs-meta">#</span># After change exec "systemctl daemon-reload"</span><br><span class="line"></span><br><span class="line">EnvironmentFile=/etc/default/docker</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// $DOCKER_OPTS</span><br><span class="line"></span><br><span class="line">//  重启 docker 服务</span><br><span class="line"><span class="hljs-meta">$</span> service docker start</span><br></pre></td></tr></table></figure>
+<h2 id="Client-端访问"><a href="#Client-端访问" class="headerlink" title="Client 端访问"></a>Client 端访问</h2><p>$HOST 为服务端地址</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem \</span><br><span class="line">  -H=$HOST:2375 version</span><br></pre></td></tr></table></figure>
+<h2 id="portainer-添加-Endpoint"><a href="#portainer-添加-Endpoint" class="headerlink" title="portainer 添加 Endpoint"></a>portainer 添加 Endpoint</h2><p><img src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628151918.png" alt=""></p>
+<h2 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h2><p><a href="https://docs.docker.com/engine/security/https/" target="_blank" rel="noopener">https://docs.docker.com/engine/security/https/</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
     <div class="card">
     
     <div class="card-image">
@@ -689,6 +842,12 @@
 
     <div class="card">
     
+    <div class="card-image">
+        <a href="/dev/docker-build/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="docker build openwrt 遇到的小问题">
+        </a>
+    </div>
+    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
@@ -756,146 +915,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-26T09:08:45.000Z">2018-12-26</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 282 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/docker-compose-external-links/">docker-compose 中的 external-links</a>
-            
-        </h1>
-        <div class="content">
-            <p>在使用服务时使用同一台服务器的 mysql 的 docker 服务。想到 external-links 这个配置。</p>
-<p>按照文档的配置添加了如下配置</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">external_links:</span><br><span class="line"> - mysql_mysql_1:mysql</span><br></pre></td></tr></table></figure>
-<p>但是配置无论如何都不成功。</p>
-<p><a href="https://docs.docker.com/compose/compose-file/#external_links" target="_blank" rel="noopener">https://docs.docker.com/compose/compose-file/#external_links</a></p>
-<p>官方文档相关的描述，</p>
-<blockquote>
-<p>If you’re using the <a href="https://docs.docker.com/compose/compose-file/compose-versioning/#version-2" target="_blank" rel="noopener">version 2 or above file format</a>, the externally-created containers must be connected to at least one of the same networks as the service that is linking to them.</p>
-</blockquote>
-<p>也就是说想要使用 external_links 是需要两个服务在<strong>同一个网络段</strong>，这里只提了一句，对第一次写配置文件的开发者非常的不友好。</p>
-<ol>
-<li><p>创建网络</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create -d bridge my_default</span><br><span class="line">cb1e8d02683ad3dc0bff2881dccb2d3b05cab855b1d463d2cb45685a97dd196b</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>给mysql 服务添加网络</p>
-<figure class="highlight yaml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attr">version:</span> <span class="hljs-string">'2'</span></span><br><span class="line"><span class="hljs-attr">services:</span></span><br><span class="line"><span class="hljs-attr">  mysql:</span></span><br><span class="line"><span class="hljs-attr">    image:</span> <span class="hljs-attr">mysql:5.7</span></span><br><span class="line"><span class="hljs-attr">    networks:</span></span><br><span class="line"><span class="hljs-bullet">      -</span> <span class="hljs-string">my_default</span></span><br><span class="line"><span class="hljs-attr">networks:</span></span><br><span class="line"><span class="hljs-attr">  my_default:</span></span><br><span class="line"><span class="hljs-attr">    external:</span> <span class="hljs-literal">true</span></span><br></pre></td></tr></table></figure>
-<p>主要是最后一段</p>
-</li>
-<li><p>给服务添加网络</p>
-<figure class="highlight yaml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attr">services:</span></span><br><span class="line"><span class="hljs-attr">  project:</span></span><br><span class="line"><span class="hljs-attr">    networks:</span></span><br><span class="line"><span class="hljs-bullet">      -</span> <span class="hljs-string">my_default</span></span><br><span class="line"><span class="hljs-attr">    external_links:</span></span><br><span class="line"><span class="hljs-attr">      - mysql_mysql_1:</span><span class="hljs-string">mysql</span></span><br><span class="line"><span class="hljs-attr">      - redis_redis_1:</span><span class="hljs-string">redis</span></span><br><span class="line"><span class="hljs-attr">networks:</span></span><br><span class="line"><span class="hljs-attr">  my_default:</span></span><br><span class="line"><span class="hljs-attr">    external:</span> <span class="hljs-literal">true</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>以上的配置中删除了和网络配置不相关的配置。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-19T09:03:31.000Z">2018-12-19</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 311 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/minikube/">minikube</a>
-            
-        </h1>
-        <div class="content">
-            <p>​​</p>
-<h4 id="Minikube"><a href="#Minikube" class="headerlink" title="Minikube"></a>Minikube</h4><ol>
-<li><p>安装minikube</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64 &amp;&amp; \</span><br><span class="line">  chmod +x minikube &amp;&amp; \</span><br><span class="line">  sudo mv minikube /usr/local/bin/</span><br></pre></td></tr></table></figure>
-<p>阿里修改版的</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v0.30.0/minikube-darwin-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/local/bin/</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><del>安装 xhyve（已经被弃用）</del></p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install docker-machine-driver-xhyve</span><br><span class="line">sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</span><br><span class="line">sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装 hyperkit</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \</span><br><span class="line">&amp;&amp; chmod +x docker-machine-driver-hyperkit \</span><br><span class="line">&amp;&amp; sudo mv docker-machine-driver-hyperkit /usr/local/bin/ \</span><br><span class="line">&amp;&amp; sudo chown root:wheel /usr/local/bin/docker-machine-driver-hyperkit \</span><br><span class="line">&amp;&amp; sudo chmod u+s /usr/local/bin/docker-machine-driver-hyperkit</span><br></pre></td></tr></table></figure>
-<p> 参考： <a href="https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#hyperkit-driver" target="_blank" rel="noopener">https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#hyperkit-driver</a></p>
-<p> ​      <a href="https://blog.arkey.fr/2018/06/18/minikube-with-hyperkit/" target="_blank" rel="noopener">https://blog.arkey.fr/2018/06/18/minikube-with-hyperkit/</a></p>
-</li>
-<li><p>下载 kubectl</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install kubectl</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube start --vm-driver=hyperkit --registry-mirror=https://registry.docker-cn.com  --alsologtostderr --v 10</span><br></pre></td></tr></table></figure>
-<p> 配置有问题可以 rm -rf ~/.minikube   后重新启动 ，修改驱动会导致失败</p>
-</li>
-<li><p>验证配置</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl cluster-info</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>使用mimikube相同的Docker 主机镜像</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eval $(minikube docker-env)    #设置</span><br><span class="line">eval $(minikube docker-env -u)  #撤销设置</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl config get-contexts  #获取k8s环境</span><br><span class="line">kubectl config use-context docker-for-desktop  # 切换到系统</span><br><span class="line">kubectl config use-context minikube  #切换到minikube</span><br></pre></td></tr></table></figure>
-<p>打开控制面板</p>
-<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube dashboard</span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -933,10 +952,10 @@
         <nav class="level">
             <div class="level-item has-text-centered">
                 <div>
-                    <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="ZhangWei">
+                    <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="北嗅">
                     
                     <p class="is-size-4 is-block">
-                        ZhangWei
+                        北嗅
                     </p>
                     
                     
@@ -960,7 +979,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        76
+                        78
                     </p>
                 </div>
             </div>
@@ -980,7 +999,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        55
+                        57
                     </p>
                 </div>
             </div>
@@ -1014,7 +1033,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">67</span>
+                <span class="level-item tag">69</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -1044,7 +1063,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 18.33px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -1058,6 +1077,44 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/dev/Dockerfile编写实践/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
+                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
+                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1116,44 +1173,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Kong随记/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Kong 随记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-24T03:00:00.000Z">2019-04-24</time></div>
-                    <a href="/dev/Kong随记/" class="has-link-black-ter is-size-6">Kong 随记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/理解zabbix配置/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="理解 zabbix 配置">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-05T02:10:10.000Z">2019-03-05</time></div>
-                    <a href="/dev/理解zabbix配置/" class="has-link-black-ter is-size-6">理解 zabbix 配置</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1167,12 +1186,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/06/">
                 <span class="level-start">
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1510,6 +1540,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Docker/">
+                        <span class="level-start">
+                            <span class="level-item">Docker</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Portainer/">
+                        <span class="level-start">
+                            <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/android/">
                         <span class="level-start">
                             <span class="level-item">android</span>
@@ -1603,7 +1655,7 @@
                             <span class="level-item">docker</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">7</span>
+                            <span class="level-item tag">8</span>
                         </span>
                     </a>
                 </li>
@@ -2117,6 +2169,44 @@
         
         <article class="media">
             
+            <a href="/dev/Dockerfile编写实践/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
+                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
+                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/note/5G会带来什么/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190619174740.jpg" alt="5G会带来什么">
@@ -2172,44 +2262,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Kong随记/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Kong 随记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-24T03:00:00.000Z">2019-04-24</time></div>
-                    <a href="/dev/Kong随记/" class="has-link-black-ter is-size-6">Kong 随记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/理解zabbix配置/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="理解 zabbix 配置">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-05T02:10:10.000Z">2019-03-05</time></div>
-                    <a href="/dev/理解zabbix配置/" class="has-link-black-ter is-size-6">理解 zabbix 配置</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2223,12 +2275,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/06/">
                 <span class="level-start">
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -2566,6 +2629,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Docker/">
+                        <span class="level-start">
+                            <span class="level-item">Docker</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Portainer/">
+                        <span class="level-start">
+                            <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/android/">
                         <span class="level-start">
                             <span class="level-item">android</span>
@@ -2659,7 +2744,7 @@
                             <span class="level-item">docker</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">7</span>
+                            <span class="level-item tag">8</span>
                         </span>
                     </a>
                 </li>
@@ -3165,11 +3250,11 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/avatar.png" alt="张巍的博客" height="28">
+                    <img src="/images/avatar.png" alt="北嗅的博客" height="28">
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 张巍&nbsp;
+                &copy; 2019 北嗅&nbsp;
                 Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
                         href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
                 </p>
