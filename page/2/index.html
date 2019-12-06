@@ -140,6 +140,81 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/dev/docker-build/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="docker build openwrt 遇到的小问题">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-04T09:15:54.000Z">2019-01-04</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 805 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/docker-build/">docker build openwrt 遇到的小问题</a>
+            
+        </h1>
+        <div class="content">
+            <p>在使用 docker 编译 openwrt 遇到了两个坑，问题不复杂，却折腾了一天。</p>
+<p>环境如下</p>
+<ul>
+<li><p>Dockerfile     定义编译 openwrt 的编译环境</p>
+</li>
+<li><p>docker-compose.yml  定义变化 openwrt 的运行配置，主要是将代码目录 data 使用 -v 映射到容器中</p>
+</li>
+<li><p>/data  代码存放目录</p>
+</li>
+</ul>
+<p>开发流程就两步：</p>
+<ol>
+<li>docker-compose build 编译镜像</li>
+<li>docker-compose run openwrt bash 进入编译环境</li>
+</ol>
+<p>在前一天执行第二步出错后，发现需要添加新的 lib 库，于是更新 Dockerfile ，在 Dockerfile 中添加了缺失的 lib。然后执行docker-compose build,但是执行这一步却卡死在命令行里。重试了 N 次也没有任何效果。</p>
+<p>于是使用 原生的 docker build 来编译镜像</p>
+<pre><code>docker build -t &lt;image name&gt; .
+</code></pre><p>放弃 docker-compose ，使用 docker build  来编译，出现了Sending build context to Docker daemon 的提示。</p>
+<p>提示是将编译的上下文发送给守护进程。昨天将 openwrt 的编译相关的源码全部都放到了当前目录的 data 目录下。openwrt 的源码加上 dl 目录的文件，整体超过了 10 个 G。</p>
+<p>命令行的提示在发送需要编译的内容给 docker 的守护进程，这里突然意识到 docker 在将这 10 几个 G 的文件发送给 docker 守护进程。这样不死才怪。</p>
+<p>查看docker官方文档，其中有关的说明, docker 会将 build 指定的目录下的文件都发送给 docker 的守护进程。 docker 提供了 .dockerignore  文件用来过滤，避免不必要的大文件，敏感文件发送到守护进程。 .dockerignore 文件的用法和 .gitignore 文件用法类似。 官方提示最好每个 docker build 的目录最好都提供一个 .dockerignore 文件。</p>
+<p>创建一个 .dockerignore 并将 data 目录添加到文件里。然后重新执行 docker-compose build。 解决了这个问题。</p>
+<p>在编译镜像过程中，还出现了另外的一个问题。由于 mac 上的空间不够，在 docker 的设置里执行 Move disk image 将 Docker.raw文件挪到扩展卡上，我记得扩展卡剩余空间有 70G 左右。但是在执行的时候总是失败。尝试了几次之后。开始怀疑 docker 在 mac 上有问题。询问同事，都表示没出现过。</p>
+<p>用 ncdu 查看扩展卡的硬盘容量占用。 发现硬盘容量剩余 1G 左右。文件夹.Spotlight-V100 占用 48G。文件夹是 Spotlight的索引文件。 这个可能是昨天在编译 openwrt 时，mac 创建索引出现了一些问题导致的。 删除这个索引目录后，硬盘空间又回来了。从新’Move disk image’，执行成功。</p>
+<p>在编译 openwrt 时，硬盘占用确实是个大问题，以前使用 vagrant 虚拟机作为编译开发环境，一个 box 编译多次后体积可能会超过30G ，虚拟机的硬盘扩容还麻烦，使用 docker 作为开发编译环境，随用随起，方便不少。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/dev/docker-compose-external-links/" class="image is-7by1">
             <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="docker-compose 中的 external-links">
         </a>
@@ -747,68 +822,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-11-02T09:24:17.000Z">2018-11-02</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 500 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/Harbor配置-DockerRegistry私有镜像仓库/">Harbor配置-DockerRegistry私有镜像仓库</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="Harbor简介"><a href="#Harbor简介" class="headerlink" title="Harbor简介"></a><a name="hrk3bg"></a>Harbor简介</h1><p>Harbor<code>是</code>VMware<code>公司开源的企业级</code>Docker Registry<code>项目，其目标是帮助用户迅速搭建一个企业级的</code>Docker registry`服务。</p>
-<p>它以<code>Docker</code>公司开源的<code>registry</code>为基础，提供了管理<code>UI</code>，基于角色的访问控制(<code>Role Based AccessControl</code>)，<code>AD/LDAP</code>集成、以及审计日志(<code>Auditlogging</code>) 等企业用户需求的功能，通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源 <code>Docker Distribution</code>。</p>
-<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a><a name="9eq0tf"></a>环境准备</h1><ul>
-<li>Ubuntu 14.04</li>
-<li>Docker and Docker Compose</li>
-</ul>
-<h4 id="Docker-Compose-安装"><a href="#Docker-Compose-安装" class="headerlink" title="Docker Compose 安装"></a><a name="0g0sth"></a>Docker Compose 安装</h4><pre><code><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line">sudo chmod +x /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">$</span> docker-compose --version</span><br><span class="line">docker-compose version 1.22.0, build f46880fe</span><br></pre></td></tr></table></figure>
-</code></pre><ul>
-<li>python</li>
-</ul>
-<h1 id="Harbor下载"><a href="#Harbor下载" class="headerlink" title="Harbor下载"></a><a name="9qd2rr"></a>Harbor下载</h1><p>下载Harbour版本的二进制文件 <a href="https://github.com/vmware/harbor/releases" target="_blank" rel="noopener">https://github.com/vmware/harbor/releases</a></p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://storage.googleapis.com/harbor-releases/release-1.6.0/harbor-offline-installer-v1.6.0.tgz</span><br><span class="line">tar -zxvf harbor-offline-installer-v1.6.0.tgz</span><br></pre></td></tr></table></figure>
-<p>官方的链接正常无法下载，感谢戴亚同学帮忙。</p>
-<p>下载解压后进入解压的文件夹</p>
-<h1 id="Harbor配置"><a href="#Harbor配置" class="headerlink" title="Harbor配置"></a><a name="y016pk"></a>Harbor配置</h1><p>解压后目录下生成 harbor.conf  文件，根据需要修改配置文件。</p>
-<h1 id="Harbor启动"><a href="#Harbor启动" class="headerlink" title="Harbor启动"></a><a name="2ec0rk"></a>Harbor启动</h1><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/home/zhangwei# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS                PORTS                                                                NAMES</span><br><span class="line">136373bd5377        goharbor/harbor-jobservice:v1.6.0        "/harbor/start.sh"       2 days ago          Up 2 days                                                                                  harbor-jobservice</span><br><span class="line">e593d2a724de        goharbor/nginx-photon:v1.6.0             "nginx -g 'daemon of…"   2 days ago          Up 2 days (healthy)   0.0.0.0:443-&gt;443/tcp, 0.0.0.0:4443-&gt;4443/tcp, 0.0.0.0:1080-&gt;80/tcp   nginx</span><br><span class="line">f29c2341d237        goharbor/harbor-ui:v1.6.0                "/harbor/start.sh"       2 days ago          Up 2 days (healthy)                                                                        harbor-ui</span><br><span class="line">a03a1bab796f        goharbor/harbor-adminserver:v1.6.0       "/harbor/start.sh"       2 days ago          Up 2 days (healthy)                                                                        harbor-adminserver</span><br><span class="line">c11b5b108311        goharbor/redis-photon:v1.6.0             "docker-entrypoint.s…"   2 days ago          Up 2 days             6379/tcp                                                             redis</span><br><span class="line">6d95f6c0aaf3        goharbor/harbor-db:v1.6.0                "/entrypoint.sh post…"   2 days ago          Up 2 days (healthy)   5432/tcp                                                             harbor-db</span><br><span class="line">2fa99bb3d06c        goharbor/registry-photon:v2.6.2-v1.6.0   "/entrypoint.sh /etc…"   2 days ago          Up 2 days (healthy)   5000/tcp                                                             registry</span><br><span class="line">da21879d2dd1        goharbor/harbor-log:v1.6.0               "/bin/sh -c /usr/loc…"   2 days ago          Up 2 days (healthy)   127.0.0.1:1514-&gt;10514/tcp                                            harbor-log</span><br></pre></td></tr></table></figure>
-<p>根据需要修改docker-compose.yml 文件的端口</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">proxy:</span><br><span class="line">  image: goharbor/nginx-photon:v1.6.0</span><br><span class="line">  container_name: nginx</span><br><span class="line">  restart: always</span><br><span class="line">  volumes:</span><br><span class="line">    - ./common/config/nginx:/etc/nginx:z</span><br><span class="line">  networks:</span><br><span class="line">    - harbor</span><br><span class="line">  ports:</span><br><span class="line">    - 1080:80</span><br><span class="line">    - 443:443</span><br><span class="line">    - 4443:4443</span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -875,7 +888,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        78
+                        79
                     </p>
                 </div>
             </div>
@@ -895,7 +908,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        57
+                        58
                     </p>
                 </div>
             </div>
@@ -929,7 +942,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">69</span>
+                <span class="level-item tag">70</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -959,7 +972,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -973,6 +986,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/rocketmq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
+                    <a href="/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1050,25 +1082,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/nsq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
-                    <a href="/dev/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1080,6 +1093,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/07/">
@@ -1450,6 +1474,17 @@
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RocketMQ/">
+                        <span class="level-start">
+                            <span class="level-item">RocketMQ</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -2065,6 +2100,25 @@
         
         <article class="media">
             
+            <a href="/rocketmq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
+                    <a href="/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/Dockerfile编写实践/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
@@ -2139,25 +2193,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/nsq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
-                    <a href="/dev/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2169,6 +2204,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/07/">
@@ -2539,6 +2585,17 @@
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RocketMQ/">
+                        <span class="level-start">
+                            <span class="level-item">RocketMQ</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>

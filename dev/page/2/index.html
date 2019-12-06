@@ -154,6 +154,80 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-19T09:03:31.000Z">2018-12-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 311 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/minikube/">minikube</a>
+            
+        </h1>
+        <div class="content">
+            <p>​​</p>
+<h4 id="Minikube"><a href="#Minikube" class="headerlink" title="Minikube"></a>Minikube</h4><ol>
+<li><p>安装minikube</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64 &amp;&amp; \</span><br><span class="line">  chmod +x minikube &amp;&amp; \</span><br><span class="line">  sudo mv minikube /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<p>阿里修改版的</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v0.30.0/minikube-darwin-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/local/bin/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><del>安装 xhyve（已经被弃用）</del></p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install docker-machine-driver-xhyve</span><br><span class="line">sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</span><br><span class="line">sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 hyperkit</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \</span><br><span class="line">&amp;&amp; chmod +x docker-machine-driver-hyperkit \</span><br><span class="line">&amp;&amp; sudo mv docker-machine-driver-hyperkit /usr/local/bin/ \</span><br><span class="line">&amp;&amp; sudo chown root:wheel /usr/local/bin/docker-machine-driver-hyperkit \</span><br><span class="line">&amp;&amp; sudo chmod u+s /usr/local/bin/docker-machine-driver-hyperkit</span><br></pre></td></tr></table></figure>
+<p> 参考： <a href="https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#hyperkit-driver" target="_blank" rel="noopener">https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#hyperkit-driver</a></p>
+<p> ​      <a href="https://blog.arkey.fr/2018/06/18/minikube-with-hyperkit/" target="_blank" rel="noopener">https://blog.arkey.fr/2018/06/18/minikube-with-hyperkit/</a></p>
+</li>
+<li><p>下载 kubectl</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install kubectl</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube start --vm-driver=hyperkit --registry-mirror=https://registry.docker-cn.com  --alsologtostderr --v 10</span><br></pre></td></tr></table></figure>
+<p> 配置有问题可以 rm -rf ~/.minikube   后重新启动 ，修改驱动会导致失败</p>
+</li>
+<li><p>验证配置</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl cluster-info</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>使用mimikube相同的Docker 主机镜像</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eval $(minikube docker-env)    #设置</span><br><span class="line">eval $(minikube docker-env -u)  #撤销设置</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl config get-contexts  #获取k8s环境</span><br><span class="line">kubectl config use-context docker-for-desktop  # 切换到系统</span><br><span class="line">kubectl config use-context minikube  #切换到minikube</span><br></pre></td></tr></table></figure>
+<p>打开控制面板</p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube dashboard</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-12-14T08:51:16.000Z">2018-12-14</time>
                 
                 <div class="level-item">
@@ -720,66 +794,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-10-30T14:08:19.000Z">2018-10-30</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 447 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/安装Docker/">安装Docker</a>
-            
-        </h1>
-        <div class="content">
-            <p>docker docs : <a href="https://docs.docker.com" target="_blank" rel="noopener">https://docs.docker.com</a></p>
-<h1 id="windows"><a href="#windows" class="headerlink" title="windows"></a><a name="bmpykk"></a>windows</h1><p>下载地址：<a href="https://store.docker.com/editions/community/docker-ce-desktop-windows" target="_blank" rel="noopener">https://store.docker.com/editions/community/docker-ce-desktop-windows</a></p>
-<p>需要开启 Hyper-V</p>
-<p>直接安装</p>
-<h1 id="mac"><a href="#mac" class="headerlink" title="mac"></a><a name="vy2gfk"></a>mac</h1><p>下载地址 <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" target="_blank" rel="noopener">https://store.docker.com/editions/community/docker-ce-desktop-mac</a></p>
-<p>直接安装 Docker.dmg .</p>
-<h1 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a><a name="fcb5oh"></a>ubuntu</h1><p>如果是新安装的建议将<code>/etc/apt/source.list</code>内容替换为阿里源</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src https://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-<h2 id="用脚本安装"><a href="#用脚本安装" class="headerlink" title="用脚本安装"></a><a name="lp9dki"></a>用脚本安装</h2><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> curl -fsSL https://get.docker.com -o get-docker.sh</span></span><br><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo sh get-docker.sh</span></span><br></pre></td></tr></table></figure>
-<h2 id="按步骤安装"><a href="#按步骤安装" class="headerlink" title="按步骤安装"></a><a name="m3cfuc"></a>按步骤安装</h2><p>安装 Docker CE 需要 64 位的 Ubuntu</p>
-<h3 id="删除老版本的-Docker"><a href="#删除老版本的-Docker" class="headerlink" title="删除老版本的 Docker"></a><a name="htbkgm"></a>删除老版本的 Docker</h3><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo apt-get remove docker docker-engine docker.io</span></span><br></pre></td></tr></table></figure>
-<h3 id="Docker-支持-aufs"><a href="#Docker-支持-aufs" class="headerlink" title="Docker 支持 aufs"></a><a name="ufpzbr"></a>Docker 支持 aufs</h3><p>ubunut14.04 需要，16.04 不需要</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo apt-get update</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo apt-get install \</span></span><br><span class="line">    linux-image-extra-$(uname -r) \</span><br><span class="line">    linux-image-extra-virtual</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">   #</span><span class="hljs-bash">问题 安装后机器起Docker会死机 升级内核到4.2后问题解决</span></span><br><span class="line">   sudo apt-get install linux-generic-lts-wily</span><br></pre></td></tr></table></figure>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a><a name="kbh9oe"></a>安装</h3><h4 id="update-apt-get"><a href="#update-apt-get" class="headerlink" title="update apt-get"></a><a name="w0nlpm"></a>update apt-get</h4><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo apt-get update</span></span><br></pre></td></tr></table></figure>
-<h4 id="添加apt-https-支持"><a href="#添加apt-https-支持" class="headerlink" title="添加apt https 支持"></a><a name="bz2zav"></a>添加apt https 支持</h4><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo apt-get install \</span></span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    software-properties-common</span><br></pre></td></tr></table></figure>
-<h4 id="添加-Docker-GPG-key"><a href="#添加-Docker-GPG-key" class="headerlink" title="添加 Docker GPG key"></a><a name="h20ikf"></a>添加 Docker GPG key</h4><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span></span><br><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo apt-key fingerprint 0EBFCD88 <span class="hljs-comment">#验证</span></span></span><br><span class="line">pub   4096R/0EBFCD88 2017-02-22</span><br><span class="line">      Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</span><br><span class="line">uid                  Docker Release (CE deb) &lt;docker@docker.com&gt;</span><br><span class="line">sub   4096R/F273FCD8 2017-02-22</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo add-apt-repository \</span></span><br><span class="line">   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span><br><span class="line"><span class="hljs-meta">   $</span><span class="hljs-bash">(lsb_release -cs) \</span></span><br><span class="line">   stable"</span><br></pre></td></tr></table></figure>
-<h4 id="安装Docker-CE"><a href="#安装Docker-CE" class="headerlink" title="安装Docker-CE"></a><a name="nnfsrr"></a>安装Docker-CE</h4><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo apt-get update</span></span><br><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash"> sudo apt-get install docker-ce <span class="hljs-comment">#写文档时最新版本docker version 18.06.1-ce</span></span></span><br><span class="line"><span class="hljs-meta">#</span><span class="hljs-bash"> $ sudo apt-get install docker-ce=&lt;VERSION&gt;  <span class="hljs-comment"># 安装指定版本的docker</span></span></span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -846,7 +860,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        78
+                        79
                     </p>
                 </div>
             </div>
@@ -866,7 +880,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        57
+                        58
                     </p>
                 </div>
             </div>
@@ -900,7 +914,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">69</span>
+                <span class="level-item tag">70</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -930,7 +944,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -944,6 +958,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/rocketmq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
+                    <a href="/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1021,25 +1054,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/nsq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
-                    <a href="/dev/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1051,6 +1065,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/07/">
@@ -1421,6 +1446,17 @@
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RocketMQ/">
+                        <span class="level-start">
+                            <span class="level-item">RocketMQ</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -2036,6 +2072,25 @@
         
         <article class="media">
             
+            <a href="/rocketmq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
+                    <a href="/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/Dockerfile编写实践/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
@@ -2110,25 +2165,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/nsq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
-                    <a href="/dev/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2140,6 +2176,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/07/">
@@ -2510,6 +2557,17 @@
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RocketMQ/">
+                        <span class="level-start">
+                            <span class="level-item">RocketMQ</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>

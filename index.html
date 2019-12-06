@@ -140,6 +140,113 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/rocketmq/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 分钟 读完 (大约 1839 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/rocketmq/">RocketMQ小记</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Rocketmq"><a href="#Rocketmq" class="headerlink" title="Rocketmq"></a>Rocketmq</h1><p><a href="https://rocketmq.apache.org/docs/quick-start/" target="_blank" rel="noopener">https://rocketmq.apache.org/docs/quick-start/</a></p>
+<p>github： <a href="https://github.com/apache/rocketmq" target="_blank" rel="noopener">https://github.com/apache/rocketmq</a> </p>
+<p>Apache  RocketMQ  架构 </p>
+<p><img src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt=""></p>
+<ul>
+<li>Name Server :是一个无状态节点，可集群部署，在消息队列 MQ 中提供命名服务，更新和发现 Broker 服务</li>
+<li>Broker ： 消息中转角色，负责存储、转发消息。 分为 Master Broker 和 Slave Broker ，一个 Master Broker 可以对应多个 Slave Broker 。Broker 启动后将自己注册到 Name Server 。随后每30秒定期向 Name Server 上报 Topic 路由信息。 </li>
+<li>生产者： 与 Name Server 集群中的其中一个节点（随机）建立长连 。 定期从Name Server 读取 Topic 路由。并向提供 Topic 服务的 Master Broker 建立长链接 。 定时向Master Broker 发送心跳</li>
+<li>消费者： 与 Name Server 集群中的其中一个节点建立长链接。定期中Name Server 拉去Topic 路由信息。 并向提供 Topic 的Master Broker、slave Broker 建立长连。且定时向 Master Broker 、Slave Broker 发送心跳。 消费者即可以从 Master Broker 订阅消息，也可以从 Slave Broker 订阅消息，订阅规则由 Broker 决定。 </li>
+</ul>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p>发布/订阅消息传递模型</p>
+<p>财务级交易消息</p>
+<p>各种跨语言客户端，例如Java，C / C ++，Python，Go</p>
+<p>可插拔的传输协议，例如TCP，SSL，AIO</p>
+<p>内置的消息跟踪功能，还支持开放式跟踪</p>
+<p>多功能的大数据和流生态系统集成</p>
+<p>按时间或偏移量追溯消息</p>
+<p>可靠的FIFO和严格的有序消息传递在同一队列中</p>
+<p>高效的推拉消费模型</p>
+<p>单个队列中的百万级消息累积容量</p>
+<p>多种消息传递协议，例如JMS和OpenMessaging</p>
+<p>灵活的分布式横向扩展部署架构</p>
+<p>快如闪电的批量消息交换系统</p>
+<p>各种消息过滤器机制，例如SQL和Tag</p>
+<p>用于隔离测试和云隔离群集的Docker映像</p>
+<p>功能丰富的管理仪表板，用于配置，指标和监视</p>
+<p>认证与授权</p>
+<h2 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h2><p>rocketmq-broker：接受生产者发来的消息并存储（通过调用rocketmq-store），消费者从这里取得消息</p>
+<p>rocketmq-client：提供发送、接受消息的客户端API。</p>
+<p>rocketmq-namesrv：NameServer，类似于Zookeeper，这里保存着消息的TopicName，队列等运行时的元信息。</p>
+<p>rocketmq-common：通用的一些类，方法，数据结构等。</p>
+<p>rocketmq-remoting：基于Netty4的client/server + fastjson序列化 + 自定义二进制协议。</p>
+<p>rocketmq-store：消息、索引存储等。</p>
+<p>rocketmq-filtersrv：消息过滤器Server，需要注意的是，要实现这种过滤，需要上传代码到MQ！（一般而言，我们利用Tag足以满足大部分的过滤需求，如果更灵活更复杂的过滤需求，可以考虑filtersrv组件）。</p>
+<p>rocketmq-tools：命令行工具。</p>
+<h2 id="消息模型"><a href="#消息模型" class="headerlink" title="消息模型"></a>消息模型</h2><p><img src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191202194140.png" alt=""></p>
+<h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p><strong>Message</strong>（消息）就是要传输的信息。</p>
+<p>一条消息必须有一个主题（Topic），主题可以看做是你的信件要邮寄的地址。</p>
+<p>一条消息也可以拥有一个可选的标签（Tag）和额处的键值对，它们可以用于设置一个业务 Key 并在 Broker 上查找此消息以便在开发期间查找问题。</p>
+<h4 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h4><p><strong>Topic</strong>（主题）可以看做消息的规类，它是消息的第一级类型。比如一个电商系统可以分为：交易消息、物流消息等，一条消息必须有一个 Topic 。</p>
+<p><strong>Topic</strong> 与生产者和消费者的关系非常松散，一个 Topic 可以有0个、1个、多个生产者向其发送消息，一个生产者也可以同时向不同的 Topic 发送消息。</p>
+<p>一个 Topic 也可以被 0个、1个、多个消费者订阅。</p>
+<h4 id="Tag"><a href="#Tag" class="headerlink" title="Tag"></a>Tag</h4><p><strong>Tag</strong>（标签）可以看作子主题，它是消息的第二级类型，用于为用户提供额外的灵活性。使用标签，同一业务模块不同目的的消息就可以用相同 Topic 而不同的 <strong>Tag</strong> 来标识。比如交易消息又可以分为：交易创建消息、交易完成消息等，一条消息可以没有 <strong>Tag</strong> 。</p>
+<p>标签有助于保持您的代码干净和连贯，并且还可以为 <strong>RocketMQ</strong> 提供的查询系统提供帮助。</p>
+<h4 id="Group"><a href="#Group" class="headerlink" title="Group"></a>Group</h4><p>分组，一个组可以订阅多个Topic。</p>
+<p>分为ProducerGroup，ConsumerGroup，代表某一类的生产者和消费者，一般来说同一个服务可以作为Group，同一个Group一般来说发送和消费的消息都是一样的</p>
+<h4 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h4><p>在<strong>Kafka</strong>中叫Partition，每个Queue内部是有序的，在<strong>RocketMQ</strong>中分为读和写两种队列，一般来说读写队列数量一致，如果不一致就会出现很多问题。</p>
+<h4 id="Message-Queue"><a href="#Message-Queue" class="headerlink" title="Message Queue"></a>Message Queue</h4><p><strong>Message Queue</strong>（消息队列），主题被划分为一个或多个子主题，即消息队列。</p>
+<p>一个 Topic 下可以设置多个消息队列，发送消息时执行该消息的 Topic ，RocketMQ 会轮询该 Topic 下的所有队列将消息发出去。</p>
+<p>消息的物理管理单位。一个Topic下可以有多个Queue，Queue的引入使得消息的存储可以分布式集群化，具有了水平扩展能力。</p>
+<h4 id="Offset"><a href="#Offset" class="headerlink" title="Offset"></a>Offset</h4><p>在<strong>RocketMQ</strong> 中，所有消息队列都是持久化，长度无限的数据结构，所谓长度无限是指队列中的每个存储单元都是定长，访问其中的存储单元使用Offset 来访问，Offset 为 java long 类型，64 位，理论上在 100年内不会溢出，所以认为是长度无限。</p>
+<p>也可以认为 Message Queue 是一个长度无限的数组，<strong>Offset</strong> 就是下标。</p>
+<h4 id="消息消费模式"><a href="#消息消费模式" class="headerlink" title="消息消费模式"></a>消息消费模式</h4><p>消息消费模式有两种：<strong>Clustering</strong>（集群消费）和<strong>Broadcasting</strong>（广播消费）。</p>
+<p>默认情况下就是集群消费，该模式下一个消费者集群共同消费一个主题的多个队列，一个队列只会被一个消费者消费，如果某个消费者挂掉，分组内其它消费者会接替挂掉的消费者继续消费。</p>
+<p>而广播消费消息会发给消费者组中的每一个消费者进行消费。</p>
+<h4 id="Message-Order"><a href="#Message-Order" class="headerlink" title="Message Order"></a>Message Order</h4><p><strong>Message Order</strong>（消息顺序）有两种：<strong>Orderly</strong>（顺序消费）和<strong>Concurrently</strong>（并行消费）。</p>
+<p>顺序消费表示消息消费的顺序同生产者为每个消息队列发送的顺序一致，所以如果正在处理全局顺序是强制性的场景，需要确保使用的主题只有一个消息队列。</p>
+<p>并行消费不再保证消息顺序，消费的最大并行数量受每个消费者客户端指定的线程池限制。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/dev/Dockerfile编写实践/" class="image is-7by1">
             <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
         </a>
@@ -840,81 +947,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/dev/docker-build/" class="image is-7by1">
-            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="docker build openwrt 遇到的小问题">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-01-04T09:15:54.000Z">2019-01-04</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 805 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/docker-build/">docker build openwrt 遇到的小问题</a>
-            
-        </h1>
-        <div class="content">
-            <p>在使用 docker 编译 openwrt 遇到了两个坑，问题不复杂，却折腾了一天。</p>
-<p>环境如下</p>
-<ul>
-<li><p>Dockerfile     定义编译 openwrt 的编译环境</p>
-</li>
-<li><p>docker-compose.yml  定义变化 openwrt 的运行配置，主要是将代码目录 data 使用 -v 映射到容器中</p>
-</li>
-<li><p>/data  代码存放目录</p>
-</li>
-</ul>
-<p>开发流程就两步：</p>
-<ol>
-<li>docker-compose build 编译镜像</li>
-<li>docker-compose run openwrt bash 进入编译环境</li>
-</ol>
-<p>在前一天执行第二步出错后，发现需要添加新的 lib 库，于是更新 Dockerfile ，在 Dockerfile 中添加了缺失的 lib。然后执行docker-compose build,但是执行这一步却卡死在命令行里。重试了 N 次也没有任何效果。</p>
-<p>于是使用 原生的 docker build 来编译镜像</p>
-<pre><code>docker build -t &lt;image name&gt; .
-</code></pre><p>放弃 docker-compose ，使用 docker build  来编译，出现了Sending build context to Docker daemon 的提示。</p>
-<p>提示是将编译的上下文发送给守护进程。昨天将 openwrt 的编译相关的源码全部都放到了当前目录的 data 目录下。openwrt 的源码加上 dl 目录的文件，整体超过了 10 个 G。</p>
-<p>命令行的提示在发送需要编译的内容给 docker 的守护进程，这里突然意识到 docker 在将这 10 几个 G 的文件发送给 docker 守护进程。这样不死才怪。</p>
-<p>查看docker官方文档，其中有关的说明, docker 会将 build 指定的目录下的文件都发送给 docker 的守护进程。 docker 提供了 .dockerignore  文件用来过滤，避免不必要的大文件，敏感文件发送到守护进程。 .dockerignore 文件的用法和 .gitignore 文件用法类似。 官方提示最好每个 docker build 的目录最好都提供一个 .dockerignore 文件。</p>
-<p>创建一个 .dockerignore 并将 data 目录添加到文件里。然后重新执行 docker-compose build。 解决了这个问题。</p>
-<p>在编译镜像过程中，还出现了另外的一个问题。由于 mac 上的空间不够，在 docker 的设置里执行 Move disk image 将 Docker.raw文件挪到扩展卡上，我记得扩展卡剩余空间有 70G 左右。但是在执行的时候总是失败。尝试了几次之后。开始怀疑 docker 在 mac 上有问题。询问同事，都表示没出现过。</p>
-<p>用 ncdu 查看扩展卡的硬盘容量占用。 发现硬盘容量剩余 1G 左右。文件夹.Spotlight-V100 占用 48G。文件夹是 Spotlight的索引文件。 这个可能是昨天在编译 openwrt 时，mac 创建索引出现了一些问题导致的。 删除这个索引目录后，硬盘空间又回来了。从新’Move disk image’，执行成功。</p>
-<p>在编译 openwrt 时，硬盘占用确实是个大问题，以前使用 vagrant 虚拟机作为编译开发环境，一个 box 编译多次后体积可能会超过30G ，虚拟机的硬盘扩容还麻烦，使用 docker 作为开发编译环境，随用随起，方便不少。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -979,7 +1011,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        78
+                        79
                     </p>
                 </div>
             </div>
@@ -999,7 +1031,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        57
+                        58
                     </p>
                 </div>
             </div>
@@ -1033,7 +1065,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">69</span>
+                <span class="level-item tag">70</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -1063,7 +1095,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -1077,6 +1109,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/rocketmq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
+                    <a href="/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1154,25 +1205,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/nsq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
-                    <a href="/dev/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1184,6 +1216,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/07/">
@@ -1554,6 +1597,17 @@
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RocketMQ/">
+                        <span class="level-start">
+                            <span class="level-item">RocketMQ</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -2169,6 +2223,25 @@
         
         <article class="media">
             
+            <a href="/rocketmq/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
+                    <a href="/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/Dockerfile编写实践/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
@@ -2243,25 +2316,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/nsq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time></div>
-                    <a href="/dev/nsq/" class="has-link-black-ter is-size-6">nsq 随录</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2273,6 +2327,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/07/">
@@ -2643,6 +2708,17 @@
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RocketMQ/">
+                        <span class="level-start">
+                            <span class="level-item">RocketMQ</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
