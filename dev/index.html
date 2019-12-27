@@ -2,20 +2,20 @@
 <html  lang="zh">
 <head>
     <meta charset="utf-8">
-<title>分类: dev - 北嗅的博客</title>
+<title>分类: dev - 北嗅-匆匆那年</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
 
 
     <meta name="description" content="记录&amp;发现">
 <meta property="og:type" content="website">
-<meta property="og:title" content="北嗅的博客">
+<meta property="og:title" content="北嗅-匆匆那年">
 <meta property="og:url" content="https://beixiu.net/./dev/index.html">
-<meta property="og:site_name" content="北嗅的博客">
+<meta property="og:site_name" content="北嗅-匆匆那年">
 <meta property="og:description" content="记录&amp;发现">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="北嗅的博客">
+<meta name="twitter:title" content="北嗅-匆匆那年">
 <meta name="twitter:description" content="记录&amp;发现">
 
 
@@ -86,7 +86,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/avatar.png" alt="北嗅的博客" height="28">
+                <img src="/images/avatar.png" alt="北嗅-匆匆那年" height="28">
             
             </a>
         </div>
@@ -151,7 +151,87 @@
     <div class="card">
     
     <div class="card-image">
-        <a href="/rocketmq/" class="image is-7by1">
+        <a href="/dev/docker-sysctl/" class="image is-7by1">
+            <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-12-12T02:54:47.000Z">2019-12-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 746 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/docker-sysctl/">docker_sysctl</a>
+            
+        </h1>
+        <div class="content">
+            <p>Sysctl 用于配置运行时的内核参数，正常情况下修改 <code>/etc/sysctl.conf</code> . 然后执行 <code>sysctl -p</code> 就能够设置成功。 </p>
+<p>当使用 Docker 启动服务时，使用 sysctl -p 来配置 docker 的参数时会出现问题。比如</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl: cannot stat /proc/sys/net/core/rmem_max: No such file or directory</span><br><span class="line">sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>由于是配置的内核参数，如果容器修改了内核的参数，还是需要宿主机支持才行，直接修改是不支持的。 Docker的base image做的很精简，甚至都没有init进程，原本在OS启动时执行生效系统变量的过程(sysctl -p)也给省略了，导致这些系统变量依旧保留着kernel默认值。</p>
+<p>在 Docker 中对 sysctl 做了一些支持。 但是也只是有限的支持。在 Docker 启动容器时，指定 –sysctl 参数可以设置 sysctl 的参数 。 在 docker-compose.yml 文件中也提供了 <a href="https://docs.docker.com/compose/compose-file/#sysctls" target="_blank" rel="noopener">sysctls</a> 的参数 。 </p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sysctls:</span><br><span class="line">  - net.core.somaxconn=1024</span><br><span class="line">  - net.ipv4.tcp_syncookies=0</span><br></pre></td></tr></table></figure>
+<p>但是，Docker 中 sysctl 的可调参数要比宿主机少得多。 </p>
+<ol>
+<li><p>未被 docker 限制的参数</p>
+<p>Docker通过一个 ValidateSysctl函数来限制 sysctl参数可以传入的项。</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// docker/opts/opts.go</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">ValidateSysctl</span><span class="hljs-params">(val <span class="hljs-keyword">string</span>)</span> <span class="hljs-params">(<span class="hljs-keyword">string</span>, error)</span></span> &#123;    </span><br><span class="line">  validSysctlMap := <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]<span class="hljs-keyword">bool</span>&#123;        </span><br><span class="line">    <span class="hljs-string">"kernel.msgmax"</span>:          <span class="hljs-literal">true</span>,        </span><br><span class="line">    <span class="hljs-string">"kernel.msgmnb"</span>:          <span class="hljs-literal">true</span>,        </span><br><span class="line">    <span class="hljs-string">"kernel.msgmni"</span>:          <span class="hljs-literal">true</span>,       </span><br><span class="line">    <span class="hljs-string">"kernel.sem"</span>:             <span class="hljs-literal">true</span>,       </span><br><span class="line">    <span class="hljs-string">"kernel.shmall"</span>:          <span class="hljs-literal">true</span>,       </span><br><span class="line">    <span class="hljs-string">"kernel.shmmax"</span>:          <span class="hljs-literal">true</span>,        </span><br><span class="line">    <span class="hljs-string">"kernel.shmmni"</span>:          <span class="hljs-literal">true</span>,       </span><br><span class="line">    <span class="hljs-string">"kernel.shm_rmid_forced"</span>: <span class="hljs-literal">true</span>,   </span><br><span class="line"> &#125;     </span><br><span class="line">  validSysctlPrefixes := []<span class="hljs-keyword">string</span>&#123; </span><br><span class="line">       <span class="hljs-string">"net."</span>,</span><br><span class="line">       <span class="hljs-string">"fs.mqueue."</span>,   </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>容器中可以看见该配置项 </p>
+<p>可以使用  sysctl -a 看到 </p>
+</li>
+<li><p>配置项可以 namespace 化</p>
+<p>配置项无法 namespace化，指的是该配置项是全局的，无法为每个 namespace生成独立的配置。</p>
+<p>一般来说，宿主机和容器是一对多的关系，一个无法 namespace化的配置项，调整之后会影响所有其他容器以及宿主机本身，这是我们无法接受的。</p>
+</li>
+</ol>
+<p>以上内容参考<a href="https://segmentfault.com/a/1190000009225126" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009225126</a></p>
+<ol>
+<li>在设置 socket 的一些网络参数时 。对内核参数进行修改</li>
+</ol>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">net.core.wmem_max=12582912</span><br><span class="line">net.core.rmem_max=12582912</span><br><span class="line">net.ipv4.tcp_rmem= 10240 87380 12582912</span><br><span class="line">net.ipv4.tcp_wmem= 10240 87380 12582912</span><br><span class="line">net.ipv4.tcp_window_scaling = 1</span><br><span class="line">net.ipv4.tcp_timestamps = 1</span><br><span class="line">net.ipv4.tcp_sack = 1</span><br><span class="line">net.ipv4.tcp_no_metrics_save = 1</span><br><span class="line">net.core.netdev_max_backlog = 5000</span><br></pre></td></tr></table></figure>
+<p>直接修改 docker 的 sysctl 是不能成功的。 在 docker-compose 中可以通过使用 <a href="https://docs.docker.com/network/host/" target="_blank" rel="noopener">network_mode: “host”</a> ，修改宿主机的参数来实现。 缺点时集群模式无法使用，并且容器和宿主机共享网络空间，无法做到隔离。 </p>
+<ol start="2">
+<li><p><a href="https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities" target="_blank" rel="noopener">使用 –privileged</a> </p>
+<p>默认情况下  docker 容器是无特权的。容器不允许访问任何的设备。授予 –privileged  后，Docker 启动对宿主机的所有设备的访问。以允许容器对主机的访问几乎与在主机上容器外部运行的进程相同。</p>
+</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/dev/rocketmq/" class="image is-7by1">
             <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
         </a>
     </div>
@@ -178,7 +258,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/rocketmq/">RocketMQ小记</a>
+                <a class="has-link-black-ter" href="/dev/rocketmq/">RocketMQ小记</a>
             
         </h1>
         <div class="content">
@@ -835,78 +915,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/dev/docker-compose-external-links/" class="image is-7by1">
-            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="docker-compose 中的 external-links">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-26T09:08:45.000Z">2018-12-26</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 282 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/docker-compose-external-links/">docker-compose 中的 external-links</a>
-            
-        </h1>
-        <div class="content">
-            <p>在使用服务时使用同一台服务器的 mysql 的 docker 服务。想到 external-links 这个配置。</p>
-<p>按照文档的配置添加了如下配置</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">external_links:</span><br><span class="line"> - mysql_mysql_1:mysql</span><br></pre></td></tr></table></figure>
-<p>但是配置无论如何都不成功。</p>
-<p><a href="https://docs.docker.com/compose/compose-file/#external_links" target="_blank" rel="noopener">https://docs.docker.com/compose/compose-file/#external_links</a></p>
-<p>官方文档相关的描述，</p>
-<blockquote>
-<p>If you’re using the <a href="https://docs.docker.com/compose/compose-file/compose-versioning/#version-2" target="_blank" rel="noopener">version 2 or above file format</a>, the externally-created containers must be connected to at least one of the same networks as the service that is linking to them.</p>
-</blockquote>
-<p>也就是说想要使用 external_links 是需要两个服务在<strong>同一个网络段</strong>，这里只提了一句，对第一次写配置文件的开发者非常的不友好。</p>
-<ol>
-<li><p>创建网络</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create -d bridge my_default</span><br><span class="line">cb1e8d02683ad3dc0bff2881dccb2d3b05cab855b1d463d2cb45685a97dd196b</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>给mysql 服务添加网络</p>
-<figure class="highlight yaml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attr">version:</span> <span class="hljs-string">'2'</span></span><br><span class="line"><span class="hljs-attr">services:</span></span><br><span class="line"><span class="hljs-attr">  mysql:</span></span><br><span class="line"><span class="hljs-attr">    image:</span> <span class="hljs-attr">mysql:5.7</span></span><br><span class="line"><span class="hljs-attr">    networks:</span></span><br><span class="line"><span class="hljs-bullet">      -</span> <span class="hljs-string">my_default</span></span><br><span class="line"><span class="hljs-attr">networks:</span></span><br><span class="line"><span class="hljs-attr">  my_default:</span></span><br><span class="line"><span class="hljs-attr">    external:</span> <span class="hljs-literal">true</span></span><br></pre></td></tr></table></figure>
-<p>主要是最后一段</p>
-</li>
-<li><p>给服务添加网络</p>
-<figure class="highlight yaml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attr">services:</span></span><br><span class="line"><span class="hljs-attr">  project:</span></span><br><span class="line"><span class="hljs-attr">    networks:</span></span><br><span class="line"><span class="hljs-bullet">      -</span> <span class="hljs-string">my_default</span></span><br><span class="line"><span class="hljs-attr">    external_links:</span></span><br><span class="line"><span class="hljs-attr">      - mysql_mysql_1:</span><span class="hljs-string">mysql</span></span><br><span class="line"><span class="hljs-attr">      - redis_redis_1:</span><span class="hljs-string">redis</span></span><br><span class="line"><span class="hljs-attr">networks:</span></span><br><span class="line"><span class="hljs-attr">  my_default:</span></span><br><span class="line"><span class="hljs-attr">    external:</span> <span class="hljs-literal">true</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>以上的配置中删除了和网络配置不相关的配置。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -925,7 +933,7 @@
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/./dev/page/7/">7</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/./dev/page/8/">8</a></li>
             
         </ul>
     </nav>
@@ -971,7 +979,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        79
+                        80
                     </p>
                 </div>
             </div>
@@ -1025,7 +1033,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">70</span>
+                <span class="level-item tag">71</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -1055,7 +1063,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 15px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 11.67px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 13.33px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.67px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/saltstack/" style="font-size: 20px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 18.33px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.67px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 12.86px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -1072,7 +1080,26 @@
         
         <article class="media">
             
-            <a href="/rocketmq/" class="media-left">
+            <a href="/dev/docker-sysctl/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-12T02:54:47.000Z">2019-12-12</time></div>
+                    <a href="/dev/docker-sysctl/" class="has-link-black-ter is-size-6">docker_sysctl</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/rocketmq/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
                 </p>
@@ -1081,7 +1108,7 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
-                    <a href="/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
+                    <a href="/dev/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/./dev/">dev</a>
                     </p>
@@ -1146,25 +1173,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/note/北京小汽车摇号分析/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190620130324.png" alt="北京小汽车摇号分析">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-17T08:00:00.000Z">2019-06-17</time></div>
-                    <a href="/note/北京小汽车摇号分析/" class="has-link-black-ter is-size-6">北京小汽车摇号分析</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./note/">note</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1183,7 +1191,7 @@
                     <span class="level-item">十二月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1669,7 +1677,7 @@
                             <span class="level-item">docker</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">8</span>
+                            <span class="level-item tag">9</span>
                         </span>
                     </a>
                 </li>
@@ -2183,7 +2191,26 @@
         
         <article class="media">
             
-            <a href="/rocketmq/" class="media-left">
+            <a href="/dev/docker-sysctl/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-12T02:54:47.000Z">2019-12-12</time></div>
+                    <a href="/dev/docker-sysctl/" class="has-link-black-ter is-size-6">docker_sysctl</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/rocketmq/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
                 </p>
@@ -2192,7 +2219,7 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
-                    <a href="/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
+                    <a href="/dev/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/./dev/">dev</a>
                     </p>
@@ -2257,25 +2284,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/note/北京小汽车摇号分析/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190620130324.png" alt="北京小汽车摇号分析">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-17T08:00:00.000Z">2019-06-17</time></div>
-                    <a href="/note/北京小汽车摇号分析/" class="has-link-black-ter is-size-6">北京小汽车摇号分析</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./note/">note</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2294,7 +2302,7 @@
                     <span class="level-item">十二月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -2780,7 +2788,7 @@
                             <span class="level-item">docker</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">8</span>
+                            <span class="level-item tag">9</span>
                         </span>
                     </a>
                 </li>
@@ -3286,7 +3294,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/avatar.png" alt="北嗅的博客" height="28">
+                    <img src="/images/avatar.png" alt="北嗅-匆匆那年" height="28">
                 
                 </a>
                 <p class="is-size-7">
@@ -3301,9 +3309,9 @@
                 
                 
                 <p class="control">
-                    <a class="button is-white " target="_blank" title="京ICP备15045711号" href="http://www.beian.miit.gov.cn">
+                    <a class="button is-white " target="_blank" title="ICP备15045711号-1" href="http://beian.miit.gov.cn">
                         
-                        京ICP备15045711号
+                        ICP备15045711号-1
                         
                     </a>
                 </p>
