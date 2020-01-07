@@ -150,6 +150,94 @@
 
     <div class="card">
     
+    <div class="card-image">
+        <a href="/dev/Docker私有源配置/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker私有源配置">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-11-02T09:22:08.000Z">2018-11-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 836 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/Docker私有源配置/">Docker私有源配置</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a><a name="9ggegs"></a>基本命令</h2><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d -p 5000:5000 --restart=always  --name registry \</span><br><span class="line">		-v /home/docker/registry:/var/lib/registry registry:2 # 加入restart=always 跟随docker启动时自启动</span><br><span class="line"><span class="hljs-meta">#</span> 本地启动后镜像服务器的地址为 localhost:5000</span><br></pre></td></tr></table></figure>
+<p>运行后会自动到docker hub 上拉取</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry            2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br></pre></td></tr></table></figure>
+<h2 id="Docker-镜像命名规则"><a href="#Docker-镜像命名规则" class="headerlink" title="Docker 镜像命名规则"></a><a name="mk2kbn"></a>Docker 镜像命名规则</h2><p>完整的image名称：<code>registry.domain.com/name/base:latest</code></p>
+<ol>
+<li><code>registry.domain.com</code> image 所在服务器地址</li>
+<li><code>name</code> 命名空间</li>
+<li><code>base</code> 具体名字</li>
+<li><code>latest</code> 版本号</li>
+</ol>
+<h2 id="验证本地私有镜像"><a href="#验证本地私有镜像" class="headerlink" title="验证本地私有镜像"></a><a name="itqsig"></a>验证本地私有镜像</h2><ol>
+<li>本地存在一个ubuntu:16.04 的镜像</li>
+</ol>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry            2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu              16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<ol>
+<li>添加一个新的tag<code>localhost:5000/ubuntu:16.04</code></li>
+</ol>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker tag ubuntu:16.04 localhost:5000/ubuntu:16.04</span><br><span class="line">root@pprt-s1:/home/docker# docker  images</span><br><span class="line">REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry                2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu                  16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br><span class="line">localhost:5000/ubuntu   16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<ol>
+<li>将镜像<code>localhost:5000/ubuntu:16.04</code> push 到私有源</li>
+</ol>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker push  localhost:5000/ubuntu:16.04</span><br><span class="line">The push refers to repository [localhost:5000/ubuntu]</span><br><span class="line">75b79e19929c: Pushed</span><br><span class="line">4775b2f378bb: Pushed</span><br><span class="line">883eafdbe580: Pushed</span><br><span class="line">19d043c86cbc: Pushed</span><br><span class="line">8823818c4748: Pushed</span><br><span class="line">16.04: digest: sha256:9b47044b1e79b965a8e1653e7f9c04b5f63e00b9161bedd5baef69bb8b4c4834 size: 1357</span><br></pre></td></tr></table></figure>
+<ol>
+<li>删除本地 localhost:5000/ubuntu:16.04</li>
+</ol>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker image rm localhost:5000/ubuntu:16.04</span><br><span class="line">Untagged: localhost:5000/ubuntu:16.04</span><br><span class="line">Untagged: localhost:5000/ubuntu@sha256:9b47044b1e79b965a8e1653e7f9c04b5f63e00b9161bedd5baef69bb8b4c4834</span><br><span class="line">root@pprt-s1:/home/docker# docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry            2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu              16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<ol>
+<li>从私有源拉取镜像，成功得到镜像</li>
+</ol>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@pprt-s1:/home/docker# docker  pull localhost:5000/ubuntu:16.04</span><br><span class="line">16.04: Pulling from ubuntu</span><br><span class="line">Digest: sha256:9b47044b1e79b965a8e1653e7f9c04b5f63e00b9161bedd5baef69bb8b4c4834</span><br><span class="line">Status: Downloaded newer image for localhost:5000/ubuntu:16.04</span><br><span class="line">root@pprt-s1:/home/docker# docker images</span><br><span class="line">REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">registry                2                   2e2f252f3c88        4 weeks ago         33.3MB</span><br><span class="line">ubuntu                  16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br><span class="line">localhost:5000/ubuntu   16.04               b9e15a5d1e1a        5 weeks ago         115MB</span><br></pre></td></tr></table></figure>
+<h1 id="身份验证"><a href="#身份验证" class="headerlink" title="身份验证"></a><a name="afh6gl"></a>身份验证</h1><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span> mkdir auth</span><br><span class="line"><span class="hljs-meta">$</span> docker run \</span><br><span class="line">  --entrypoint htpasswd \</span><br><span class="line">  registry:2 -Bbn testuser testpassword &gt; auth/htpasswd</span><br></pre></td></tr></table></figure>
+<h2 id="为外网提供服务"><a href="#为外网提供服务" class="headerlink" title="为外网提供服务"></a><a name="r2g7hw"></a>为外网提供服务</h2><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d -p 5000:5000 \</span><br><span class="line">	--restart=always  \</span><br><span class="line">	--name registry \</span><br><span class="line">	-e REGISTRY_HTTP_TLS_CERTIFICATE=/home/docker/cert_file/os.pprt.net/pprt.net.cer \</span><br><span class="line">    -e REGISTRY_HTTP_TLS_KEY=/home/docker/cert_file/os.pprt.net/pprt.net.key \</span><br><span class="line">	-v /home/docker/registry:/var/lib/registry \</span><br><span class="line">	-v `pwd`/auth:/auth \</span><br><span class="line">	-e "REGISTRY_AUTH=htpasswd" \</span><br><span class="line">    -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \</span><br><span class="line">    registry:2</span><br></pre></td></tr></table></figure>
+<h3 id="nginx代理"><a href="#nginx代理" class="headerlink" title="nginx代理"></a><a name="r61bbv"></a>nginx代理</h3><p><a href="https://github.com/docker/docker-registry/blob/master/contrib/nginx/nginx.conf" target="_blank" rel="noopener">https://github.com/docker/docker-registry/blob/master/contrib/nginx/nginx.conf</a></p>
+<p>nginx.conf</p>
+<figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># For nginx &lt; 1.3.9</span></span><br><span class="line"><span class="hljs-comment"># FYI: Chunking requires nginx-extras package on Debian Wheezy and some Ubuntu versions</span></span><br><span class="line"><span class="hljs-comment"># See chunking http://wiki.nginx.org/HttpChunkinModule</span></span><br><span class="line"><span class="hljs-comment"># Replace with appropriate values where necessary</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-attribute">upstream</span> docker-registry &#123;</span><br><span class="line">  <span class="hljs-attribute">server</span> localhost:<span class="hljs-number">5000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment"># uncomment if you want a 301 redirect for users attempting to connect</span></span><br><span class="line"><span class="hljs-comment"># on port 80</span></span><br><span class="line"><span class="hljs-comment"># <span class="hljs-doctag">NOTE:</span> docker client will still fail. This is just for convenience</span></span><br><span class="line"><span class="hljs-comment"># server &#123;</span></span><br><span class="line"><span class="hljs-comment">#   listen *:80;</span></span><br><span class="line"><span class="hljs-comment">#   server_name my.docker.registry.com;</span></span><br><span class="line"><span class="hljs-comment">#   return 301 https://$server_name$request_uri;</span></span><br><span class="line"><span class="hljs-comment"># &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-section">server</span> &#123;</span><br><span class="line">  <span class="hljs-attribute">listen</span> <span class="hljs-number">443</span>;</span><br><span class="line">  <span class="hljs-attribute">server_name</span> docker.os.pprt.net;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attribute">ssl</span> <span class="hljs-literal">on</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_certificate</span> /home/docker/cert_file/fullchain.cer;</span><br><span class="line">  <span class="hljs-attribute">ssl_certificate_key</span> /home/docker/cert_file/pprt.net.key;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attribute">client_max_body_size</span> <span class="hljs-number">0</span>; <span class="hljs-comment"># disable any limits to avoid HTTP 413 for large image uploads</span></span><br><span class="line"></span><br><span class="line">  <span class="hljs-comment"># required to avoid HTTP 411: see Issue #1486 (https://github.com/dotcloud/docker/issues/1486)</span></span><br><span class="line">  <span class="hljs-attribute">chunkin</span> <span class="hljs-literal">on</span>;</span><br><span class="line">  <span class="hljs-attribute">error_page</span> <span class="hljs-number">411</span> = <span class="hljs-variable">@my_411_error</span>;</span><br><span class="line">  <span class="hljs-attribute">location</span> <span class="hljs-variable">@my_411_error</span> &#123;</span><br><span class="line">    chunkin_resume;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attribute">location</span> / &#123;</span><br><span class="line">    <span class="hljs-attribute">auth_basic</span>            <span class="hljs-string">"Restricted"</span>;</span><br><span class="line">    <span class="hljs-attribute">auth_basic_user_file</span>  docker-registry.htpasswd;</span><br><span class="line">    <span class="hljs-attribute">include</span>               docker-registry.conf;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attribute">location</span> /_ping &#123;</span><br><span class="line">    <span class="hljs-attribute">auth_basic</span> <span class="hljs-literal">off</span>;</span><br><span class="line">    <span class="hljs-attribute">include</span>               docker-registry.conf;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attribute">location</span> /v1/_ping &#123;</span><br><span class="line">    <span class="hljs-attribute">auth_basic</span> <span class="hljs-literal">off</span>;</span><br><span class="line">    <span class="hljs-attribute">include</span>               docker-registry.conf;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>docker-registry.conf</p>
+<figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attribute">proxy_pass</span>                       http://docker-registry;</span><br><span class="line"><span class="hljs-attribute">proxy_set_header</span>  Host           <span class="hljs-variable">$http_host</span>;   <span class="hljs-comment"># required for docker client's sake</span></span><br><span class="line"><span class="hljs-attribute">proxy_set_header</span>  X-Real-IP      <span class="hljs-variable">$remote_addr</span>; <span class="hljs-comment"># pass on real client's IP</span></span><br><span class="line"><span class="hljs-attribute">proxy_set_header</span>  Authorization  <span class="hljs-string">""</span>; <span class="hljs-comment"># see https://github.com/dotcloud/docker-registry/issues/170</span></span><br><span class="line"><span class="hljs-attribute">proxy_read_timeout</span>               <span class="hljs-number">900</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a><a name="kfmfny"></a>查询</h3><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span> curl http://domain.com/v2/_catalog</span><br><span class="line">&#123;"repositories":["ubuntu"]&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="停止并删除容器"><a href="#停止并删除容器" class="headerlink" title="停止并删除容器"></a><a name="506hdq"></a>停止并删除容器</h3><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container stop registry &amp;&amp; docker container rm -v registry</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
@@ -753,57 +841,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2016-07-05T03:43:47.000Z">2016-07-05</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 355 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/mac-net-core-尝试/">mac .net core尝试</a>
-            
-        </h1>
-        <div class="content">
-            <p>以下是对.net core 发布的尝试，内容完全来自微软官方的文档粘贴，主要是用来记录尝试的过程。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/dev/mac-net-core-尝试/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -872,7 +909,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        80
+                        81
                     </p>
                 </div>
             </div>
@@ -926,7 +963,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">71</span>
+                <span class="level-item tag">72</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -956,7 +993,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 12.86px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -970,6 +1007,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/jenkins-deploy-question-md/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="jenkins 配置说明">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-03T05:42:31.000Z">2020-01-03</time></div>
+                    <a href="/jenkins-deploy-question-md/" class="has-link-black-ter is-size-6">jenkins 配置说明</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1047,25 +1103,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/note/5G会带来什么/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190619174740.jpg" alt="5G会带来什么">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-19T08:00:00.000Z">2019-06-19</time></div>
-                    <a href="/note/5G会带来什么/" class="has-link-black-ter is-size-6">5G会带来什么</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./note/">note</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1077,6 +1114,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/12/">
@@ -1735,7 +1783,7 @@
                             <span class="level-item">jenkins</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -2084,6 +2132,25 @@
         
         <article class="media">
             
+            <a href="/jenkins-deploy-question-md/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="jenkins 配置说明">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-03T05:42:31.000Z">2020-01-03</time></div>
+                    <a href="/jenkins-deploy-question-md/" class="has-link-black-ter is-size-6">jenkins 配置说明</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/docker-sysctl/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
@@ -2158,25 +2225,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/note/5G会带来什么/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190619174740.jpg" alt="5G会带来什么">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-19T08:00:00.000Z">2019-06-19</time></div>
-                    <a href="/note/5G会带来什么/" class="has-link-black-ter is-size-6">5G会带来什么</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./note/">note</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2188,6 +2236,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/12/">
@@ -2846,7 +2905,7 @@
                             <span class="level-item">jenkins</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
