@@ -151,6 +151,92 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/tcp连接数/" class="image is-7by1">
+            <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 487 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/tcp连接数/">tcp连接数</a>
+            
+        </h1>
+        <div class="content">
+            <p>Tcp 连接中，Server 监听固定端口，Client 发起主动连接。 经过三次握手后建立 Tcp 连接。 </p>
+<h1 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h1><p>client 每次请求，如果不固定端口，系统会选用一个空闲端口。该端口是独占，不能和其他 Tcp 连接共享。本地端口最大数为 65536 ，0 有特殊含义（预留，系统指定动态生成的端口），其他的全作为 client 情况下 ，最大连接数为65535 。 除去系统服务使用的端口，能够使用的会比这个少一些，1024 一下的端口通常为保留端口。</p>
+<p>#Server</p>
+<p>server 固定监听某个本地端口，等待 Client 连接。 </p>
+<p>实际 tcp 连接数</p>
+<p>每个 socket 内存占用</p>
+<p><a href="https://zhuanlan.zhihu.com/p/25241630" target="_blank" rel="noopener">Linux 中每个 TCP 连接最少占用多少内存？</a>   结论是 3.155KB </p>
+<p> socket 内存占用参数</p>
+<p><a href="https://www.cnblogs.com/weifeng1463/p/6825532.html" target="_blank" rel="noopener">linux 内核参数优化</a></p>
+<p><a href="https://www.cnblogs.com/zengkefu/p/5749009.html" target="_blank" rel="noopener">Linux内核 TCP/IP、Socket参数调优</a></p>
+<p>mem_max    </p>
+<p>wmem_max   最大 socket 写 buffer</p>
+<p>rmem_max  最大 socket 读 buffer</p>
+<p>tcp_rmen  tcp 读 buffer</p>
+<p>tcp_wmen  tcp 写 buffer</p>
+<p>tcp_men    三个值，没有内存压力、进入内存压力阶段、拒绝分配 socket</p>
+<p><img src="https://raw.githubusercontent.com/xxiu/img/asset/img/20200110131041.png" alt=""></p>
+<h2 id="每个-tcp-占用一个文件描述符"><a href="#每个-tcp-占用一个文件描述符" class="headerlink" title="每个 tcp 占用一个文件描述符"></a>每个 tcp 占用一个文件描述符</h2><ul>
+<li><p>进程限制</p>
+<ul>
+<li><p>一个进程最多只能打开 <code>ulimit -n</code> 个文件，默认为 1024 ，如果使用默认最多只有 1024 个并发 </p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#</span>  /etc/rc.local   </span><br><span class="line">ulimit -SHN 1000000   #百万文件描述符</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#</span> /etc/security/limits.conf</span><br><span class="line">* soft nofile 1000000</span><br><span class="line">* hard nofile 1000000</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>全局限制</p>
+<p>/proc/sys/fs/file-nr ，分别是  已经分配的文件句柄、分配没使用的，最大文件句柄</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat /proc/sys/fs/file-nr</span><br><span class="line">1440    0       784243</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>​    也就是这里的最大文件句柄是 784243</p>
+<p>​        修改 /etc/sysctl.conf </p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fs.file-max = 1000000       # 系统所有进程能够打开的数量限制    </span><br><span class="line">net.ipv4.ip_conntrack_max = 1000000</span><br><span class="line">net.ipv4.netfilter.ip_conntrack_max = 1000000</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/dev/jenkins-deploy-question-md/" class="image is-7by1">
             <img class="thumbnail" src="/static/default.jpg" alt="jenkins 配置说明">
         </a>
@@ -211,6 +297,101 @@
 <p>缓存的问题在于，可能会出现缓存中包冲突，如果对此有疑问，可以直接检查于项目同名的项目目录，这里编译后的代码和上线运行的代码一致 。 </p>
 <h2 id="ansiable-上线问题"><a href="#ansiable-上线问题" class="headerlink" title="ansiable 上线问题"></a>ansiable 上线问题</h2><p>我们上线 ansiable 主要是用来远程执行 docker-compose 命令，具体可以参考项目 depoly-config 分支下的 <code>&lt;Project&gt;/file/bookplay.xml</code>  .</p>
 <p>如果 docker 内部出现冲突，执行docker-compose 时命令执行未成功，输出的是警告，而不是错误。导致无法捕获。产生的原因基本上和docker natwork 有关， docker-compose  down 无法关掉网络，导致执行失败。 这里需要手动到服务器去处理。网络问题是由于前期有容器做了网络共享，导致网络关闭失败。 产生这个问题的体现为: Jenkins 上线成功，但是线上代码还是旧版本。 </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/dev/生成分布式id-md/" class="image is-7by1">
+            <img class="thumbnail" src="/static/default.jpg" alt="生成分布式id">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-12-20T12:36:34.000Z">2019-12-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 810 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/生成分布式id-md/">生成分布式id</a>
+            
+        </h1>
+        <div class="content">
+            <p>分布式系统中经常需要生成全局唯一 id ，要求： </p>
+<ol>
+<li><p>全局唯一： 不能出现重复ID </p>
+</li>
+<li><p>高可用： 作为基础系统，被许多关键系统调用，一旦宕机，影响严重</p>
+</li>
+</ol>
+<p>在分布式系统中有很多的案例。 </p>
+<h2 id="UUID"><a href="#UUID" class="headerlink" title="UUID"></a>UUID</h2><p>UUID 由算法生成，通常为36字节字符串表示。比如:</p>
+<p><em>3A2504D0-4M89-11D3-9A0C-0305E82C3301</em></p>
+<p>保证唯一性，根据不同的规范，定义不同位的值。可能包括MAC地址、时间戳、命名空间、随机数、时序等。</p>
+<p>定义好规则后，可以直接由机器本地生成，相比其他来说不需要远程调用，使用方便。缺点是无法保证递增。 </p>
+<h2 id="mysql-自增长"><a href="#mysql-自增长" class="headerlink" title="mysql 自增长"></a>mysql 自增长</h2><p>这个最早是 Flicker 采用的，基本所有聊到分布式 ID，都会说到这里。  </p>
+<p>思路是采取了mysql 的自增长 ID 的机制 ，(auto_increment + replace into)。</p>
+<p>replace into 首先会尝试插入，如果存在会删除旧数据，插入新数据。 </p>
+<p>获取 ID ： </p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REPLACE  INTO Tickets64(stub) values(&apos;a&apos;); select last_insert_id();</span><br></pre></td></tr></table></figure>
+<p>避免单点故障，多个mysql 实例通过区分 auto_increment 的起始值和步长来生产 ID 。</p>
+<p>优点：充分利用 mysql 的自增 id ，高可靠，有序</p>
+<p>缺点：依赖数据库，性能可靠性取决于数据库。不好扩展。 </p>
+<h2 id="snowflake"><a href="#snowflake" class="headerlink" title="snowflake"></a>snowflake</h2><p>snowflake - 64bit Twitter的方案</p>
+<p>41 位时间序列，精确到毫秒（可以使用69年） </p>
+<p>10 位机器标示，（1024个节点） </p>
+<p>12 位计数号 （每秒4096个ID） </p>
+<p>优点： 整体递增，时间有序，高性能，可以根据业务灵活调整bit位划分</p>
+<p>缺点： 依赖时钟，时间回拨可能导致重复 ID ，在分布式环境中非时间不一致导致非全局递增。</p>
+<h2 id="序列生成方式"><a href="#序列生成方式" class="headerlink" title="序列生成方式"></a>序列生成方式</h2><ul>
+<li>使用数据库同步ID </li>
+<li>每次取一定数量的可用 ID 在内存中，使用完后重新获取</li>
+<li><p>每个业务可以定义自己的序列名，隔离业务 。 </p>
+<p>优点： 大大降低数据库压力，生产 ID 数量大大提高，不同业务不影响</p>
+<p>缺点： 依赖数据库</p>
+<p>阿里的 tddl，美团的Leaf 都是这种思路 。 </p>
+<p>对于有些对 id 连续有要求的，可以根据每秒生成数做限制。比如4096个只使用其中的一部分，每次取前对id进行随机的跳跃。可以得到不连续的id。 </p>
+</li>
+</ul>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>uuid 和 snowflake 的方案思路是一样的，只是一个是依赖机器，一个是依赖时间。 mysql 的方法是在没有解决方法的时候简单又行之有效的方法。 </p>
+<p>序列生成已经是很标准成熟的解决方案</p>
+<ol>
+<li><p>依赖数据库，又不完全依赖数据库，数据库只是用来做持久化，用来做数据段的分配。 </p>
+</li>
+<li><p>取出一段 id 后，不管业务怎么用，保证了 id 生成的效率</p>
+</li>
+<li><p>保证 id 是整体递增的</p>
+</li>
+</ol>
 
         </div>
         
@@ -795,129 +976,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-01T01:45:06.000Z">2019-03-01</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 284 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/firefox-install-copper/">firefox 安装 copper 插件</a>
-            
-        </h1>
-        <div class="content">
-            <p>Firefox 升级后开始不支持三方协议的插件，调试 coap 协议使用的 Copper 插件在Firefox上不起作用。</p>
-<p>需要做调试的时候，发现在关闭了 Firefox 更新的情况下 Copper 插件依然不起作用，于是想着重新安装，在插件商店里面居然已经找不到 Copper 这个插件了。官方已经将这个插件从 Firefox 的商店下架了。</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li>Copper Github地址  <a href="https://github.com/mkovatsc/Copper" target="_blank" rel="noopener">https://github.com/mkovatsc/Copper</a></li>
-<li>Firefox RES 版 <a href="https://ftp.mozilla.org/pub/firefox/releases/52.0.2esr/" target="_blank" rel="noopener">https://ftp.mozilla.org/pub/firefox/releases/52.0.2esr/</a></li>
-</ol>
-<p>使用RES版是因为正常的版本从源码加载插件插件依然无法使用</p>
-<h3 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h3><p>安装方式参考github的安装说明</p>
-<ol>
-<li>从github拉取 Copper 源码 clone git://github.com/mkovatsc/Copper.git</li>
-<li><p>创建一个名为 <a href="mailto:copper@vs.inf.ethz.ch" target="_blank" rel="noopener">copper@vs.inf.ethz.ch</a> 的文件 到firefox的 extensions 目录，路径如下</p>
-<ul>
-<li><p>Windows:  C:\Users\<username>\AppData\Roaming\Mozilla\Firefox\Profiles\xxxxxxxx.default\extensions\</username></p>
-</li>
-<li><p>Linux:</p>
-<p> ~/.mozilla/firefox/xxxxxxxx.default/extensions/</p>
-</li>
-<li><p>MacOS:</p>
-<p>~/Library/Application Support/Firefox/Profiles/xxxxxxxx.default/extensions/</p>
-</li>
-</ul>
-</li>
-<li><p>将第一步中clone的源码路径添加到第二步创建的文件中</p>
-</li>
-<li>在 firefox 中打开 about:config 设置 xpinstall.signatures.required 为 false<br>5.. 重启 firefox 。</li>
-</ol>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-01-29T09:22:33.000Z">2019-01-29</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    1 分钟 读完 (大约 198 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/nginx-server-name-proxy-pass/">nginx在proxy_pass里使用变量</a>
-            
-        </h1>
-        <div class="content">
-            <p>nginx server_name 配置文档： <a href="http://nginx.org/en/docs/http/server_names.html" target="_blank" rel="noopener">http://nginx.org/en/docs/http/server_names.html</a></p>
-<p>在做 nginx 正则表达式 proxy_pass,nginx 反向代理不过去。 比如</p>
-<figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-section">server</span> &#123;</span><br><span class="line">     <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;</span><br><span class="line">     <span class="hljs-attribute">server_name</span> ~^(?&lt;user&gt;.+)\.domain\.com$;</span><br><span class="line">     <span class="hljs-attribute">location</span> / &#123;</span><br><span class="line">         <span class="hljs-attribute">proxy_pass</span> &lt;http://<span class="hljs-variable">$user</span>.domain1.com&gt;;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>会报出如下错误</p>
-<p>no resolver defined to resolve xxx.xxx</p>
-<p>web端返回http 502 错误。</p>
-<p>从 google 搜索得到的结果是 ：在Ngnix中如果用变量作为反向代理的地址时，容易出现“no resolver defined to resolve xxx.xxx”的问题</p>
-<p>在 Nginx 0.6.18 后启用了 resolver 指令,在使用变量来构造某个server地址的时候一定要用resolver指令来指定DNS服务器的地址</p>
-<p>所以在nginx的配置文件中的http{}部分添加一行resolver 8.8.8.8;</p>
-<p>resolver 8.8.8.8;</p>
-<figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-section">server</span> &#123;</span><br><span class="line">      <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;</span><br><span class="line">      <span class="hljs-attribute">server_name</span>  ~^(?&lt;user&gt;.+)\.pay\.iov-smart\.net$;</span><br><span class="line"></span><br><span class="line">      <span class="hljs-attribute">location</span> / &#123;</span><br><span class="line">         <span class="hljs-comment"># set $subdomain "";</span></span><br><span class="line">         <span class="hljs-comment"># if ($host ~* "^(.+)\.pay\.iov-smart\.net$")&#123;</span></span><br><span class="line">         <span class="hljs-comment">#     set $subdomain $1;</span></span><br><span class="line">         <span class="hljs-comment"># &#125;</span></span><br><span class="line"></span><br><span class="line">         <span class="hljs-attribute">resolver</span> <span class="hljs-number">8.8.8.8</span>;</span><br><span class="line">         <span class="hljs-attribute">proxy_pass</span> http://<span class="hljs-variable">$user</span>.pay.iov-smart.net:6001;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -982,7 +1040,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        81
+                        83
                     </p>
                 </div>
             </div>
@@ -1002,7 +1060,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        58
+                        61
                     </p>
                 </div>
             </div>
@@ -1036,7 +1094,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">72</span>
+                <span class="level-item tag">74</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -1066,7 +1124,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/snowflake/" style="font-size: 10px;">snowflake</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -1083,6 +1141,25 @@
         
         <article class="media">
             
+            <a href="/tcp连接数/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/tcp连接数/" class="has-link-black-ter is-size-6">tcp连接数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/jenkins-deploy-question-md/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="jenkins 配置说明">
@@ -1093,6 +1170,25 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-03T05:42:31.000Z">2020-01-03</time></div>
                     <a href="/dev/jenkins-deploy-question-md/" class="has-link-black-ter is-size-6">jenkins 配置说明</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/生成分布式id-md/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="生成分布式id">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T12:36:34.000Z">2019-12-20</time></div>
+                    <a href="/dev/生成分布式id-md/" class="has-link-black-ter is-size-6">生成分布式id</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/./dev/">dev</a>
                     </p>
@@ -1138,44 +1234,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Dockerfile编写实践/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
-                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
-                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1194,7 +1252,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1205,7 +1263,7 @@
                     <span class="level-item">十二月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -2060,6 +2118,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/snowflake/">
+                        <span class="level-start">
+                            <span class="level-item">snowflake</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/socket/">
+                        <span class="level-start">
+                            <span class="level-item">socket</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/solr/">
                         <span class="level-start">
                             <span class="level-item">solr</span>
@@ -2154,6 +2234,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/分布式/">
+                        <span class="level-start">
+                            <span class="level-item">分布式</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
@@ -2205,6 +2296,25 @@
         
         <article class="media">
             
+            <a href="/tcp连接数/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/tcp连接数/" class="has-link-black-ter is-size-6">tcp连接数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/jenkins-deploy-question-md/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="jenkins 配置说明">
@@ -2215,6 +2325,25 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-03T05:42:31.000Z">2020-01-03</time></div>
                     <a href="/dev/jenkins-deploy-question-md/" class="has-link-black-ter is-size-6">jenkins 配置说明</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/生成分布式id-md/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="生成分布式id">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T12:36:34.000Z">2019-12-20</time></div>
+                    <a href="/dev/生成分布式id-md/" class="has-link-black-ter is-size-6">生成分布式id</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/./dev/">dev</a>
                     </p>
@@ -2260,44 +2389,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Dockerfile编写实践/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
-                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
-                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2316,7 +2407,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -2327,7 +2418,7 @@
                     <span class="level-item">十二月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -3182,6 +3273,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/snowflake/">
+                        <span class="level-start">
+                            <span class="level-item">snowflake</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/socket/">
+                        <span class="level-start">
+                            <span class="level-item">socket</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/solr/">
                         <span class="level-start">
                             <span class="level-item">solr</span>
@@ -3276,6 +3389,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/分布式/">
+                        <span class="level-start">
+                            <span class="level-item">分布式</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>

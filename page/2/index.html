@@ -143,6 +143,170 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-24T03:00:00.000Z">2019-04-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 分钟 读完 (大约 1087 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/Kong随记/">Kong 随记</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h1><p>默认情况下  kong 监控一下端口</p>
+<ul>
+<li><p><code>:8000</code> 监听来自客户端的传入HTTP流量，并将其转发到上游服务。</p>
+</li>
+<li><p><code>:8443</code>监听来自客户端的HTTPS流量。此端口具有与端口类似的行为<code>:8000</code>，但它仅需要HTTPS流量。可以通过配置文件禁用此端口。</p>
+<p><code>8000</code> 和 <code>8443</code> 作为提供服务的端口,在正常的线上服务是需要修改成 <code>80</code> 和 <code>443</code> 端口。使用 <code>docker</code>来启动会很方便做端口映射，而不需要对配置做修改</p>
+</li>
+<li><p><code>:8001</code> 管理端口，提供管理 <a href="https://docs.konghq.com/1.1.x/admin-api" target="_blank" rel="noopener">Admin API</a></p>
+</li>
+<li><p><code>:8444</code>  <a href="https://docs.konghq.com/1.1.x/admin-api" target="_blank" rel="noopener">Admin API</a>  的 <code>HTTPS</code> 端口</p>
+</li>
+</ul>
+<p>在最开始的看 Kong 相关的时候，一下看到 4 个服务端口会有些焦虑，实际上只是只是两种服务提供了 <code>HTTP</code> 和 <code>HTTPS</code> 的访问，8000和8443提供服务，8001和8443 用来管理。</p>
+<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><p>Kong 启动的时候，会根据配置文件和模板生成 nginx.conf 和 nginx_kong.conf  .这两个文件的生成模板可以在  <code>https：//github.com/kong/kong/tree/master/kong/templates</code> 中找到  ，在kong start 的时候 ，Kong  会将模板中的<code>nginx.lua</code>和<code>nginx_kong.lua</code> 使用模板引擎拷贝到 <code>/usr/local/kong</code> 。</p>
+<p>在这个地方我吃了些亏，在没有仔细看文档的情况下手动修改 nginx_kong.conf 中的内容，启动后不生效。 实际是重启又被还原了。</p>
+<p>当不能够通过配置文件来修改时，可以在  kong 中使用  <code>--nginx-conf</code> 来自定义模板 。</p>
+<h1 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h1><p>kong 的设计是一个 service 对应多个 routes   。  在service 和 routes 之间做了拦截，这个拦截的过程就是插件所做的工作 。</p>
+<h1 id="Routes"><a href="#Routes" class="headerlink" title="Routes"></a>Routes</h1><p>kong 中的 route  和有些理解上有些类似 nginx 中的 location 。在匹配上又有些不同 。</p>
+<p>paths 作为与路由匹配的路径，paths 支持正则表达式。path 中的路径是采用的是前缀匹配。 比如我们配置了 <code>/api</code> 和 <code>/api/</code> 的区别是 :</p>
+<ul>
+<li><code>/api</code> 可以匹配 <code>/apiabc</code>  和  <code>/apiabc</code></li>
+<li><code>/api/</code> 只能匹配到 <code>/api/abc</code></li>
+</ul>
+<p>为了防止二义性，最好以 <code>/</code>来结尾</p>
+<p>strip_path 从上游请求删除匹配前缀,默认为<code>true</code>。</p>
+<p>默认打开的情况下 ,删除匹配前缀,如果前缀为 <code>/api/</code></p>
+<p>访问<code>/api/abc</code>,service收到的请求:</p>
+<ul>
+<li>开启状态时，为  <code>&lt;host&gt;/abc</code></li>
+<li>关闭状态时,  为  <code>&lt;host&gt;/api/abc</code></li>
+</ul>
+<h2 id="Certificate"><a href="#Certificate" class="headerlink" title="Certificate"></a>Certificate</h2><p>kong 中的证书有有几个地方，Admin API 管理的证书是我们最关心的证书。</p>
+<p>使用  API 管理证书，使用的是 <code>Let&#39;s Encrypt</code>的证书，使用 <code>acme.sh</code> 生成，在测试环境上线后，服务的 API 请求无法到达，提示证书无法通过验证，具体表现是在 Android 上服务不可用，在 Mac  和 IOS 可用。</p>
+<ol>
+<li>怀疑证书的问题，使用openresty直接配置可访问，排除</li>
+<li>怀疑 kong 的问题，手动配置后也没有问题，排除</li>
+<li>怀疑  API 的问题，使用其他厂商的证书无问题，排除</li>
+</ol>
+<p>最后问题还是落到了怀疑某个配置上，使用<a href="https://myssl.com/" target="_blank" rel="noopener">证书服务</a>检查提示<strong>缺少证书链</strong></p>
+<p><img src="assets/image-20190415183121274.png" alt="image-20190415183121274"></p>
+<blockquote>
+<h3 id="浏览器的处理"><a href="#浏览器的处理" class="headerlink" title="浏览器的处理"></a>浏览器的处理</h3><p>现代的浏览器都有证书自动下载的功能，但很多浏览器在安装后是使用系统内置的证书库，如果你缺失的那张<code>CA</code>证书，在系统的内置证书库中不存在的话，用户第一次访问网站时会显示如下情况</p>
+</blockquote>
+<p>问题落在了证书链上, Kong 中的证书链深度 <a href="https://github.com/openresty/lua-nginx-module#lua_ssl_verify_depth" target="_blank" rel="noopener">lua_ssl_verify_depth</a> 默认为1 ，将参数修改为 2 。 这确实是个很坑的事情，生成证书后，加上 ca 证书，证书链深度为2 ,和默认不匹配。</p>
+<p>如果数据库使用的是 PG 的话在使用 Docker 启动可以使用 PG_SSL_VERIFY=2 的全局变量来配置证书链深度。</p>
+<h1 id="Dashboard"><a href="#Dashboard" class="headerlink" title="Dashboard"></a>Dashboard</h1><p>Kong 官方的 Dashboard 属于企业版，这里推荐使用  <a href="https://github.com/pantsel/konga" target="_blank" rel="noopener">Konga</a> 这个开源的 Kong API 管理工具。</p>
+<h1 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h1><p><a href="https://docs.konghq.com/0.11.x/configuration/" target="_blank" rel="noopener">https://docs.konghq.com/0.11.x/configuration/</a></p>
+<p><a href="https://www.pocketdigi.com/book/kong/" target="_blank" rel="noopener">https://www.pocketdigi.com/book/kong/</a></p>
+<p><a href="https://www.lijiaocn.com/%E9%97%AE%E9%A2%98/2018/09/29/kong-usage-problem-and-solution.html" target="_blank" rel="noopener">https://www.lijiaocn.com/%E9%97%AE%E9%A2%98/2018/09/29/kong-usage-problem-and-solution.html</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-05T02:10:10.000Z">2019-03-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 746 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/理解zabbix配置/">理解 zabbix 配置</a>
+            
+        </h1>
+        <div class="content">
+            <p>zabbix 配置看上去很复杂。 实际上是由于界面布局不合理，功能都是以展示为主，平铺直列。在直观状态下实际上是误导。</p>
+<p>作为一个运维监控的工具。把我们自己需要的功能对应到 zabbix 上，就会变的很好理解。</p>
+<p>基本需求，就是需要监控一群机器，并给出相应的可视化的表或者提示。 实际上可以按照层级关系列出，而不是按照 zabbix 界面的平铺。</p>
+<h2 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h2><p>用户作为管理者或者使用者，很好理解，但是<strong>报警媒介</strong>放在了用户管理界面是很突兀的。实际上这个应该放到配置里面。 也许是作者觉得应该和用户绑定，但是这是一个功能，而不是一个设置。对用户来说是个干扰。</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>配置是最重要的功能。研究完配置基本就能够理解 zabbix 的逻辑，但是对于 zabbix 的 UI 却是没有逻辑的。</p>
+<p>如果我们要监控一群机器。需要将机器都添加到系统里面，这就是 <strong>配置-主机</strong></p>
+<p>我们可以为主机创建 <strong>监控项</strong></p>
+<p>实际上到这里，我们需要的功能完了，添加主机，给主机添加监控项。 这就是我们所需要的功能。</p>
+<p>对于<strong>监控项</strong>我们需要做什么呢</p>
+<ol>
+<li>添加<strong>触发器</strong>比如我们监控CPU的使用率，当 CPU 使用率到 90% 时产生一个事件。</li>
+<li>添加<strong>图型</strong>让CPU的状态能够可视化</li>
+</ol>
+<p>如果监控项太多，需要分组。所以我们把监控项添加到<strong>应用集</strong> ，当我们在做配置的时候不可能每一台机器都去一项一项的配置。于是把主机的概念虚拟出来，这里叫做<strong>模板</strong> ，然后在创建主机时将模板绑定到主机就行了。</p>
+<p>所以这分成了实际的物理机器，和虚拟的模板。创建一个<strong>主机群组</strong> ，创建的主机可以添加到主机群主，创建的模板也可以添加到群组。实际是模板和机器的绑定。</p>
+<p>所以逻辑就变成了：</p>
+<p>创建主机群组</p>
+<ol>
+<li><p>将机器添加到群组</p>
+</li>
+<li><p>为群组添加模板</p>
+<p>+. 为模板创建应用集<br>   +. 为应用集添加监控项</p>
+<pre><code>+. 为监控项添加触发器
+   +. 为触发器添加报警
++. 为监控项添加图行
+</code></pre></li>
+</ol>
+<p>以上就是 zabbix 的配置逻辑。而所有其他的功能大多都是为这一套逻辑来服务，或是对这一套逻辑的功能扩展。</p>
+<p>涉及到具体的配置逻辑只需要参考 zabbix 的官方文档即可 。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-03-01T01:45:06.000Z">2019-03-01</time>
                 
                 <div class="level-item">
@@ -727,118 +891,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-11-29T08:24:39.000Z">2018-11-29</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 490 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/frp反向代理web应用/">frp反向代理web应用</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="frp-是什么"><a href="#frp-是什么" class="headerlink" title="frp 是什么"></a><a name="vg8nvx"></a>frp 是什么</h3><p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
-<p>github:  <a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">https://github.com/fatedier/frp</a></p>
-<p>类似的</p>
-<ol>
-<li>localtunnel  <a href="https://github.com/localtunnel/localtunnel" target="_blank" rel="noopener">https://github.com/localtunnel/localtunnel</a></li>
-<li>ngrok    <a href="https://ngrok.com/" target="_blank" rel="noopener">https://ngrok.com/</a></li>
-</ol>
-<h4 id="frp-能干什么"><a href="#frp-能干什么" class="headerlink" title="frp 能干什么"></a><a name="z93hrx"></a>frp 能干什么</h4><p>将处于内网的服务通过外网机器映射出去，公司内网有些服务需要能够在外网访问，这个应该是成本最低的解决方法，比如nas，内网路由器管理映射等等。</p>
-<p>frp 的文档已经很详细了。由于是使用go开发的，所以，整个安装只有四个文件</p>
-<ul>
-<li><p>frps 服务端</p>
-</li>
-<li><p>frs.ini 服务端配置</p>
-</li>
-<li><p>frpc 客户端</p>
-</li>
-<li>frpc.ini 客户端配置</li>
-</ul>
-<p>相比其他的程序来说，frp 使用起来简单方便。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#服务端启动</span><br><span class="line">./frps -c frps.ini</span><br><span class="line">#服务端启动 后台执行</span><br><span class="line"># nohup ./frps -c frps.ini &amp;  </span><br><span class="line">​</span><br><span class="line"># 客户端启动</span><br><span class="line">./frpc -c frpc.ini</span><br><span class="line">#客户端端启动 后台执行</span><br><span class="line"># nohup ./frps -c frps.ini &amp;</span><br></pre></td></tr></table></figure>
-<h4 id="frps-ini-配置"><a href="#frps-ini-配置" class="headerlink" title="frps.ini 配置"></a><a name="ovwcsz"></a>frps.ini 配置</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port = 7000            # 监听端口</span><br><span class="line">vhost_http_port = 6001      # http 端口， client 端的http会被转到这个端口</span><br><span class="line">subdomain_host = xxxx.com # 绑定的主域名 ，在dns里面设置好绑定，与 frpc.ini 中的 subdomain 一起使用</span><br></pre></td></tr></table></figure>
-<h4 id="frpc-ini-配置"><a href="#frpc-ini-配置" class="headerlink" title="frpc.ini 配置"></a><a name="gy1pzt"></a>frpc.ini 配置</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = 192.168.1.110 # server 端域名</span><br><span class="line">server_port = 7000          # server 端监听端口</span><br><span class="line">​</span><br><span class="line">​</span><br><span class="line">[web01]            # http 服务穿透 必须以 web 开头</span><br><span class="line">type = http         # 服务类型 http or https</span><br><span class="line">local_port = 8080   # web服务本机端口</span><br><span class="line">subdomain = web     # 服务的域名，与server端的subdomain_host配和使用,访问域名为 www.xxxx.com</span><br><span class="line">​</span><br><span class="line">#http_user =admin   # 访问需要登录，测试发现认证失败，问题原因不详。</span><br><span class="line">#http_pwd =admin</span><br></pre></td></tr></table></figure>
-<p>作为反向代理来说，最常用的就是代理 web 服务或者是 ssh。frp 配置起来非常简单。 作者在发布的 build 的 zip 文件中提供了全量配置选项。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-11-29T02:15:09.000Z">2018-11-29</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 641 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/nginx中gzip和cache配置/">nginx中gzip和cache配置</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a><a name="r0kizm"></a>gzip</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">gzip on;         #开启 gzip      </span><br><span class="line">gzip_min_length 1k;    # 最小压缩字节</span><br><span class="line">gzip_buffers 16 64k;   # 16 *64k 内存</span><br><span class="line">gzip_http_version 1.1;  #识别协议版本</span><br><span class="line">gzip_comp_level 6;      # 压缩比率</span><br><span class="line">gzip_types text/plain application/javascript text/css application/xml; # 指定压缩的头</span><br><span class="line">gzip_vary on;    # 给代理服务器使用  </span><br><span class="line">​</span><br><span class="line">gzip_proxied any; #代理结果压缩</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
-<h3 id="cache"><a href="#cache" class="headerlink" title="cache"></a><a name="smkucy"></a>cache</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_path  /dev/shm/proxy_cache_dir levels=1:2 keys_zone=mycache:200m inactive=1d max_size=1g;</span><br><span class="line"># proxy_cache_path 缓存文件路径</span><br><span class="line"># levels 设置缓存文件目录层次，1:2 表示两级</span><br><span class="line"># key_zone 缓存名字和共享内存大小</span><br><span class="line"># inactive 指定时间没人访问删除  </span><br><span class="line"># max_size 最大缓存空间，缓存空间满后覆盖缓存时间最长的</span><br><span class="line">proxy_temp_path   /data/nginx_cache/proxy_cache/proxy_temp_dir;</span><br><span class="line"># 使用temp存储， 如果不使用  可以在 max_size 后关闭 use_temp_path=off;</span><br><span class="line">proxy_cache_valid  200  302  10m ;  </span><br><span class="line"># 指定状态码，缓存有效时间 针对不同的response code设定不同的缓存时间，如果不设置code，默认为200,301,302,也可以用any指定所有code</span><br><span class="line">proxy_cache  mycache;</span><br><span class="line"># 设置开启对后端响应的缓存 关闭为 proxy_cache off ，参数值为名称</span><br><span class="line">proxy_cache_key $scheme$proxy_host$request_uri;</span><br><span class="line"># 给缓存设定key</span><br><span class="line">proxy_cache_bypass $http\_pragma $http_authorization;</span><br><span class="line"># 指定哪些响应在某些值不为空或不为0的情况下不走缓存</span><br><span class="line">proxy_cache_min_uses 1;</span><br><span class="line"># 指定在多少次请求之后才缓存响应内容 默认为1</span><br><span class="line">proxy_cache_use_stale off;</span><br><span class="line"># 指定在后端服务器在返回什么状态码的情况下可以使用过期的缓存，比如proxy_cache_use_stale error timeout invalid_header http_500 http_502 http_503 http_504;</span><br><span class="line">proxy_cache_lock off;</span><br><span class="line"># 默认不开启，开启的话则每次只能有一个请求更新相同的缓存，其他请求要么等待缓存有数据要么限时等待锁释放;nginx 1.1.12才开始有</span><br><span class="line">proxy_cache_lock_timeout 5s;</span><br><span class="line"># 等待缓存锁超时之后将直接请求后端，结果不会被缓存 ; nginx 1.1.12才开始有</span><br><span class="line">add_header  Nginx-Cache &quot;$upstream_cache_status&quot;;</span><br><span class="line"># http head 返回 HIT 为命中 MISS 为未命中  EXPIRED 过期</span><br></pre></td></tr></table></figure>
-<h3 id="cache-example"><a href="#cache-example" class="headerlink" title="cache example"></a><a name="euc9pp"></a>cache example</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    # we set this to be on the same filesystem as proxy_cache_path</span><br><span class="line">    proxy_temp_path /usr/local/nginx/proxy_temp;</span><br><span class="line">    # good security practice dictates that this directory is owned by the</span><br><span class="line">    # same user as the user directive (under which the workers run)</span><br><span class="line">    proxy_cache_path /usr/local/nginx/proxy_temp keys_zone=CACHE:10m levels=1:2 inactive=6h max_size=1g;</span><br><span class="line">​</span><br><span class="line">    server &#123;</span><br><span class="line">        location / &#123;</span><br><span class="line">            # using include to bring in a file with commonly-used settings</span><br><span class="line">            include proxy.conf;</span><br><span class="line">            # referencing the shared memory zone defined above</span><br><span class="line">            proxy_cache CACHE;</span><br><span class="line">            proxy_cache_valid any 1d;</span><br><span class="line">            proxy_cache_bypass $http_pragma $http_authorization;</span><br><span class="line">            proxy_cache_min_uses 3;</span><br><span class="line">            proxy_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;</span><br><span class="line">            proxy_pass http://upstream;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -905,7 +957,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        81
+                        83
                     </p>
                 </div>
             </div>
@@ -925,7 +977,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        58
+                        61
                     </p>
                 </div>
             </div>
@@ -959,7 +1011,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">72</span>
+                <span class="level-item tag">74</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -989,7 +1041,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/snowflake/" style="font-size: 10px;">snowflake</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -1006,6 +1058,25 @@
         
         <article class="media">
             
+            <a href="/tcp连接数/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/tcp连接数/" class="has-link-black-ter is-size-6">tcp连接数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/jenkins-deploy-question-md/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="jenkins 配置说明">
@@ -1016,6 +1087,25 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-03T05:42:31.000Z">2020-01-03</time></div>
                     <a href="/dev/jenkins-deploy-question-md/" class="has-link-black-ter is-size-6">jenkins 配置说明</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/生成分布式id-md/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="生成分布式id">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T12:36:34.000Z">2019-12-20</time></div>
+                    <a href="/dev/生成分布式id-md/" class="has-link-black-ter is-size-6">生成分布式id</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/./dev/">dev</a>
                     </p>
@@ -1061,44 +1151,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Dockerfile编写实践/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
-                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
-                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1117,7 +1169,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1128,7 +1180,7 @@
                     <span class="level-item">十二月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1983,6 +2035,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/snowflake/">
+                        <span class="level-start">
+                            <span class="level-item">snowflake</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/socket/">
+                        <span class="level-start">
+                            <span class="level-item">socket</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/solr/">
                         <span class="level-start">
                             <span class="level-item">solr</span>
@@ -2077,6 +2151,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/分布式/">
+                        <span class="level-start">
+                            <span class="level-item">分布式</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
@@ -2128,6 +2213,25 @@
         
         <article class="media">
             
+            <a href="/tcp连接数/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/tcp连接数/" class="has-link-black-ter is-size-6">tcp连接数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/jenkins-deploy-question-md/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="jenkins 配置说明">
@@ -2138,6 +2242,25 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-03T05:42:31.000Z">2020-01-03</time></div>
                     <a href="/dev/jenkins-deploy-question-md/" class="has-link-black-ter is-size-6">jenkins 配置说明</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/生成分布式id-md/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="生成分布式id">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T12:36:34.000Z">2019-12-20</time></div>
+                    <a href="/dev/生成分布式id-md/" class="has-link-black-ter is-size-6">生成分布式id</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/./dev/">dev</a>
                     </p>
@@ -2183,44 +2306,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Dockerfile编写实践/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
-                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
-                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2239,7 +2324,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -2250,7 +2335,7 @@
                     <span class="level-item">十二月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -3105,6 +3190,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/snowflake/">
+                        <span class="level-start">
+                            <span class="level-item">snowflake</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/socket/">
+                        <span class="level-start">
+                            <span class="level-item">socket</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/solr/">
                         <span class="level-start">
                             <span class="level-item">solr</span>
@@ -3199,6 +3306,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/分布式/">
+                        <span class="level-start">
+                            <span class="level-item">分布式</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>

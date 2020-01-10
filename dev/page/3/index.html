@@ -150,6 +150,122 @@
 
     <div class="card">
     
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-11-15T10:27:10.000Z">2018-11-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 199 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/jenkins git 配置大意错误/">jenkins git 配置大意错误</a>
+            
+        </h1>
+        <div class="content">
+            <p>Jenkins新建项目中源码管理使用Git时遇到如下问题：</p>
+<p>Failed to connect to repository : Error performing command: git ls-remote -h <a href="mailto:git@192.168.199.89" target="_blank" rel="noopener">git@192.168.199.89</a>:zhangwei/jenkins-test.git HEAD</p>
+<p>解决：</p>
+<p>1.Jenkins服务器上查看git是否已安装及安装位置</p>
+<p>git version</p>
+<p>whereis git</p>
+<p>打开Jenkins的 主页面 &gt; 系统管理 &gt; Global Tool Configuration</p>
+<p>可以看到错误提示：There’s no such executable git in PATH: /sbin, /usr/sbin, /bin, /usr/bin.</p>
+<p>在出错的地方填入系统上git的地址： 一般默认填入 <code>git</code></p>
+<p>问题是很简单的问题，由于git的路径没有配置正确，导致了错误，而jenkins并没有将命令执行的错误消息给出来，只是给出了</p>
+<p><code>git ls-remote -h git@192.168.199.89:zhangwei/jenkins-test.git HEAD</code> 执行错误，误导了问题源。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-11-02T09:24:17.000Z">2018-11-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 500 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/Harbor配置-DockerRegistry私有镜像仓库/">Harbor配置-DockerRegistry私有镜像仓库</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Harbor简介"><a href="#Harbor简介" class="headerlink" title="Harbor简介"></a><a name="hrk3bg"></a>Harbor简介</h1><p>Harbor<code>是</code>VMware<code>公司开源的企业级</code>Docker Registry<code>项目，其目标是帮助用户迅速搭建一个企业级的</code>Docker registry`服务。</p>
+<p>它以<code>Docker</code>公司开源的<code>registry</code>为基础，提供了管理<code>UI</code>，基于角色的访问控制(<code>Role Based AccessControl</code>)，<code>AD/LDAP</code>集成、以及审计日志(<code>Auditlogging</code>) 等企业用户需求的功能，通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源 <code>Docker Distribution</code>。</p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a><a name="9eq0tf"></a>环境准备</h1><ul>
+<li>Ubuntu 14.04</li>
+<li>Docker and Docker Compose</li>
+</ul>
+<h4 id="Docker-Compose-安装"><a href="#Docker-Compose-安装" class="headerlink" title="Docker Compose 安装"></a><a name="0g0sth"></a>Docker Compose 安装</h4><pre><code><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line">sudo chmod +x /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">$</span> docker-compose --version</span><br><span class="line">docker-compose version 1.22.0, build f46880fe</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>python</li>
+</ul>
+<h1 id="Harbor下载"><a href="#Harbor下载" class="headerlink" title="Harbor下载"></a><a name="9qd2rr"></a>Harbor下载</h1><p>下载Harbour版本的二进制文件 <a href="https://github.com/vmware/harbor/releases" target="_blank" rel="noopener">https://github.com/vmware/harbor/releases</a></p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://storage.googleapis.com/harbor-releases/release-1.6.0/harbor-offline-installer-v1.6.0.tgz</span><br><span class="line">tar -zxvf harbor-offline-installer-v1.6.0.tgz</span><br></pre></td></tr></table></figure>
+<p>官方的链接正常无法下载，感谢戴亚同学帮忙。</p>
+<p>下载解压后进入解压的文件夹</p>
+<h1 id="Harbor配置"><a href="#Harbor配置" class="headerlink" title="Harbor配置"></a><a name="y016pk"></a>Harbor配置</h1><p>解压后目录下生成 harbor.conf  文件，根据需要修改配置文件。</p>
+<h1 id="Harbor启动"><a href="#Harbor启动" class="headerlink" title="Harbor启动"></a><a name="2ec0rk"></a>Harbor启动</h1><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/home/zhangwei# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS                PORTS                                                                NAMES</span><br><span class="line">136373bd5377        goharbor/harbor-jobservice:v1.6.0        "/harbor/start.sh"       2 days ago          Up 2 days                                                                                  harbor-jobservice</span><br><span class="line">e593d2a724de        goharbor/nginx-photon:v1.6.0             "nginx -g 'daemon of…"   2 days ago          Up 2 days (healthy)   0.0.0.0:443-&gt;443/tcp, 0.0.0.0:4443-&gt;4443/tcp, 0.0.0.0:1080-&gt;80/tcp   nginx</span><br><span class="line">f29c2341d237        goharbor/harbor-ui:v1.6.0                "/harbor/start.sh"       2 days ago          Up 2 days (healthy)                                                                        harbor-ui</span><br><span class="line">a03a1bab796f        goharbor/harbor-adminserver:v1.6.0       "/harbor/start.sh"       2 days ago          Up 2 days (healthy)                                                                        harbor-adminserver</span><br><span class="line">c11b5b108311        goharbor/redis-photon:v1.6.0             "docker-entrypoint.s…"   2 days ago          Up 2 days             6379/tcp                                                             redis</span><br><span class="line">6d95f6c0aaf3        goharbor/harbor-db:v1.6.0                "/entrypoint.sh post…"   2 days ago          Up 2 days (healthy)   5432/tcp                                                             harbor-db</span><br><span class="line">2fa99bb3d06c        goharbor/registry-photon:v2.6.2-v1.6.0   "/entrypoint.sh /etc…"   2 days ago          Up 2 days (healthy)   5000/tcp                                                             registry</span><br><span class="line">da21879d2dd1        goharbor/harbor-log:v1.6.0               "/bin/sh -c /usr/loc…"   2 days ago          Up 2 days (healthy)   127.0.0.1:1514-&gt;10514/tcp                                            harbor-log</span><br></pre></td></tr></table></figure>
+<p>根据需要修改docker-compose.yml 文件的端口</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">proxy:</span><br><span class="line">  image: goharbor/nginx-photon:v1.6.0</span><br><span class="line">  container_name: nginx</span><br><span class="line">  restart: always</span><br><span class="line">  volumes:</span><br><span class="line">    - ./common/config/nginx:/etc/nginx:z</span><br><span class="line">  networks:</span><br><span class="line">    - harbor</span><br><span class="line">  ports:</span><br><span class="line">    - 1080:80</span><br><span class="line">    - 443:443</span><br><span class="line">    - 4443:4443</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
     <div class="card-image">
         <a href="/dev/Docker私有源配置/" class="image is-7by1">
             <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker私有源配置">
@@ -625,222 +741,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2016-11-17T08:52:31.000Z">2016-11-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1032 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/petl函数表/">petl函数表</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="petl"><a href="#petl" class="headerlink" title="petl"></a>petl</h2><p>文档地址： <a href="https://petl.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">https://petl.readthedocs.io/en/latest/index.html</a></p>
-<h2 id="Extract-Load"><a href="#Extract-Load" class="headerlink" title="Extract/Load"></a>Extract/Load</h2><p>可以读取  csv   pickle   text   xml  html  json database   excel  array   hdfs  等文件</p>
-<h2 id="Transfrom-转换"><a href="#Transfrom-转换" class="headerlink" title="Transfrom   转换"></a>Transfrom   转换</h2><h4 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h4><p>petl.transform.basics.</p>
-<ol>
-<li>head(table, n=5)                 取开始的行</li>
-<li>tail(table, n=5)                 取尾部的行</li>
-<li>rowslice(table, *sliceargs)      对行做切片</li>
-<li>cut(table, *args, **kwargs)      取指定列</li>
-<li>cutout(table, *args, **kwargs)   排除指定列</li>
-<li>movefield(table, field, index)   移动列到新的位置</li>
-<li>cat(*tables, **kwargs)           连接两个表</li>
-<li>stack(*tables, **kwargs)         连接两个表，不匹配表头</li>
-<li>skipcomments(table, prefix)      跳过包含指定前缀的行</li>
-<li>addfield(table, field, value=None, index=None, missing=None)    添加一个新的字段</li>
-<li>addcolumn(table, field, col, index=None, missing=None)          添加新的数据列(和addfield有些相似)</li>
-<li>addrownumbers(table, start=1, step=1, field=’row’)              添加行计数</li>
-<li>addfieldusingcontext(table, field, query)                       添加字段，query是一个回调，把相邻三行作为三个参数传入</li>
-<li>annex(*tables, **kwargs)                                        join 两个或多个表，按行连接</li>
-</ol>
-<h4 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h4><p>petl.transform.headers</p>
-<ol>
-<li>rename(table, *args, **kwargs)   修改名称</li>
-<li>setheader(table, header)         设置表头</li>
-<li>extendheader(table, fields)      扩展表头（可以用来补全表头信息）</li>
-<li>pushheader(table, header, *args) 设置表头（将第一行当中数据，而不是表头)</li>
-<li>prefixheader(table, prefix)      为表头添加前缀</li>
-<li>suffixheader(table, suffix)      为表头添加后缀</li>
-<li>sortheader(table, reverse=False, missing=None)  排序</li>
-<li>skip(table, n)                   跳过行的项不为 n 的行</li>
-</ol>
-<h4 id="Converting"><a href="#Converting" class="headerlink" title="Converting"></a>Converting</h4><p>petl.transform.conversions</p>
-<ol>
-<li>convert(table, *args, **kwargs) 转换（包括数据类型，格式，替换，lambda 等)</li>
-<li>convertall(table, *args, **kwargs) 同convert</li>
-<li>convertnumbers(table, strict=False, **kwargs)   转换为数值</li>
-<li>replace(table, field, a, b, **kwargs)           替换</li>
-<li>replaceall(table, a, b, **kwargs)               替换全部</li>
-<li>format(table, field, fmt, **kwargs)             格式化</li>
-<li>formatall(table, fmt, **kwargs)                 格式化全部</li>
-<li>interpolate(table, field, fmt, **kwargs)        插入</li>
-<li>interpolateall(table, fmt, **kwargs)</li>
-<li>update(table, field, value, **kwargs)          更新</li>
-</ol>
-<h4 id="Selecting-rows"><a href="#Selecting-rows" class="headerlink" title="Selecting rows"></a>Selecting rows</h4><p>petl.transform.selects</p>
-<ol>
-<li>select(table, *args, <strong>kwargs)  根据条件选择行 （扩展出各种 select</strong> 的快捷方法</li>
-<li>selectusingcontext(table, query)  基于上一行和下一行来选择数据</li>
-<li>rowlenselect(table, n, complement=False)    选择长度为n的行</li>
-<li>facet(table, key)                           按指定的key分组，将返回值映射到字典</li>
-<li>biselect(table, *args, **kwargs)            拆分成两个表，一个为选择的行，一个为抛弃的行</li>
-</ol>
-<h4 id="Regular-expressions"><a href="#Regular-expressions" class="headerlink" title="Regular expressions"></a>Regular expressions</h4><p>petl.transform.regex</p>
-<ol>
-<li>search(table, *args, **kwargs)                   查询返回匹配行</li>
-<li>searchcomplement(table, *args, **kwargs)         查询返回不匹配的行</li>
-<li>sub(table, field, pattern, repl, count=0, flags=0) 替换</li>
-<li>split(table, field, pattern, newfields=None, include_original=False, maxsplit=0, flags=0)   分割指定fields</li>
-<li>capture(table, field, pattern, newfields=None, include_original=False, flags=0, fill=None)  分组，通过表达式分组来分割fields</li>
-</ol>
-<h4 id="Unpacking-compound-values"><a href="#Unpacking-compound-values" class="headerlink" title="Unpacking compound values"></a>Unpacking compound values</h4><p>petl.transform.unpacks</p>
-<ol>
-<li>unpack(table, field, newfields=None, include_original=False, missing=None)         拆分 list 或 tuples</li>
-<li>unpackdict(table, field, keys=None, includeoriginal=False, samplesize=1000, missing=None)   拆分 dictionary</li>
-</ol>
-<h4 id="Transforming-rows"><a href="#Transforming-rows" class="headerlink" title="Transforming rows"></a>Transforming rows</h4><p>petl.transform.maps</p>
-<ol>
-<li>fieldmap(table, mappings=None, failonerror=False, errorvalue=None)   转换表，在输入与输出之间映射</li>
-<li>rowmap(table, rowmapper, header, failonerror=False)                  转换表，函数</li>
-<li>rowmapmany(table, rowgenerator, header, failonerror=False)           转换表，将行映射到任意行</li>
-<li>rowgroupmap(table, key, mapper, header=None, presorted=False, buffersize=None, tempdir=None, cache=True)</li>
-</ol>
-<h4 id="Sorting"><a href="#Sorting" class="headerlink" title="Sorting"></a>Sorting</h4><p>petl.transform.sorts</p>
-<ol>
-<li>sort             排序</li>
-<li>mergesort        多个表排序，输出一个表</li>
-<li>issorted         判断是否为排序表</li>
-</ol>
-<h4 id="Joins"><a href="#Joins" class="headerlink" title="Joins"></a>Joins</h4><p>petl.transform.joins</p>
-<ol>
-<li>join             根据指定的键连接表</li>
-<li>leftjoin         左连接</li>
-<li>lookupjoin       左连接，如果右表多，任意选择行</li>
-<li>rightjoin        右连接</li>
-<li>outerjoin        完全连接，保留所有，为空填充None</li>
-<li>crossjoin        笛卡尔连接</li>
-<li>antijoin         返回左表中没有在右表出现的行</li>
-<li>unjoin           将一个表拆成两个表</li>
-<li>hashjoin</li>
-<li>hashleftjoin</li>
-<li>hashlookupjoin</li>
-<li>hashrightjoin</li>
-<li>hashantijoin</li>
-</ol>
-<h4 id="Set-operations"><a href="#Set-operations" class="headerlink" title="Set operations"></a>Set operations</h4><p>petl.transform.setops</p>
-<ol>
-<li>complement   返回a中不在b中的行</li>
-<li>diff         查找两个表之间的差异，返回两个表，分别为b表不在a中的，a表不在b中的</li>
-<li>recordcomplement     查找不在b中的记录</li>
-<li>recorddiff           查找两个表之间的差异</li>
-<li>intersection         返回a也在b中的数据</li>
-<li>hashcomplement</li>
-<li>hashintersection</li>
-</ol>
-<h4 id="Deduplicating-rows"><a href="#Deduplicating-rows" class="headerlink" title="Deduplicating rows"></a>Deduplicating rows</h4><p>petl.transform.dedup</p>
-<ol>
-<li>duplicates  选出给定键具有重复的行</li>
-<li>unique      选出给定键唯一行</li>
-<li>conflicts   选出相同键值，但其他行不同的</li>
-<li>distinct    返回表中不同行</li>
-<li>isunique    判断是否唯一</li>
-</ol>
-<h4 id="Reducing-rows-aggregation"><a href="#Reducing-rows-aggregation" class="headerlink" title="Reducing rows (aggregation)"></a>Reducing rows (aggregation)</h4><p>petl.transform.reductions</p>
-<ol>
-<li>aggregate    聚集，对指定键做聚合</li>
-<li>rowreduce    对行根据指定键做reduce</li>
-<li>mergeduplicates 合并给定键下的重复行</li>
-<li>merge            根据指定键合并表</li>
-<li>fold             python reduce 操作</li>
-<li>groupcountdistinctvalues</li>
-<li>groupselectfirst</li>
-</ol>
-<p>‘’’<br>还有很多，不想写了。。。<br>‘’’</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2016-07-28T09:30:44.000Z">2016-07-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 238 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/用单例和动态类在sqlalchemy中做动态表绑定/">用单例和动态类在sqlalchemy中做动态表绑定</a>
-            
-        </h1>
-        <div class="content">
-            <p>当我们的数据表需要分库的时候，如果使用了 sqlalchemy 来做 ORM，在做数据表和类关联的时候就很痛苦了，一个类只能和一个表关联。<br>当然还有一种方法就是修改 model.<strong>tablename</strong>.name 来解决，但是这个有个问题是只能绑定一次，实例化后修改就无效了。所以我们就需要使用 type 来动态的创建一个类，到这里问题又来了，如果在不同的时候创建了两个相同的类名的时候，程序就会抛出异常。所以类名必须是单例的。整个的实现如下：</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/dev/用单例和动态类在sqlalchemy中做动态表绑定/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -909,7 +809,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        81
+                        83
                     </p>
                 </div>
             </div>
@@ -929,7 +829,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        58
+                        61
                     </p>
                 </div>
             </div>
@@ -963,7 +863,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">72</span>
+                <span class="level-item tag">74</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -993,7 +893,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/snowflake/" style="font-size: 10px;">snowflake</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -1010,6 +910,25 @@
         
         <article class="media">
             
+            <a href="/tcp连接数/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/tcp连接数/" class="has-link-black-ter is-size-6">tcp连接数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/jenkins-deploy-question-md/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="jenkins 配置说明">
@@ -1020,6 +939,25 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-03T05:42:31.000Z">2020-01-03</time></div>
                     <a href="/dev/jenkins-deploy-question-md/" class="has-link-black-ter is-size-6">jenkins 配置说明</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/生成分布式id-md/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="生成分布式id">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T12:36:34.000Z">2019-12-20</time></div>
+                    <a href="/dev/生成分布式id-md/" class="has-link-black-ter is-size-6">生成分布式id</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/./dev/">dev</a>
                     </p>
@@ -1065,44 +1003,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Dockerfile编写实践/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
-                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
-                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1121,7 +1021,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1132,7 +1032,7 @@
                     <span class="level-item">十二月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1987,6 +1887,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/snowflake/">
+                        <span class="level-start">
+                            <span class="level-item">snowflake</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/socket/">
+                        <span class="level-start">
+                            <span class="level-item">socket</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/solr/">
                         <span class="level-start">
                             <span class="level-item">solr</span>
@@ -2081,6 +2003,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/分布式/">
+                        <span class="level-start">
+                            <span class="level-item">分布式</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
@@ -2132,6 +2065,25 @@
         
         <article class="media">
             
+            <a href="/tcp连接数/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/tcp连接数/" class="has-link-black-ter is-size-6">tcp连接数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/jenkins-deploy-question-md/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="jenkins 配置说明">
@@ -2142,6 +2094,25 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-03T05:42:31.000Z">2020-01-03</time></div>
                     <a href="/dev/jenkins-deploy-question-md/" class="has-link-black-ter is-size-6">jenkins 配置说明</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/生成分布式id-md/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="生成分布式id">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T12:36:34.000Z">2019-12-20</time></div>
+                    <a href="/dev/生成分布式id-md/" class="has-link-black-ter is-size-6">生成分布式id</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/./dev/">dev</a>
                     </p>
@@ -2187,44 +2158,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/Dockerfile编写实践/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Dockerfile编写实践">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T01:32:02.000Z">2019-07-09</time></div>
-                    <a href="/dev/Dockerfile编写实践/" class="has-link-black-ter is-size-6">Dockerfile编写实践</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/Docker配置TLS认证开启远程访问/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190628152955.png" alt="Docker配置TLS认证开启远程访问">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T07:26:25.000Z">2019-06-28</time></div>
-                    <a href="/dev/Docker配置TLS认证开启远程访问/" class="has-link-black-ter is-size-6">Docker配置TLS认证开启远程访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2243,7 +2176,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -2254,7 +2187,7 @@
                     <span class="level-item">十二月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -3109,6 +3042,28 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/snowflake/">
+                        <span class="level-start">
+                            <span class="level-item">snowflake</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/socket/">
+                        <span class="level-start">
+                            <span class="level-item">socket</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/solr/">
                         <span class="level-start">
                             <span class="level-item">solr</span>
@@ -3203,6 +3158,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/分布式/">
+                        <span class="level-start">
+                            <span class="level-item">分布式</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
