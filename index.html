@@ -140,6 +140,140 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/tool/osxfuse/" class="image is-7by1">
+            <img class="thumbnail" src="/static/default.jpg" alt="osxfuse：mac ntfs 支持">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-15T02:19:34.000Z">2020-01-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./tool/">tool</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 416 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/tool/osxfuse/">osxfuse：mac ntfs 支持</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="install"><a href="#install" class="headerlink" title="install"></a>install</h2><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">brew cask install osxfuse</span><br><span class="line">Updating Homebrew...</span><br><span class="line">Fast-forwarded master to origin/master.</span><br><span class="line">==&gt; Auto-updated Homebrew!</span><br><span class="line">Updated 1 tap (homebrew/cask).</span><br><span class="line">No changes to formulae.</span><br><span class="line"></span><br><span class="line">==&gt; Caveats</span><br><span class="line">To install and/or use osxfuse you may need to enable their kernel extension in</span><br><span class="line"></span><br><span class="line">  System Preferences → Security &amp; Privacy → General</span><br><span class="line"></span><br><span class="line">For more information refer to vendor documentation or the Apple Technical Note:</span><br><span class="line"></span><br><span class="line">  https://developer.apple.com/library/content/technotes/tn2459/_index.html</span><br><span class="line"></span><br><span class="line">You must reboot for the installation of osxfuse to take effect.</span><br><span class="line"></span><br><span class="line">==&gt; Satisfying dependencies</span><br><span class="line">==&gt; Downloading https://github.com/osxfuse/osxfuse/releases/download/osxfuse-3.10.4/osxfuse-3.10.4.dmg</span><br><span class="line">==&gt; Downloading from https://github-production-release-asset-2e65be.s3.amazonaws.com/1867347/58615480-1769-11ea-8f1f-f6cc029e4f08?X-Amz-Algorithm=AWS4-HMAC-SH</span><br><span class="line"><span class="hljs-meta">#</span>####################################################################### 100.0%</span><br><span class="line">==&gt; Verifying SHA-256 checksum for Cask 'osxfuse'.</span><br><span class="line">==&gt; Installing Cask osxfuse</span><br><span class="line">==&gt; Running installer for osxfuse; your password may be necessary.</span><br><span class="line">==&gt; Package installers may write to any location; options such as --appdir are ignored.</span><br><span class="line">Password:</span><br><span class="line">installer: Package name is FUSE for macOS</span><br><span class="line">installer: Installing at base path /</span><br><span class="line">installer: The install was successful.</span><br><span class="line">==&gt; Changing ownership of paths required by osxfuse; your password may be necessary</span><br><span class="line">🍺  osxfuse was successfully installed!</span><br></pre></td></tr></table></figure>
+<p>系统偏好设置-&gt; FUSE </p>
+<p><img src="https://raw.githubusercontent.com/xxiu/img/asset/img/20200115100235.png" alt=""></p>
+<h2 id="添加-NTFS-支持"><a href="#添加-NTFS-支持" class="headerlink" title="添加 NTFS 支持"></a>添加 NTFS 支持</h2><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ntfs-3g</span><br></pre></td></tr></table></figure>
+<h2 id="ntfs-3g-驱动程序作为默认挂载驱动"><a href="#ntfs-3g-驱动程序作为默认挂载驱动" class="headerlink" title="ntfs-3g 驱动程序作为默认挂载驱动"></a>ntfs-3g 驱动程序作为默认挂载驱动</h2><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">csrutil disable    # 关闭SIP</span><br><span class="line">sudo mv /sbin/mount_ntfs /sbin/mount_ntfs.bak              # 备份</span><br><span class="line">sudo ln -s /usr/local/sbin/mount_ntfs /sbin/mount_ntfs     # 替换</span><br><span class="line">csrutil enable    # 打开 SIP</span><br><span class="line">reboot     # 重启</span><br></pre></td></tr></table></figure>
+<h3 id="mac-关闭-SIP-系统完整性保护"><a href="#mac-关闭-SIP-系统完整性保护" class="headerlink" title="mac 关闭 SIP(系统完整性保护)"></a>mac 关闭 SIP(系统完整性保护)</h3><h6 id="查看SIP状态"><a href="#查看SIP状态" class="headerlink" title="查看SIP状态"></a>查看SIP状态</h6><p>在终端中输入csrutil status，就可以看到是enabled还是disabled。</p>
+<h6 id="关闭SIP"><a href="#关闭SIP" class="headerlink" title="关闭SIP"></a>关闭SIP</h6><ul>
+<li>1  重启MAC，按住cmd+R直到屏幕上出现苹果的标志和进度条，进入Recovery模式；</li>
+<li>2  在屏幕最上方的工具栏找到实用工具（左数第3个），打开终端，输入：csrutil disable；</li>
+<li>3  关掉终端，重启mac；</li>
+<li>4  重启以后可以在终端中查看状态确认。</li>
+</ul>
+<h6 id="开启SIP"><a href="#开启SIP" class="headerlink" title="开启SIP"></a>开启SIP</h6><p> csrutil enable </p>
+<p>ps. 可能会没有写权限，挂载写权限</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -uw /</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/dev/golang-sync/" class="image is-7by1">
+            <img class="thumbnail" src="/static/default.jpg" alt="golang sync">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 748 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/golang-sync/">golang sync</a>
+            
+        </h1>
+        <div class="content">
+            <p>##Goroutine 内存占用</p>
+<p>下面是一个创建 goroutine 什么也不干，对内存的占用打印。说明创建 goroutine 的成本非常低。 </p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">num:1  mem: 0.062MB average:64.000kb </span><br><span class="line">num:10  mem: 0.000MB average:0.000kb </span><br><span class="line">num:100  mem: 0.000MB average:0.000kb </span><br><span class="line">num:1000  mem: 0.250MB average:0.256kb </span><br><span class="line">num:10000  mem: 1.373MB average:0.141kb </span><br><span class="line">num:100000  mem: 265.852MB average:2.722kb </span><br><span class="line">num:1000000  mem: 2462.125MB average:2.521kb</span><br></pre></td></tr></table></figure>
+<p>以下是创建代码：</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> (</span><br><span class="line">	<span class="hljs-string">"fmt"</span></span><br><span class="line">	<span class="hljs-string">"runtime"</span></span><br><span class="line">	<span class="hljs-string">"sync"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// goroutine ： go 中的每个并发执行单元叫 go routine</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 返回从系统中获取的字节数</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">memConsumed</span><span class="hljs-params">()</span> <span class="hljs-title">uint64</span></span> &#123;</span><br><span class="line">	runtime.GC()</span><br><span class="line">	<span class="hljs-keyword">var</span> s runtime.MemStats</span><br><span class="line">	runtime.ReadMemStats(&amp;s)</span><br><span class="line">	<span class="hljs-keyword">return</span> s.Sys <span class="hljs-comment">//系统字节数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 获取创建指定数量协程</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">memChannel</span><span class="hljs-params">(num <span class="hljs-keyword">uint64</span>)</span></span> &#123;</span><br><span class="line">	<span class="hljs-keyword">var</span> c &lt;-<span class="hljs-keyword">chan</span> <span class="hljs-keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">var</span> wg sync.WaitGroup</span><br><span class="line">	noop := <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">		wg.Done()</span><br><span class="line">		&lt;-c</span><br><span class="line">	&#125;</span><br><span class="line">	wg.Add(<span class="hljs-keyword">int</span>(num))</span><br><span class="line">	before := memConsumed()</span><br><span class="line">	<span class="hljs-keyword">for</span> i := num; i &gt; <span class="hljs-number">0</span>; i-- &#123;</span><br><span class="line">		<span class="hljs-keyword">go</span> noop()</span><br><span class="line">	&#125;</span><br><span class="line">	wg.Wait()</span><br><span class="line">	after := memConsumed()</span><br><span class="line">	fmt.Printf(<span class="hljs-string">"num:%d  mem: %.3fMB average:%.3fkb \n"</span>, num, <span class="hljs-keyword">float64</span>(after-before)/<span class="hljs-number">1024</span>/<span class="hljs-number">1024</span>, <span class="hljs-keyword">float64</span>(after-before)/<span class="hljs-number">1024</span>/<span class="hljs-keyword">float64</span>(num))</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	memChannel(<span class="hljs-number">1</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e1</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e2</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e3</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e4</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e5</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e6</span>) <span class="hljs-comment">// 百万</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="WaitGroup"><a href="#WaitGroup" class="headerlink" title="WaitGroup"></a>WaitGroup</h2><p>用于等待线程结束，Add 为计数器 +n，Done 线程结束方法。 当调用到 n个 Done  后 ，如果计数器小于 0 ，Wait 阻塞结束。 </p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> wg sync.WaitGroup</span><br><span class="line"><span class="hljs-keyword">var</span> urls = []<span class="hljs-keyword">string</span>&#123;</span><br><span class="line">    <span class="hljs-string">"http://www.golang.org/"</span>,</span><br><span class="line">    <span class="hljs-string">"http://www.google.com/"</span>,</span><br><span class="line">    <span class="hljs-string">"http://www.somestupidname.com/"</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">for</span> _, url := <span class="hljs-keyword">range</span> urls &#123;</span><br><span class="line">    <span class="hljs-comment">// Increment the WaitGroup counter.</span></span><br><span class="line">    wg.Add(<span class="hljs-number">1</span>)</span><br><span class="line">    <span class="hljs-comment">// Launch a goroutine to fetch the URL.</span></span><br><span class="line">    <span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(url <span class="hljs-keyword">string</span>)</span></span> &#123;</span><br><span class="line">        <span class="hljs-comment">// Decrement the counter when the goroutine completes.</span></span><br><span class="line">        <span class="hljs-keyword">defer</span> wg.Done()</span><br><span class="line">        <span class="hljs-comment">// Fetch the URL.</span></span><br><span class="line">        http.Get(url)</span><br><span class="line">    &#125;(url)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// Wait for all HTTP fetches to complete.</span></span><br><span class="line">wg.Wait()</span><br></pre></td></tr></table></figure>
+<h2 id="Mutex"><a href="#Mutex" class="headerlink" title="Mutex"></a>Mutex</h2><p>Mutex 是一个互斥锁。 具有两个方法 Lock 和  Unlock。 </p>
+<p>Lock 如果加锁，则阻塞到解锁 。</p>
+<p>Unlock 如果未加锁会导致运行错误。 </p>
+<h2 id="RWMutex"><a href="#RWMutex" class="headerlink" title="RWMutex"></a>RWMutex</h2><p>读写互斥锁，可以多个读一个写。 </p>
+<p>Lock  /Unlock 同  Mutex</p>
+<p>Rlock/RUnlock  锁定为读取，禁止写，允许读。 </p>
+<h2 id="Once"><a href="#Once" class="headerlink" title="Once"></a>Once</h2><p>Do 只能执行一次. </p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	<span class="hljs-keyword">var</span> once sync.Once</span><br><span class="line">	onceBody := <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">		fmt.Println(<span class="hljs-string">"Only once"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	done := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">bool</span>)</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++ &#123;</span><br><span class="line">		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">			fmt.Println(<span class="hljs-string">"go run \n"</span>)</span><br><span class="line">			once.Do(onceBody) <span class="hljs-comment">// 只会执行一次</span></span><br><span class="line">			done &lt;- <span class="hljs-literal">true</span></span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++ &#123;</span><br><span class="line">		fmt.Printf(<span class="hljs-string">"done channel :%v \n"</span>, &lt;-done)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ go run once.go</span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">Only once</span><br><span class="line">done channel :true </span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">done channel :true </span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">done channel :true </span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">done channel :true </span><br><span class="line">done channel :true</span><br></pre></td></tr></table></figure>
+<h2 id="Cond"><a href="#Cond" class="headerlink" title="Cond"></a>Cond</h2><p>条件锁，当满足某些条件才起作用的锁。 </p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> (</span><br><span class="line">	<span class="hljs-string">"fmt"</span></span><br><span class="line">	<span class="hljs-string">"sync"</span></span><br><span class="line">	<span class="hljs-string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">var</span> lc = <span class="hljs-built_in">new</span>(sync.Mutex)</span><br><span class="line">	<span class="hljs-keyword">var</span> cond = sync.NewCond(lc)</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++ &#123;</span><br><span class="line">		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(x <span class="hljs-keyword">int</span>)</span></span> &#123;</span><br><span class="line">			cond.L.Lock()</span><br><span class="line">			<span class="hljs-keyword">defer</span> cond.L.Unlock()</span><br><span class="line">			cond.Wait()</span><br><span class="line">			fmt.Println(x)</span><br><span class="line">		&#125;(i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="hljs-number">2</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="hljs-string">"1--\n"</span>)</span><br><span class="line">	cond.Signal()</span><br><span class="line">	time.Sleep(<span class="hljs-number">2</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="hljs-string">"2--\n"</span>)</span><br><span class="line">	cond.Broadcast()</span><br><span class="line">	time.Sleep(<span class="hljs-number">2</span> * time.Second)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ go run cone.go</span><br><span class="line">1-- # signal</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line">2-- # broadcast </span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+<h2 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h2><p>sync.Pool有两个公开的方法。一个是Get，另一个是Put。前者的功能是从池中获取一个interface{}类型的值，而后者的作用则是把一个interface{}类型的值放置于池中。</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// 一个[]byte的对象池，每个对象为一个[]byte</span></span><br><span class="line"><span class="hljs-keyword">var</span> bytePool = sync.Pool&#123;</span><br><span class="line">  New: <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span> <span class="hljs-title">interface</span></span>&#123;&#125; &#123;</span><br><span class="line">    b := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">byte</span>, <span class="hljs-number">1024</span>)</span><br><span class="line">    <span class="hljs-keyword">return</span> &amp;b</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">  a := time.Now().Unix()</span><br><span class="line">  <span class="hljs-comment">// 不使用对象池</span></span><br><span class="line">  <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000000000</span>; i++&#123;</span><br><span class="line">    obj := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">byte</span>,<span class="hljs-number">1024</span>)</span><br><span class="line">    _ = obj</span><br><span class="line">  &#125;</span><br><span class="line">  b := time.Now().Unix()</span><br><span class="line">  <span class="hljs-comment">// 使用对象池</span></span><br><span class="line">  <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000000000</span>; i++&#123;</span><br><span class="line">    obj := bytePool.Get().(*[]<span class="hljs-keyword">byte</span>)</span><br><span class="line">    _ = obj</span><br><span class="line">    bytePool.Put(obj)</span><br><span class="line">  &#125;</span><br><span class="line">  c := time.Now().Unix()</span><br><span class="line">  fmt.Println(<span class="hljs-string">"without pool "</span>, b - a, <span class="hljs-string">"s"</span>)</span><br><span class="line">  fmt.Println(<span class="hljs-string">"with    pool "</span>, c - b, <span class="hljs-string">"s"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// without pool  34 s</span></span><br><span class="line"><span class="hljs-comment">// with    pool  24 s</span></span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/dev/tcp连接数/" class="image is-7by1">
             <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
         </a>
@@ -817,181 +951,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/note/北京小汽车摇号分析/" class="image is-7by1">
-            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190620130324.png" alt="北京小汽车摇号分析">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-06-17T08:00:00.000Z">2019-06-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./note/">note</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    16 分钟 读完 (大约 2363 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/note/北京小汽车摇号分析/">北京小汽车摇号分析</a>
-            
-        </h1>
-        <div class="content">
-            <p>北京汽车摇号到底是怎么摇的，很多人只知道自己摇了多长时间，倍数是多少。这里我帮大家看了一下。</p>
-<p>摇号规则</p>
-<p>1、摇号基数序号分配方法：首先，将当期所有审核通过的编码按从小到大的顺序分配序号；然后，第二阶梯及以上的编码按从小到大的顺序，接在后面继续分配序号；再然后，第三阶梯及以上的编码按从小到大的顺序，接在后面继续分配序号；以此类推。因此，高阶梯的编码所对应的多个摇号基数序号是不连号的，当期摇号基数序号总数=第一阶梯人数+第二阶梯人数×2+第三阶梯人数×3…… 2、摇号方法：摇号程序从当期所有摇号基数序号中随机抽取中签者，高阶梯的编码对应多个摇号基数序号，于是享受了多倍的中签概率。摇号程序确保高阶梯编码的多个摇号基数序号最多只能摇中一个，当其中一个摇号基数序号中签，该编码即中签。</p>
-<p>看到上面这一段会有点懵，大部分人会被阶梯和乘数搞混乱。 这里我来帮大家解释一下。</p>
-<p>白话解释</p>
-<p>首先，每个人在注册的时候会分配一个序号。 假设有 1000 个人摇号，每次摇 50 个人， 大概是像下面</p>
-<p>如果按照每人一次的摇号规则，第一次摇号后，列表里会剩下950人。 这个时候又加入了100人。 如果前面950人的摇号倍数增加了一次。列表会变成如下（假设2号李四中号了）。</p>
-<p>当然，表里的申请编码只是模拟的，和真实的申请编码无关。</p>
-<p>如果所有人倍数都是一样，那么摇号表和上面是一致的。当有人有2倍的话，会把2 倍的人在摇号表追加一次。 真实的摇号表就成了如下：</p>
-<p>这里，序号 1 和序号 1051 都是张三。 如果出现3倍，4倍，甚至是10倍，按照同样的方法往后面追加。这样就实现了一个人多倍摇号。</p>
-<p>那么在摇号的时候，摇到 1 或者 1051 的话，张三都会中号。 也就是说序号1和1051 对应的申请编码都是 000001 。</p>
-<p>这里会出现一个问题，如果在一次摇号中 1 和 1051 都中号了怎么办。在实际的摇号中不会出现这种情况。摇号程序会自动跳过。</p>
-<p>这上面的排序方法就是每个月会提前放出来的小客车摇号的摇号池编码文件。 小客车的摇号数据文件可以在北京市小客车摇号网站里下载到</p>
-<p><a href="https://apply.bjhjyd.gov.cn/apply/user/person/ballotProgram.do?issueType=PERSON" target="_blank" rel="noopener">https://apply.bjhjyd.gov.cn/apply/user/person/ballotProgram.do?issueType=PERSON</a></p>
-<p>程序的运行</p>
-<p>摇号池编码文件发布后会公布文件 MD5 码</p>
-<p>MD5 码是一种消息摘要算法，一种被广泛使用的密码散列函数，可以产生出一个128位 的散列，用于确保信息传输完整一致。</p>
-<p>简单的说，MD5 码是利用文件的内容生成的一个值，如果文件中有一个字被修改了，计算出来的MD5 都是不一样的，确保了文件不会被修改。</p>
-<p>到这里已经提供了一份不会被修改的列表。接下来就是随机数出场了。每次摇号的时候由公证人员使用随机的方式提供一个6位的随机种子。 这个随机种子是如何工作的呢。</p>
-<p>摇号程序是使用 .net 开发的程序,使用了 .Net中Random类生成的随机数。 具体可以查看 ：</p>
-<p><a href="https://docs.microsoft.com/en-us/dotnet/api/system.random?view=netframework-4.8" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/dotnet/api/system.random?view=netframework-4.8</a> 。</p>
-<p>如果是.net  的开发者都会知道 random 生成的随机数是伪随机数，就是说在随机种子固定的情况下，生成的随机数是一致的，这也是有同样的摇号池编码文件和一个随机数后，就能够确定所有中号人员名单的原因。</p>
-<p>如果对摇号程序有兴趣可以去下载后，使用 ILSpy  来做反编译查看其中的代码。</p>
-<p> <a href="https://github.com/icsharpcode/ILSpy" target="_blank" rel="noopener">https://github.com/icsharpcode/ILSpy</a></p>
-<p>摇号程序的逻辑基本就是以上的内容。在计算摇号的时候也完全的按照以上的内容来做的。 这里不贴代码，只说一下代码逻辑。</p>
-<p>首先，程序确定了总的摇号数 N ,真实的个人摇号编码是一个13位的数。程序中初始化的时候会实例化一大块内存。长度为 N*13 个字节 。 然后按顺序将所有人的编码写到这块内存中。 类似于如下(忽略空格） 。</p>
-<pre><code>000000000001 000000000002   ..... 00000012345
-</code></pre><p>随机数的生成区间是 1 到 N ,随机种子固定，如果摇到的号位 m ，那么对应的摇号编码的位置是 m*13 开始的字节后的 13 位，就是对应的中号编码。</p>
-<p>然后将这中号编码加入到一个字典中。如果这个中号编码在字典中存在，说明已经中号，直接跳过。</p>
-<p>程序中几个有意思的地方</p>
-<ol>
-<li>包含有三个入口文件 FromMain.cs FromMainB.cs  FromMainC.cs 见证了不同时期不同版本。 FromMain.cs 是没有加倍的入口文件，FromMainC 是现在正在使用的，FromMainB 是中间某个时间的。</li>
-<li>能够容纳的最大抽签人数是 4294967296L ，这个数字大概与全亚洲人口差不多。</li>
-<li>按照程序内存初始化，1G 内存能支持900W人。</li>
-</ol>
-<p>如何保证公正</p>
-<p>摇号程序是简单粗暴，直接有效。 利用了计算机的随机数是伪随机的方式，来保证了任何计算机在得到数据文件和随机种子后得到的结果都是一致的。</p>
-<p>有时候可能会听到找黄牛可以帮摇到号的，有没有这个可能。从数据角度来说是可能的，从实际的角度来说是不可能的。</p>
-<p>从前面的内容我们可以知道摇号结果是有两个因素决定的。</p>
-<ol>
-<li>摇号文件</li>
-<li>随机种子</li>
-</ol>
-<p>摇号文件提供了一个摇号列表，列表记录了每个人的位置，和摇号总人数。这份文件是提前开放下载。按照顺序排序，位置是由数据库的位置决定，人工无法干预。</p>
-<p>那剩下一个变量随机种子，那么我给你一个机会让你自己去填一个随机种子。你赶紧用摇号软件去暴力循环，找到了能够让你自己中号的那个随机种子。这个是可能的。</p>
-<p>但是现在要去找随机种子，让100个人都中号，这个是不可能的，随机区间太大，而你并不能控制随机数。 也就是说，即使给你自定义随机种子的权利，你也只能帮个位数的人来摇到号，而无法批量中号。</p>
-<p>倍数的欺骗</p>
-<p>在所有人都开始摇号后，不管有没有需求，反正先去那里站个坑。当到达一定的时候，倍数会变成一个毫无意义的数字。 如果每个人都开始有倍数后，这个倍数就没有意义了。如果5个人摇号，每个人有1个号，过几个月好这5个人变成了每个人3个号，和拿一个号没有任何的区别。在真实的摇号场景下，每个月都会多出几万甚至是几十万的摇号编码，而真实的中签概率是 2000 分之一。即使是增加了倍数，我们摇到号的概率依然在不断的下降。所以在摇号的绝大部分人都只是陪衬。像笔者这种重来没有中过奖的人，基本与之无缘。</p>
-<p>如果我们按每次中号的几率为 2000 分之一，中签率是怎么样的呢？</p>
-<p>下图是使用每次中签率 1/2000 计算，按每年 6 次，计算 300 次(50年)绘制的中签概率图：</p>
-<p>x轴(年)</p>
-<p>y轴(概率)</p>
-<p>可以看到 5 年中号的概率是 0.06 ，10年 是 0.11 ，20年 0.21 。</p>
-<p>但是实际上每个人会存在倍数，所以看看 2 倍，5 倍和 10 倍的概率图是什么样的。年头太长也没有什么意义，下面只统计 10 年</p>
-<p>2倍</p>
-<p>2倍10年中号概率0.25左右</p>
-<p>5倍</p>
-<p>5倍10年中号概率 0.5 左右</p>
-<h3 id="10-倍"><a href="#10-倍" class="headerlink" title="10 倍"></a>10 倍</h3><p><img src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190620111846.png" alt=""></p>
-<p>10倍10年中号概率0.7</p>
-<p>所以在摇号难度不上升的情况下(怎么可能), 希望还是很大的。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/dev/nsq/" class="image is-7by1">
-            <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 492 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/nsq/">nsq 随录</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="nsq"><a href="#nsq" class="headerlink" title="nsq"></a>nsq</h1><p><a href="http://nsq.io" target="_blank" rel="noopener">nsq 官网</a><br><a href="https://github.com/nsqio/nsq" target="_blank" rel="noopener">nsq</a><br><a href="https://github.com/nsqio/go-nsq" target="_blank" rel="noopener">go-nsq</a></p>
-<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><h3 id="nsqlookupd"><a href="#nsqlookupd" class="headerlink" title="nsqlookupd"></a>nsqlookupd</h3><p>是守护进程负责管理拓扑信息。客户端通过查询 nsqlookupd 来发现指定话题（topic）的生产者，并且 nsqd 节点广播话题（topic）和通道（channel）信息。</p>
-<h3 id="nsqd"><a href="#nsqd" class="headerlink" title="nsqd"></a>nsqd</h3><p>负责接收、排队、投递消息，可以独立运行，也可以接入到 nsqlookupd 的集群 </p>
-<p>限定内存占用<br>nsqd 提供一个 –mem-queue-size 配置选项，这将决定一个队列保存在内存中的消息数量。如果队列深度超过此阈值，消息将透明地写入磁盘。nsqd 进程的内存占用被限定于 –mem-queue-size * #of_channels_and_topics：</p>
-<h3 id="nsqadmin"><a href="#nsqadmin" class="headerlink" title="nsqadmin"></a>nsqadmin</h3><p>WEB UI，用来汇集集群的实时统计，并执行不同的管理任务。</p>
-<h1 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h1><p>publishing –&gt; Topics -&gt; Channels –&gt; Consumers </p>
-<ol>
-<li>publishing 投递一个消息到 Topics </li>
-<li>Topics 将消息传递给 Channels ，这里是一对多，</li>
-<li>每个 Channels 可连接多个 Consumer,但是只能被一个 Consumer 消费掉</li>
-</ol>
-<p><img src="/static/nsq/design1.gif" alt=""></p>
-<h1 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h1><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;2&apos;</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  nsqlookup:</span><br><span class="line">    image: nsqio/nsq</span><br><span class="line">    hostname: nsqlookup</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;4160:4160&quot;</span><br><span class="line">      - &quot;4161:4161&quot;</span><br><span class="line">    command: /nsqlookupd</span><br><span class="line"></span><br><span class="line">  nsq:</span><br><span class="line">    image: nsqio/nsq</span><br><span class="line">    hostname: nsq</span><br><span class="line">    volumes: </span><br><span class="line">      - ./data:/data </span><br><span class="line">    ports:</span><br><span class="line">      - &quot;4150:4150&quot;</span><br><span class="line">      - &quot;4151:4151&quot;</span><br><span class="line">    links:</span><br><span class="line">      - nsqlookup:nsqlookup</span><br><span class="line">    command: /nsqd --broadcast-address nsq --lookupd-tcp-address=nsqlookup:4160</span><br><span class="line"></span><br><span class="line">  nsqadmin:</span><br><span class="line">    image: nsqio/nsq</span><br><span class="line">    hostname: nsqadmin</span><br><span class="line">    links:</span><br><span class="line">      - nsqlookup:nsqlookup</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;4171:4171&quot;</span><br><span class="line">    command: /nsqadmin --lookupd-http-address=nsqlookup:4161</span><br></pre></td></tr></table></figure>
-<h1 id="go-nsq-example"><a href="#go-nsq-example" class="headerlink" title="go-nsq example"></a>go-nsq example</h1><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;github.com/nsqio/go-nsq&quot;</span><br><span class="line">	&quot;flag&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var url string </span><br><span class="line"></span><br><span class="line">func init()&#123;</span><br><span class="line">	flag.StringVar(&amp;url,&quot;url&quot;,&quot;127.0.0.1:4150&quot;,&quot;nsqd&quot;)</span><br><span class="line">	flag.Parse()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 生产者</span><br><span class="line">func startProducer()&#123;</span><br><span class="line">	config := nsq.NewConfig()</span><br><span class="line"></span><br><span class="line">	producer,err  := nsq.NewProducer(url,config)</span><br><span class="line"></span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for&#123;</span><br><span class="line">		if err := producer.Publish(&quot;test&quot;,[]byte(&quot;text message&quot;)); err!=nil &#123;</span><br><span class="line">			log.Fatal(&quot; publish error:&quot;+err.Error())</span><br><span class="line">		&#125;</span><br><span class="line">		log.Println(&quot;publish: test&quot; )</span><br><span class="line">		time.Sleep(1*time.Second)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 消费者</span><br><span class="line">func startConsumer(c string)&#123;</span><br><span class="line"></span><br><span class="line">	cfg := nsq.NewConfig()</span><br><span class="line">	consumer, err := nsq.NewConsumer(&quot;test&quot;,c,cfg)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	consumer.AddHandler(nsq.HandlerFunc(func(message *nsq.Message) error &#123;</span><br><span class="line">				log.Println(&quot;Consumer:&quot;+ c+&quot; channel #&quot; + string(message.Body))</span><br><span class="line">				return nil </span><br><span class="line">	&#125;))</span><br><span class="line"></span><br><span class="line">	if err := consumer.ConnectToNSQD(url); err != nil &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&lt;-consumer.StopChan</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func  main()  &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	go startConsumer(&quot;c1&quot;)</span><br><span class="line">	go startConsumer(&quot;c2&quot;)</span><br><span class="line">	go startConsumer(&quot;c3&quot;)</span><br><span class="line">	startProducer()</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="相关连接"><a href="#相关连接" class="headerlink" title="相关连接"></a>相关连接</h1><p><a href="http://wiki.jikexueyuan.com/project/nsq-guide/" target="_blank" rel="noopener">nsq wiki</a></p>
-<p><a href="https://www.chenjie.info/1891" target="_blank" rel="noopener">从nsq搭建到go-nsq的使用</a></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1056,7 +1015,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        83
+                        85
                     </p>
                 </div>
             </div>
@@ -1076,7 +1035,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        61
+                        62
                     </p>
                 </div>
             </div>
@@ -1110,7 +1069,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">74</span>
+                <span class="level-item tag">75</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -1126,7 +1085,7 @@
                 <span class="level-item">tool</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">6</span>
             </span>
         </a></li>
             </ul>
@@ -1140,7 +1099,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/snowflake/" style="font-size: 10px;">snowflake</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/NTFS/" style="font-size: 10px;">NTFS</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 11.43px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/snowflake/" style="font-size: 10px;">snowflake</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -1154,6 +1113,44 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/tool/osxfuse/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="osxfuse：mac ntfs 支持">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-15T02:19:34.000Z">2020-01-15</time></div>
+                    <a href="/tool/osxfuse/" class="has-link-black-ter is-size-6">osxfuse：mac ntfs 支持</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./tool/">tool</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/golang-sync/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="golang sync">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/dev/golang-sync/" class="has-link-black-ter is-size-6">golang sync</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1212,44 +1209,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-sysctl/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-12T02:54:47.000Z">2019-12-12</time></div>
-                    <a href="/dev/docker-sysctl/" class="has-link-black-ter is-size-6">docker_sysctl</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/rocketmq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
-                    <a href="/dev/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1268,7 +1227,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1650,6 +1609,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/NTFS/">
+                        <span class="level-start">
+                            <span class="level-item">NTFS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
@@ -1842,7 +1812,7 @@
                             <span class="level-item">golang</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -2312,6 +2282,44 @@
         
         <article class="media">
             
+            <a href="/tool/osxfuse/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="osxfuse：mac ntfs 支持">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-15T02:19:34.000Z">2020-01-15</time></div>
+                    <a href="/tool/osxfuse/" class="has-link-black-ter is-size-6">osxfuse：mac ntfs 支持</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./tool/">tool</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/golang-sync/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="golang sync">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/dev/golang-sync/" class="has-link-black-ter is-size-6">golang sync</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/tcp连接数/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
@@ -2367,44 +2375,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-sysctl/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-12T02:54:47.000Z">2019-12-12</time></div>
-                    <a href="/dev/docker-sysctl/" class="has-link-black-ter is-size-6">docker_sysctl</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/rocketmq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
-                    <a href="/dev/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2423,7 +2393,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -2805,6 +2775,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/NTFS/">
+                        <span class="level-start">
+                            <span class="level-item">NTFS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
@@ -2997,7 +2978,7 @@
                             <span class="level-item">golang</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>

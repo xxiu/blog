@@ -139,6 +139,181 @@
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
     <div class="card">
     
+    <div class="card-image">
+        <a href="/note/北京小汽车摇号分析/" class="image is-7by1">
+            <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190620130324.png" alt="北京小汽车摇号分析">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-06-17T08:00:00.000Z">2019-06-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./note/">note</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分钟 读完 (大约 2363 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/note/北京小汽车摇号分析/">北京小汽车摇号分析</a>
+            
+        </h1>
+        <div class="content">
+            <p>北京汽车摇号到底是怎么摇的，很多人只知道自己摇了多长时间，倍数是多少。这里我帮大家看了一下。</p>
+<p>摇号规则</p>
+<p>1、摇号基数序号分配方法：首先，将当期所有审核通过的编码按从小到大的顺序分配序号；然后，第二阶梯及以上的编码按从小到大的顺序，接在后面继续分配序号；再然后，第三阶梯及以上的编码按从小到大的顺序，接在后面继续分配序号；以此类推。因此，高阶梯的编码所对应的多个摇号基数序号是不连号的，当期摇号基数序号总数=第一阶梯人数+第二阶梯人数×2+第三阶梯人数×3…… 2、摇号方法：摇号程序从当期所有摇号基数序号中随机抽取中签者，高阶梯的编码对应多个摇号基数序号，于是享受了多倍的中签概率。摇号程序确保高阶梯编码的多个摇号基数序号最多只能摇中一个，当其中一个摇号基数序号中签，该编码即中签。</p>
+<p>看到上面这一段会有点懵，大部分人会被阶梯和乘数搞混乱。 这里我来帮大家解释一下。</p>
+<p>白话解释</p>
+<p>首先，每个人在注册的时候会分配一个序号。 假设有 1000 个人摇号，每次摇 50 个人， 大概是像下面</p>
+<p>如果按照每人一次的摇号规则，第一次摇号后，列表里会剩下950人。 这个时候又加入了100人。 如果前面950人的摇号倍数增加了一次。列表会变成如下（假设2号李四中号了）。</p>
+<p>当然，表里的申请编码只是模拟的，和真实的申请编码无关。</p>
+<p>如果所有人倍数都是一样，那么摇号表和上面是一致的。当有人有2倍的话，会把2 倍的人在摇号表追加一次。 真实的摇号表就成了如下：</p>
+<p>这里，序号 1 和序号 1051 都是张三。 如果出现3倍，4倍，甚至是10倍，按照同样的方法往后面追加。这样就实现了一个人多倍摇号。</p>
+<p>那么在摇号的时候，摇到 1 或者 1051 的话，张三都会中号。 也就是说序号1和1051 对应的申请编码都是 000001 。</p>
+<p>这里会出现一个问题，如果在一次摇号中 1 和 1051 都中号了怎么办。在实际的摇号中不会出现这种情况。摇号程序会自动跳过。</p>
+<p>这上面的排序方法就是每个月会提前放出来的小客车摇号的摇号池编码文件。 小客车的摇号数据文件可以在北京市小客车摇号网站里下载到</p>
+<p><a href="https://apply.bjhjyd.gov.cn/apply/user/person/ballotProgram.do?issueType=PERSON" target="_blank" rel="noopener">https://apply.bjhjyd.gov.cn/apply/user/person/ballotProgram.do?issueType=PERSON</a></p>
+<p>程序的运行</p>
+<p>摇号池编码文件发布后会公布文件 MD5 码</p>
+<p>MD5 码是一种消息摘要算法，一种被广泛使用的密码散列函数，可以产生出一个128位 的散列，用于确保信息传输完整一致。</p>
+<p>简单的说，MD5 码是利用文件的内容生成的一个值，如果文件中有一个字被修改了，计算出来的MD5 都是不一样的，确保了文件不会被修改。</p>
+<p>到这里已经提供了一份不会被修改的列表。接下来就是随机数出场了。每次摇号的时候由公证人员使用随机的方式提供一个6位的随机种子。 这个随机种子是如何工作的呢。</p>
+<p>摇号程序是使用 .net 开发的程序,使用了 .Net中Random类生成的随机数。 具体可以查看 ：</p>
+<p><a href="https://docs.microsoft.com/en-us/dotnet/api/system.random?view=netframework-4.8" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/dotnet/api/system.random?view=netframework-4.8</a> 。</p>
+<p>如果是.net  的开发者都会知道 random 生成的随机数是伪随机数，就是说在随机种子固定的情况下，生成的随机数是一致的，这也是有同样的摇号池编码文件和一个随机数后，就能够确定所有中号人员名单的原因。</p>
+<p>如果对摇号程序有兴趣可以去下载后，使用 ILSpy  来做反编译查看其中的代码。</p>
+<p> <a href="https://github.com/icsharpcode/ILSpy" target="_blank" rel="noopener">https://github.com/icsharpcode/ILSpy</a></p>
+<p>摇号程序的逻辑基本就是以上的内容。在计算摇号的时候也完全的按照以上的内容来做的。 这里不贴代码，只说一下代码逻辑。</p>
+<p>首先，程序确定了总的摇号数 N ,真实的个人摇号编码是一个13位的数。程序中初始化的时候会实例化一大块内存。长度为 N*13 个字节 。 然后按顺序将所有人的编码写到这块内存中。 类似于如下(忽略空格） 。</p>
+<pre><code>000000000001 000000000002   ..... 00000012345
+</code></pre><p>随机数的生成区间是 1 到 N ,随机种子固定，如果摇到的号位 m ，那么对应的摇号编码的位置是 m*13 开始的字节后的 13 位，就是对应的中号编码。</p>
+<p>然后将这中号编码加入到一个字典中。如果这个中号编码在字典中存在，说明已经中号，直接跳过。</p>
+<p>程序中几个有意思的地方</p>
+<ol>
+<li>包含有三个入口文件 FromMain.cs FromMainB.cs  FromMainC.cs 见证了不同时期不同版本。 FromMain.cs 是没有加倍的入口文件，FromMainC 是现在正在使用的，FromMainB 是中间某个时间的。</li>
+<li>能够容纳的最大抽签人数是 4294967296L ，这个数字大概与全亚洲人口差不多。</li>
+<li>按照程序内存初始化，1G 内存能支持900W人。</li>
+</ol>
+<p>如何保证公正</p>
+<p>摇号程序是简单粗暴，直接有效。 利用了计算机的随机数是伪随机的方式，来保证了任何计算机在得到数据文件和随机种子后得到的结果都是一致的。</p>
+<p>有时候可能会听到找黄牛可以帮摇到号的，有没有这个可能。从数据角度来说是可能的，从实际的角度来说是不可能的。</p>
+<p>从前面的内容我们可以知道摇号结果是有两个因素决定的。</p>
+<ol>
+<li>摇号文件</li>
+<li>随机种子</li>
+</ol>
+<p>摇号文件提供了一个摇号列表，列表记录了每个人的位置，和摇号总人数。这份文件是提前开放下载。按照顺序排序，位置是由数据库的位置决定，人工无法干预。</p>
+<p>那剩下一个变量随机种子，那么我给你一个机会让你自己去填一个随机种子。你赶紧用摇号软件去暴力循环，找到了能够让你自己中号的那个随机种子。这个是可能的。</p>
+<p>但是现在要去找随机种子，让100个人都中号，这个是不可能的，随机区间太大，而你并不能控制随机数。 也就是说，即使给你自定义随机种子的权利，你也只能帮个位数的人来摇到号，而无法批量中号。</p>
+<p>倍数的欺骗</p>
+<p>在所有人都开始摇号后，不管有没有需求，反正先去那里站个坑。当到达一定的时候，倍数会变成一个毫无意义的数字。 如果每个人都开始有倍数后，这个倍数就没有意义了。如果5个人摇号，每个人有1个号，过几个月好这5个人变成了每个人3个号，和拿一个号没有任何的区别。在真实的摇号场景下，每个月都会多出几万甚至是几十万的摇号编码，而真实的中签概率是 2000 分之一。即使是增加了倍数，我们摇到号的概率依然在不断的下降。所以在摇号的绝大部分人都只是陪衬。像笔者这种重来没有中过奖的人，基本与之无缘。</p>
+<p>如果我们按每次中号的几率为 2000 分之一，中签率是怎么样的呢？</p>
+<p>下图是使用每次中签率 1/2000 计算，按每年 6 次，计算 300 次(50年)绘制的中签概率图：</p>
+<p>x轴(年)</p>
+<p>y轴(概率)</p>
+<p>可以看到 5 年中号的概率是 0.06 ，10年 是 0.11 ，20年 0.21 。</p>
+<p>但是实际上每个人会存在倍数，所以看看 2 倍，5 倍和 10 倍的概率图是什么样的。年头太长也没有什么意义，下面只统计 10 年</p>
+<p>2倍</p>
+<p>2倍10年中号概率0.25左右</p>
+<p>5倍</p>
+<p>5倍10年中号概率 0.5 左右</p>
+<h3 id="10-倍"><a href="#10-倍" class="headerlink" title="10 倍"></a>10 倍</h3><p><img src="https://raw.githubusercontent.com/xxiu/img/asset/img/20190620111846.png" alt=""></p>
+<p>10倍10年中号概率0.7</p>
+<p>所以在摇号难度不上升的情况下(怎么可能), 希望还是很大的。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/dev/nsq/" class="image is-7by1">
+            <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-23T07:19:40.000Z">2019-05-23</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 492 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/nsq/">nsq 随录</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="nsq"><a href="#nsq" class="headerlink" title="nsq"></a>nsq</h1><p><a href="http://nsq.io" target="_blank" rel="noopener">nsq 官网</a><br><a href="https://github.com/nsqio/nsq" target="_blank" rel="noopener">nsq</a><br><a href="https://github.com/nsqio/go-nsq" target="_blank" rel="noopener">go-nsq</a></p>
+<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><h3 id="nsqlookupd"><a href="#nsqlookupd" class="headerlink" title="nsqlookupd"></a>nsqlookupd</h3><p>是守护进程负责管理拓扑信息。客户端通过查询 nsqlookupd 来发现指定话题（topic）的生产者，并且 nsqd 节点广播话题（topic）和通道（channel）信息。</p>
+<h3 id="nsqd"><a href="#nsqd" class="headerlink" title="nsqd"></a>nsqd</h3><p>负责接收、排队、投递消息，可以独立运行，也可以接入到 nsqlookupd 的集群 </p>
+<p>限定内存占用<br>nsqd 提供一个 –mem-queue-size 配置选项，这将决定一个队列保存在内存中的消息数量。如果队列深度超过此阈值，消息将透明地写入磁盘。nsqd 进程的内存占用被限定于 –mem-queue-size * #of_channels_and_topics：</p>
+<h3 id="nsqadmin"><a href="#nsqadmin" class="headerlink" title="nsqadmin"></a>nsqadmin</h3><p>WEB UI，用来汇集集群的实时统计，并执行不同的管理任务。</p>
+<h1 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h1><p>publishing –&gt; Topics -&gt; Channels –&gt; Consumers </p>
+<ol>
+<li>publishing 投递一个消息到 Topics </li>
+<li>Topics 将消息传递给 Channels ，这里是一对多，</li>
+<li>每个 Channels 可连接多个 Consumer,但是只能被一个 Consumer 消费掉</li>
+</ol>
+<p><img src="/static/nsq/design1.gif" alt=""></p>
+<h1 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h1><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;2&apos;</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  nsqlookup:</span><br><span class="line">    image: nsqio/nsq</span><br><span class="line">    hostname: nsqlookup</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;4160:4160&quot;</span><br><span class="line">      - &quot;4161:4161&quot;</span><br><span class="line">    command: /nsqlookupd</span><br><span class="line"></span><br><span class="line">  nsq:</span><br><span class="line">    image: nsqio/nsq</span><br><span class="line">    hostname: nsq</span><br><span class="line">    volumes: </span><br><span class="line">      - ./data:/data </span><br><span class="line">    ports:</span><br><span class="line">      - &quot;4150:4150&quot;</span><br><span class="line">      - &quot;4151:4151&quot;</span><br><span class="line">    links:</span><br><span class="line">      - nsqlookup:nsqlookup</span><br><span class="line">    command: /nsqd --broadcast-address nsq --lookupd-tcp-address=nsqlookup:4160</span><br><span class="line"></span><br><span class="line">  nsqadmin:</span><br><span class="line">    image: nsqio/nsq</span><br><span class="line">    hostname: nsqadmin</span><br><span class="line">    links:</span><br><span class="line">      - nsqlookup:nsqlookup</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;4171:4171&quot;</span><br><span class="line">    command: /nsqadmin --lookupd-http-address=nsqlookup:4161</span><br></pre></td></tr></table></figure>
+<h1 id="go-nsq-example"><a href="#go-nsq-example" class="headerlink" title="go-nsq example"></a>go-nsq example</h1><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;github.com/nsqio/go-nsq&quot;</span><br><span class="line">	&quot;flag&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var url string </span><br><span class="line"></span><br><span class="line">func init()&#123;</span><br><span class="line">	flag.StringVar(&amp;url,&quot;url&quot;,&quot;127.0.0.1:4150&quot;,&quot;nsqd&quot;)</span><br><span class="line">	flag.Parse()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 生产者</span><br><span class="line">func startProducer()&#123;</span><br><span class="line">	config := nsq.NewConfig()</span><br><span class="line"></span><br><span class="line">	producer,err  := nsq.NewProducer(url,config)</span><br><span class="line"></span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for&#123;</span><br><span class="line">		if err := producer.Publish(&quot;test&quot;,[]byte(&quot;text message&quot;)); err!=nil &#123;</span><br><span class="line">			log.Fatal(&quot; publish error:&quot;+err.Error())</span><br><span class="line">		&#125;</span><br><span class="line">		log.Println(&quot;publish: test&quot; )</span><br><span class="line">		time.Sleep(1*time.Second)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 消费者</span><br><span class="line">func startConsumer(c string)&#123;</span><br><span class="line"></span><br><span class="line">	cfg := nsq.NewConfig()</span><br><span class="line">	consumer, err := nsq.NewConsumer(&quot;test&quot;,c,cfg)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	consumer.AddHandler(nsq.HandlerFunc(func(message *nsq.Message) error &#123;</span><br><span class="line">				log.Println(&quot;Consumer:&quot;+ c+&quot; channel #&quot; + string(message.Body))</span><br><span class="line">				return nil </span><br><span class="line">	&#125;))</span><br><span class="line"></span><br><span class="line">	if err := consumer.ConnectToNSQD(url); err != nil &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&lt;-consumer.StopChan</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func  main()  &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	go startConsumer(&quot;c1&quot;)</span><br><span class="line">	go startConsumer(&quot;c2&quot;)</span><br><span class="line">	go startConsumer(&quot;c3&quot;)</span><br><span class="line">	startProducer()</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="相关连接"><a href="#相关连接" class="headerlink" title="相关连接"></a>相关连接</h1><p><a href="http://wiki.jikexueyuan.com/project/nsq-guide/" target="_blank" rel="noopener">nsq wiki</a></p>
+<p><a href="https://www.chenjie.info/1891" target="_blank" rel="noopener">从nsq搭建到go-nsq的使用</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
@@ -701,196 +876,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-07T08:00:00.000Z">2018-12-07</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./note/">note</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 975 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/note/android不折腾/">android,不折腾</a>
-            
-        </h1>
-        <div class="content">
-            <p>在最开始的时候是打算写 andoird 相关的内容</p>
-<p>然而发现其实能够写的东西其实没那么多 </p>
-<p>对于 android 的一些玩机技巧，在 android 5 的时候</p>
-<p>能够说的是什么呢，刷机 、supersu、 xposed 还有一些貌似黑科技的软件</p>
-<p>当这些说完了后呢，只能推荐一些好用的软件<br>是<br>作为个人来讲，推荐软件是个很无趣的活 </p>
-<p>市面上有一大堆的软件推荐网站、公众号、APP</p>
-<p>想要选一些小众的，最后会变成效率软件推荐集合</p>
-<p>实际上对于刷机和root来说，热情过后就很无趣</p>
-<p>在安全的角度来讲，所有需要手机授权root的软件都是流氓软件。 </p>
-<p>所有自称如何优化了官方软件，改进有多么大的，实际上都没有想象的那么大。</p>
-<p>而以牺牲系统安全性为代价的特性，都是不值得的。 </p>
-<p>为什么你的安全软件需要root权限？</p>
-<p>因为如果没有root权限就什么也干不了。 </p>
-<p>那既然没有root权限什么都干不了</p>
-<p>你还要安全软件干什么呢。 </p>
-<p>曾经就有安全软件利用系统漏洞来标榜自己是不需要root权限的安全软件。 </p>
-<p>当时觉得很牛逼。真的是牛逼，不需要root系统。小白用户也能很好的使用的安全软件。</p>
-<p>只需要一键开启就 ok 了。 </p>
-<p>实际上呢，作为一个安全软件，不是应该想办法来修复系统漏洞吗。 </p>
-<p>利用系统漏洞和流氓软件有什么区别。 </p>
-<p>android 5 的时候，很多地方做的不够好</p>
-<p>我们需要去下载一些优化软件，但是现在已经不需要了</p>
-<p>你所需要的东西大部分系统厂商都能够提供</p>
-<p>你所追求的所谓的效率，仔细统计一下，其实是一个低频的需求</p>
-<p>能够花20分钟去打王者，却不能花几秒钟来多做一步操作</p>
-<p>人有时候会高估自己的时间价值，有时候又会低估</p>
-<p>对于自己手机系统安全性不在意，随意乱给root权限</p>
-<p>当然国产软件随意乱索取权限</p>
-<p>系统的权限管理已经能够满足我们绝大部分人的需求。 </p>
-<p>我们在玩机的时候，玩的是什么呢，玩的是折腾</p>
-<p>折腾呢很多的Rom，玩了很多的app</p>
-<p>最后发现不折腾却是最好的选择 </p>
-<p>在安卓圈里有魔改系统看不清厂商出品</p>
-<p>原始安卓看不起魔改系统</p>
-<p>实际上大部分的原生安卓都是魔改的</p>
-<p>总是需要这样的或者那样的插件支持</p>
-<p>找桌面，找辅助插件，找同步通讯录，找备份</p>
-<p>反正就是要吧系统上所有的自带app都要替换掉。</p>
-<p>最后还要吧google全家桶也装上</p>
-<p>管他有没有用</p>
-<p>管他速度怎么样，能不能连上</p>
-<p>信仰嘛</p>
-<p>我也用google的输入法，chrome </p>
-<p>但是 google 只是个商业公司</p>
-<p>并不是所有的东西都香</p>
-<p>看看 google 关掉的产品</p>
-<p>read 、chat、G+ 等待</p>
-<p>还是不要折腾，适当替换部分软件</p>
-<p>不要用root类的软件</p>
-<p>不要乱授权通讯录、电话等权限</p>
-<p>好好用厂商提供的版本</p>
-<p>节约的时间</p>
-<p>去读读书、谈谈朋友</p>
-<p>岂不美哉</p>
-<p>ps. 看到很多公众号一句话换一行，在这里尝试一下，这种风格很适合杠。想到哪，杠到哪 。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-05T06:24:51.000Z">2018-12-05</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/./dev/">dev</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 862 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/dev/Jenkins-docker-ansible自动化上线/">Jenkins-docker-ansible自动化上线</a>
-            
-        </h1>
-        <div class="content">
-            <p>从11月开始到现在，项目开始从 php 转换到 nodejs  + 后端服务，相应的部署环境转换到docker。</p>
-<p>在使用纯php环境，上线比较简单，主要是代码拉取，拷贝和软链切换。 运行环境使用docker后相应的需要引入一个打包的过程，所以前面所依靠的上线部署系统无法满足当前的需求。</p>
-<p>目前来说，Jenkins 作为自动化的流水线工具，几乎是不二的选择。</p>
-<p>将 Jenkins 作为流水线工具，在打包阶段依赖 docker-compose。 上线阶段依赖 ansible 。</p>
-<h1 id="jenkins-流程"><a href="#jenkins-流程" class="headerlink" title="jenkins 流程"></a>jenkins 流程</h1><ul>
-<li><p>Git 拉取代码</p>
-</li>
-<li><p>Jenkins 根据不同的上线配置不同的脚本</p>
-</li>
-<li><p>docker-compose 打包代码</p>
-<p>指定-f 参数来决定不同的镜像</p>
-<p>项目下:</p>
-<p>​ docker-compose.yml  对应正式环境 ，Jenkins 绑定到 master 分支</p>
-<p>​ docker-compose.dev.yml 对应测试环境， Jenkins 绑定到 develop 分支</p>
-<p>​ 由于打包过程使用的 dockerfile 都一样。 在自行的测试环境上可以自行编辑个人的docker-compose文件来作为开发环境。在 .gitignore 里面讲个人配置文件过滤掉。</p>
-</li>
-<li><p>docker-compose 上传代码</p>
-<p>同打包代码一样，使用 -f 参数来指定 docker-compose 文件来上传。</p>
-</li>
-<li><p>执行ansible 的 playbook 来完成上线</p>
-</li>
-</ul>
-<p>整个过程相对来说比较简单，总结下来：1）jenkins负责docker打包和发布，2）ansible 负责线上部署脚本。</p>
-<p>整个部署过程全部都是脚本化</p>
-<ol>
-<li>jenkins 脚本由 Jenkinsfile 负责</li>
-<li>docker 编译发布 由 docker-compose.yml 负责</li>
-<li>线上发布有 ansible playbook.yml 负责。</li>
-</ol>
-<p>所有的脚本全部都放下项目目录的deploy里面。涉及到私密信息，保存在 Jenkins 或者 ansible 的配置中，脚本中使用变量来替换。</p>
-<h1 id="ansible-流程"><a href="#ansible-流程" class="headerlink" title="ansible 流程"></a>ansible 流程</h1><p>ansible 在整个流程中负责与线上的机器交互，交互过程脚本话，全部都在一个名为 playbook.yml 的脚本中</p>
-<p>在 Jenkins 中调用只需要一行</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ansiblePlaybook credentialsId: '2495416d-79bb-4c43-9759-76102a166b3d',</span><br><span class="line">                                   playbook: 'playbook.yml',</span><br><span class="line">                                   extraVars: [</span><br><span class="line">                                           workspace: "$&#123;WORKSPACE&#125;"</span><br><span class="line">                                           ]</span><br></pre></td></tr></table></figure>
-<p>playbook 负责</p>
-<ol>
-<li>copy 配置文件</li>
-<li>根据配置文件，拉取docker image</li>
-<li>更新现有配置文件</li>
-<li>重新启动docker</li>
-<li>重新加载 nginx 配置</li>
-</ol>
-<h1 id="docker-打包"><a href="#docker-打包" class="headerlink" title="docker 打包"></a>docker 打包</h1><p>部署上线，涉及到nodejs项目需要使用 <code>npm install</code> 或者 php 项目需要使用 <code>compose install</code>的，按照正常的项目配置，每次在 docker build 的过程，由于源码变化，导致了每次执行初始化的过程都需要重新安装。</p>
-<p>我希望在自动化部署上线中，docker build 的过程时间越短越好。所以就需要利用到 docker images 的缓存。如果当前层没有发生变化，那么 docker 在打包过程中会自动使用缓存。</p>
-<p>所以，将 nodejs 项目中的 package.json 或者 php 项目中的 composer.json 实现负责到指定文件夹做初始化。这样就可以让这段耗时 install 过程在第一次编译完成后充分的利用 docker cache。</p>
-<p>比如：</p>
-<p>常规流程</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ADD . /var/www/source</span><br><span class="line">WORKDIR /var/www/source</span><br><span class="line">RUN npm install \</span><br><span class="line">    &amp;&amp; npm run build</span><br></pre></td></tr></table></figure>
-<p>修改后流程</p>
-<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ADD  ./package*.json /var/www/node/</span><br><span class="line">WORKDIR /var/www/node</span><br><span class="line">RUN npm install</span><br><span class="line"></span><br><span class="line">ADD . /var/www/source</span><br><span class="line">WORKDIR /var/www/source</span><br><span class="line">RUN ln -sf ../node/node_modules ./node_modules \</span><br><span class="line">    &amp;&amp; npm run build</span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -957,7 +942,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        83
+                        85
                     </p>
                 </div>
             </div>
@@ -977,7 +962,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        61
+                        62
                     </p>
                 </div>
             </div>
@@ -1011,7 +996,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">74</span>
+                <span class="level-item tag">75</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -1027,7 +1012,7 @@
                 <span class="level-item">tool</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">6</span>
             </span>
         </a></li>
             </ul>
@@ -1041,7 +1026,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/snowflake/" style="font-size: 10px;">snowflake</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/NTFS/" style="font-size: 10px;">NTFS</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 11.43px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/snowflake/" style="font-size: 10px;">snowflake</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -1055,6 +1040,44 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/tool/osxfuse/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="osxfuse：mac ntfs 支持">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-15T02:19:34.000Z">2020-01-15</time></div>
+                    <a href="/tool/osxfuse/" class="has-link-black-ter is-size-6">osxfuse：mac ntfs 支持</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./tool/">tool</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/golang-sync/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="golang sync">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/dev/golang-sync/" class="has-link-black-ter is-size-6">golang sync</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1113,44 +1136,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-sysctl/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-12T02:54:47.000Z">2019-12-12</time></div>
-                    <a href="/dev/docker-sysctl/" class="has-link-black-ter is-size-6">docker_sysctl</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/rocketmq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
-                    <a href="/dev/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1169,7 +1154,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1551,6 +1536,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/NTFS/">
+                        <span class="level-start">
+                            <span class="level-item">NTFS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
@@ -1743,7 +1739,7 @@
                             <span class="level-item">golang</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -2213,6 +2209,44 @@
         
         <article class="media">
             
+            <a href="/tool/osxfuse/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="osxfuse：mac ntfs 支持">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-15T02:19:34.000Z">2020-01-15</time></div>
+                    <a href="/tool/osxfuse/" class="has-link-black-ter is-size-6">osxfuse：mac ntfs 支持</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./tool/">tool</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/golang-sync/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="golang sync">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/dev/golang-sync/" class="has-link-black-ter is-size-6">golang sync</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/tcp连接数/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
@@ -2268,44 +2302,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-sysctl/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-12T02:54:47.000Z">2019-12-12</time></div>
-                    <a href="/dev/docker-sysctl/" class="has-link-black-ter is-size-6">docker_sysctl</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/rocketmq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
-                    <a href="/dev/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2324,7 +2320,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -2706,6 +2702,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/NTFS/">
+                        <span class="level-start">
+                            <span class="level-item">NTFS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
@@ -2898,7 +2905,7 @@
                             <span class="level-item">golang</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>

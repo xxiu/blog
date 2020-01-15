@@ -150,6 +150,76 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/dev/golang-sync/" class="image is-7by1">
+            <img class="thumbnail" src="/static/default.jpg" alt="golang sync">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/./dev/">dev</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 748 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/dev/golang-sync/">golang sync</a>
+            
+        </h1>
+        <div class="content">
+            <p>##Goroutine 内存占用</p>
+<p>下面是一个创建 goroutine 什么也不干，对内存的占用打印。说明创建 goroutine 的成本非常低。 </p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">num:1  mem: 0.062MB average:64.000kb </span><br><span class="line">num:10  mem: 0.000MB average:0.000kb </span><br><span class="line">num:100  mem: 0.000MB average:0.000kb </span><br><span class="line">num:1000  mem: 0.250MB average:0.256kb </span><br><span class="line">num:10000  mem: 1.373MB average:0.141kb </span><br><span class="line">num:100000  mem: 265.852MB average:2.722kb </span><br><span class="line">num:1000000  mem: 2462.125MB average:2.521kb</span><br></pre></td></tr></table></figure>
+<p>以下是创建代码：</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> (</span><br><span class="line">	<span class="hljs-string">"fmt"</span></span><br><span class="line">	<span class="hljs-string">"runtime"</span></span><br><span class="line">	<span class="hljs-string">"sync"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// goroutine ： go 中的每个并发执行单元叫 go routine</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 返回从系统中获取的字节数</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">memConsumed</span><span class="hljs-params">()</span> <span class="hljs-title">uint64</span></span> &#123;</span><br><span class="line">	runtime.GC()</span><br><span class="line">	<span class="hljs-keyword">var</span> s runtime.MemStats</span><br><span class="line">	runtime.ReadMemStats(&amp;s)</span><br><span class="line">	<span class="hljs-keyword">return</span> s.Sys <span class="hljs-comment">//系统字节数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 获取创建指定数量协程</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">memChannel</span><span class="hljs-params">(num <span class="hljs-keyword">uint64</span>)</span></span> &#123;</span><br><span class="line">	<span class="hljs-keyword">var</span> c &lt;-<span class="hljs-keyword">chan</span> <span class="hljs-keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">var</span> wg sync.WaitGroup</span><br><span class="line">	noop := <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">		wg.Done()</span><br><span class="line">		&lt;-c</span><br><span class="line">	&#125;</span><br><span class="line">	wg.Add(<span class="hljs-keyword">int</span>(num))</span><br><span class="line">	before := memConsumed()</span><br><span class="line">	<span class="hljs-keyword">for</span> i := num; i &gt; <span class="hljs-number">0</span>; i-- &#123;</span><br><span class="line">		<span class="hljs-keyword">go</span> noop()</span><br><span class="line">	&#125;</span><br><span class="line">	wg.Wait()</span><br><span class="line">	after := memConsumed()</span><br><span class="line">	fmt.Printf(<span class="hljs-string">"num:%d  mem: %.3fMB average:%.3fkb \n"</span>, num, <span class="hljs-keyword">float64</span>(after-before)/<span class="hljs-number">1024</span>/<span class="hljs-number">1024</span>, <span class="hljs-keyword">float64</span>(after-before)/<span class="hljs-number">1024</span>/<span class="hljs-keyword">float64</span>(num))</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	memChannel(<span class="hljs-number">1</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e1</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e2</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e3</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e4</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e5</span>)</span><br><span class="line">	memChannel(<span class="hljs-number">1e6</span>) <span class="hljs-comment">// 百万</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="WaitGroup"><a href="#WaitGroup" class="headerlink" title="WaitGroup"></a>WaitGroup</h2><p>用于等待线程结束，Add 为计数器 +n，Done 线程结束方法。 当调用到 n个 Done  后 ，如果计数器小于 0 ，Wait 阻塞结束。 </p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> wg sync.WaitGroup</span><br><span class="line"><span class="hljs-keyword">var</span> urls = []<span class="hljs-keyword">string</span>&#123;</span><br><span class="line">    <span class="hljs-string">"http://www.golang.org/"</span>,</span><br><span class="line">    <span class="hljs-string">"http://www.google.com/"</span>,</span><br><span class="line">    <span class="hljs-string">"http://www.somestupidname.com/"</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">for</span> _, url := <span class="hljs-keyword">range</span> urls &#123;</span><br><span class="line">    <span class="hljs-comment">// Increment the WaitGroup counter.</span></span><br><span class="line">    wg.Add(<span class="hljs-number">1</span>)</span><br><span class="line">    <span class="hljs-comment">// Launch a goroutine to fetch the URL.</span></span><br><span class="line">    <span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(url <span class="hljs-keyword">string</span>)</span></span> &#123;</span><br><span class="line">        <span class="hljs-comment">// Decrement the counter when the goroutine completes.</span></span><br><span class="line">        <span class="hljs-keyword">defer</span> wg.Done()</span><br><span class="line">        <span class="hljs-comment">// Fetch the URL.</span></span><br><span class="line">        http.Get(url)</span><br><span class="line">    &#125;(url)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// Wait for all HTTP fetches to complete.</span></span><br><span class="line">wg.Wait()</span><br></pre></td></tr></table></figure>
+<h2 id="Mutex"><a href="#Mutex" class="headerlink" title="Mutex"></a>Mutex</h2><p>Mutex 是一个互斥锁。 具有两个方法 Lock 和  Unlock。 </p>
+<p>Lock 如果加锁，则阻塞到解锁 。</p>
+<p>Unlock 如果未加锁会导致运行错误。 </p>
+<h2 id="RWMutex"><a href="#RWMutex" class="headerlink" title="RWMutex"></a>RWMutex</h2><p>读写互斥锁，可以多个读一个写。 </p>
+<p>Lock  /Unlock 同  Mutex</p>
+<p>Rlock/RUnlock  锁定为读取，禁止写，允许读。 </p>
+<h2 id="Once"><a href="#Once" class="headerlink" title="Once"></a>Once</h2><p>Do 只能执行一次. </p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	<span class="hljs-keyword">var</span> once sync.Once</span><br><span class="line">	onceBody := <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">		fmt.Println(<span class="hljs-string">"Only once"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	done := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">bool</span>)</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++ &#123;</span><br><span class="line">		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">			fmt.Println(<span class="hljs-string">"go run \n"</span>)</span><br><span class="line">			once.Do(onceBody) <span class="hljs-comment">// 只会执行一次</span></span><br><span class="line">			done &lt;- <span class="hljs-literal">true</span></span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++ &#123;</span><br><span class="line">		fmt.Printf(<span class="hljs-string">"done channel :%v \n"</span>, &lt;-done)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ go run once.go</span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">Only once</span><br><span class="line">done channel :true </span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">done channel :true </span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">done channel :true </span><br><span class="line">go run </span><br><span class="line"></span><br><span class="line">done channel :true </span><br><span class="line">done channel :true</span><br></pre></td></tr></table></figure>
+<h2 id="Cond"><a href="#Cond" class="headerlink" title="Cond"></a>Cond</h2><p>条件锁，当满足某些条件才起作用的锁。 </p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> (</span><br><span class="line">	<span class="hljs-string">"fmt"</span></span><br><span class="line">	<span class="hljs-string">"sync"</span></span><br><span class="line">	<span class="hljs-string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">var</span> lc = <span class="hljs-built_in">new</span>(sync.Mutex)</span><br><span class="line">	<span class="hljs-keyword">var</span> cond = sync.NewCond(lc)</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++ &#123;</span><br><span class="line">		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(x <span class="hljs-keyword">int</span>)</span></span> &#123;</span><br><span class="line">			cond.L.Lock()</span><br><span class="line">			<span class="hljs-keyword">defer</span> cond.L.Unlock()</span><br><span class="line">			cond.Wait()</span><br><span class="line">			fmt.Println(x)</span><br><span class="line">		&#125;(i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="hljs-number">2</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="hljs-string">"1--\n"</span>)</span><br><span class="line">	cond.Signal()</span><br><span class="line">	time.Sleep(<span class="hljs-number">2</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="hljs-string">"2--\n"</span>)</span><br><span class="line">	cond.Broadcast()</span><br><span class="line">	time.Sleep(<span class="hljs-number">2</span> * time.Second)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ go run cone.go</span><br><span class="line">1-- # signal</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line">2-- # broadcast </span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+<h2 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h2><p>sync.Pool有两个公开的方法。一个是Get，另一个是Put。前者的功能是从池中获取一个interface{}类型的值，而后者的作用则是把一个interface{}类型的值放置于池中。</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// 一个[]byte的对象池，每个对象为一个[]byte</span></span><br><span class="line"><span class="hljs-keyword">var</span> bytePool = sync.Pool&#123;</span><br><span class="line">  New: <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span> <span class="hljs-title">interface</span></span>&#123;&#125; &#123;</span><br><span class="line">    b := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">byte</span>, <span class="hljs-number">1024</span>)</span><br><span class="line">    <span class="hljs-keyword">return</span> &amp;b</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">  a := time.Now().Unix()</span><br><span class="line">  <span class="hljs-comment">// 不使用对象池</span></span><br><span class="line">  <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000000000</span>; i++&#123;</span><br><span class="line">    obj := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">byte</span>,<span class="hljs-number">1024</span>)</span><br><span class="line">    _ = obj</span><br><span class="line">  &#125;</span><br><span class="line">  b := time.Now().Unix()</span><br><span class="line">  <span class="hljs-comment">// 使用对象池</span></span><br><span class="line">  <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000000000</span>; i++&#123;</span><br><span class="line">    obj := bytePool.Get().(*[]<span class="hljs-keyword">byte</span>)</span><br><span class="line">    _ = obj</span><br><span class="line">    bytePool.Put(obj)</span><br><span class="line">  &#125;</span><br><span class="line">  c := time.Now().Unix()</span><br><span class="line">  fmt.Println(<span class="hljs-string">"without pool "</span>, b - a, <span class="hljs-string">"s"</span>)</span><br><span class="line">  fmt.Println(<span class="hljs-string">"with    pool "</span>, c - b, <span class="hljs-string">"s"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// without pool  34 s</span></span><br><span class="line"><span class="hljs-comment">// with    pool  24 s</span></span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/dev/nsq/" class="image is-7by1">
             <img class="thumbnail" src="/static/default.jpg" alt="nsq 随录">
         </a>
@@ -253,7 +323,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        83
+                        85
                     </p>
                 </div>
             </div>
@@ -273,7 +343,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        61
+                        62
                     </p>
                 </div>
             </div>
@@ -307,7 +377,7 @@
                 <span class="level-item">dev</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">74</span>
+                <span class="level-item tag">75</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/./note/">
@@ -323,7 +393,7 @@
                 <span class="level-item">tool</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">6</span>
             </span>
         </a></li>
             </ul>
@@ -337,7 +407,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/snowflake/" style="font-size: 10px;">snowflake</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
+        <a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/5g/" style="font-size: 10px;">5g</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/NTFS/" style="font-size: 10px;">NTFS</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/RocketMQ/" style="font-size: 10px;">RocketMQ</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/ansible/" style="font-size: 10px;">ansible</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/brew/" style="font-size: 10px;">brew</a> <a href="/tags/cache/" style="font-size: 10px;">cache</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/coap/" style="font-size: 10px;">coap</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/etl/" style="font-size: 10px;">etl</a> <a href="/tags/fastdfs/" style="font-size: 14.29px;">fastdfs</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 11.43px;">github</a> <a href="/tags/gitolite/" style="font-size: 10px;">gitolite</a> <a href="/tags/golang/" style="font-size: 11.43px;">golang</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/harbor/" style="font-size: 10px;">harbor</a> <a href="/tags/hexo/" style="font-size: 12.86px;">hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/hugo/" style="font-size: 10px;">hugo</a> <a href="/tags/ikvm/" style="font-size: 10px;">ikvm</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jenkins/" style="font-size: 14.29px;">jenkins</a> <a href="/tags/keepass/" style="font-size: 10px;">keepass</a> <a href="/tags/keettle/" style="font-size: 10px;">keettle</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/letsencrypt/" style="font-size: 11.43px;">letsencrypt</a> <a href="/tags/magick/" style="font-size: 10px;">magick</a> <a href="/tags/memcacheq/" style="font-size: 10px;">memcacheq</a> <a href="/tags/minikube/" style="font-size: 10px;">minikube</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/nsq/" style="font-size: 10px;">nsq</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/pdf/" style="font-size: 10px;">pdf</a> <a href="/tags/petl/" style="font-size: 10px;">petl</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/python/" style="font-size: 15.71px;">python</a> <a href="/tags/saltstack/" style="font-size: 18.57px;">saltstack</a> <a href="/tags/smarty/" style="font-size: 10px;">smarty</a> <a href="/tags/snowflake/" style="font-size: 10px;">snowflake</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/solr/" style="font-size: 17.14px;">solr</a> <a href="/tags/sqlserver/" style="font-size: 10px;">sqlserver</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tesseract-ocr/" style="font-size: 10px;">tesseract-ocr</a> <a href="/tags/thrift/" style="font-size: 10px;">thrift</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a> <a href="/tags/zabbix/" style="font-size: 11.43px;">zabbix</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/摇号/" style="font-size: 10px;">摇号</a> <a href="/tags/词库/" style="font-size: 10px;">词库</a>
     </div>
 </div>
 
@@ -351,6 +421,44 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/tool/osxfuse/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="osxfuse：mac ntfs 支持">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-15T02:19:34.000Z">2020-01-15</time></div>
+                    <a href="/tool/osxfuse/" class="has-link-black-ter is-size-6">osxfuse：mac ntfs 支持</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./tool/">tool</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/golang-sync/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="golang sync">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/dev/golang-sync/" class="has-link-black-ter is-size-6">golang sync</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -409,44 +517,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-sysctl/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-12T02:54:47.000Z">2019-12-12</time></div>
-                    <a href="/dev/docker-sysctl/" class="has-link-black-ter is-size-6">docker_sysctl</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/rocketmq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
-                    <a href="/dev/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -465,7 +535,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -847,6 +917,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/NTFS/">
+                        <span class="level-start">
+                            <span class="level-item">NTFS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
@@ -1039,7 +1120,7 @@
                             <span class="level-item">golang</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1509,6 +1590,44 @@
         
         <article class="media">
             
+            <a href="/tool/osxfuse/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="osxfuse：mac ntfs 支持">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-15T02:19:34.000Z">2020-01-15</time></div>
+                    <a href="/tool/osxfuse/" class="has-link-black-ter is-size-6">osxfuse：mac ntfs 支持</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./tool/">tool</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/dev/golang-sync/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/static/default.jpg" alt="golang sync">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-10T02:36:34.000Z">2020-01-10</time></div>
+                    <a href="/dev/golang-sync/" class="has-link-black-ter is-size-6">golang sync</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/./dev/">dev</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/dev/tcp连接数/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/static/default.jpg" alt="tcp连接数">
@@ -1564,44 +1683,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/dev/docker-sysctl/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/static/default.jpg" alt="docker_sysctl">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-12T02:54:47.000Z">2019-12-12</time></div>
-                    <a href="/dev/docker-sysctl/" class="has-link-black-ter is-size-6">docker_sysctl</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/dev/rocketmq/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://raw.githubusercontent.com/xxiu/img/asset/img/20191129160333.png" alt="RocketMQ小记">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-06T15:16:35.000Z">2019-12-06</time></div>
-                    <a href="/dev/rocketmq/" class="has-link-black-ter is-size-6">RocketMQ小记</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/./dev/">dev</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1620,7 +1701,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -2002,6 +2083,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/NTFS/">
+                        <span class="level-start">
+                            <span class="level-item">NTFS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Portainer/">
                         <span class="level-start">
                             <span class="level-item">Portainer</span>
@@ -2194,7 +2286,7 @@
                             <span class="level-item">golang</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
